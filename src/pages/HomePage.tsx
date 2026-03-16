@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import PreciseLogo from "@/components/PreciseLogo";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +10,13 @@ import { Lock } from "lucide-react";
 const HomePage = () => {
   const { user, isSkipMode, signOut } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) return;
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      if (data) navigate("/admin", { replace: true });
+    });
+  }, [user, navigate]);
 
   return (
     <motion.div
