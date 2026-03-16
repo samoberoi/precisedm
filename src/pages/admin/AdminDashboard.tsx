@@ -828,9 +828,10 @@ const AdminDashboard = () => {
 
 /* ─── Reusable Components ─── */
 
-type DateFilterType = "today" | "yesterday" | "this_week" | "this_month" | "custom";
+type DateFilterType = "all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom";
 
 const DATE_FILTER_LABELS: Record<DateFilterType, string> = {
+  all_time: "All Time",
   today: "Today",
   yesterday: "Yesterday",
   this_week: "This Week",
