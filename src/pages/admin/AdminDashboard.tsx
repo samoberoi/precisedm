@@ -455,7 +455,7 @@ const AdminDashboard = () => {
                 <StatCard
                   icon={<PlayCircle className="h-5 w-5" />}
                   label="Videos"
-                  value={String(videoCount)}
+                  value={String(3)}
                   iconBg="bg-secondary text-secondary-foreground"
                 />
               </div>
