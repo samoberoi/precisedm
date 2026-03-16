@@ -46,7 +46,7 @@ const DisclaimerPage = () => {
         </button>
 
         <p className="text-xs text-muted-foreground">Hello !</p>
-        <h1 className="text-xl font-bold text-foreground">{displayName}</h1>
+        <h1 className="text-xl font-bold text-foreground">{firstName}</h1>
       </div>
 
       {/* Content */}
