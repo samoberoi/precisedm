@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Info, RotateCcw, Printer, Pencil } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
 import { useSaveSubmission } from "@/hooks/use-save-submission";
-
 import SubscriptionBanner from "@/components/SubscriptionBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/hooks/use-toast";
+import maintenanceIcon from "@/assets/maintenance-icon.png";
 
 /* ── Types ── */
 
