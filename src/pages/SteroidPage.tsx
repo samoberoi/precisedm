@@ -114,6 +114,7 @@ function calculate(
 const SteroidPage = () => {
   const navigate = useNavigate();
   const { firstName } = useProfile();
+  const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [age, setAge] = useState("");
