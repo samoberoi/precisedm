@@ -12,7 +12,13 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const body = await req.json();
+    const text = await req.text();
+    if (!text) {
+      return new Response(JSON.stringify({ received: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const body = JSON.parse(text);
     const eventType = body.event_type;
     const resource = body.resource;
 
