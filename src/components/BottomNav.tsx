@@ -1,16 +1,24 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Users, Phone, User } from "lucide-react";
+import { Home, Users, Phone, User, LayoutDashboard } from "lucide-react";
 
-const navItems = [
+const userNavItems = [
   { label: "Home", icon: Home, path: "/home" },
   { label: "About Us", icon: Users, path: "/about" },
   { label: "Connect", icon: Phone, path: "/connect" },
   { label: "Profile", icon: User, path: "/profile" },
 ];
 
+const adminNavItems = [
+  { label: "Dashboard", icon: LayoutDashboard, path: "/admin" },
+  { label: "Profile", icon: User, path: "/profile" },
+];
+
 const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const isAdminPage = location.pathname === "/admin";
+  const navItems = isAdminPage ? adminNavItems : userNavItems;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50">
