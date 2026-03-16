@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/use-profile";
 import { Info } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import aboutHero from "@/assets/about-hero.jpg";
@@ -13,7 +14,7 @@ import missionImage from "@/assets/mission-image.jpg";
 const AboutPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const firstName = user?.user_metadata?.full_name?.split(" ")[0] || "There";
+  const { firstName } = useProfile();
 
   return (
     <motion.div

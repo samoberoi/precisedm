@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/use-profile";
 import { Info, Phone, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "@/components/BottomNav";
@@ -59,7 +60,7 @@ const ConnectPage = () => {
     }
   };
 
-  const firstName = user?.user_metadata?.full_name?.split(" ")[0] || "User";
+  const { firstName } = useProfile();
 
   return (
     <div className="min-h-screen bg-background pb-28">

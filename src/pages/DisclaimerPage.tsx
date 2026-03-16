@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/use-profile";
 import BottomNav from "@/components/BottomNav";
 
 const sections = [
@@ -31,10 +31,7 @@ const sections = [
 
 const DisclaimerPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-
-  const displayName =
-    user?.user_metadata?.full_name?.split(" ")[0] || "User";
+  const { firstName } = useProfile();
 
   return (
     <div className="min-h-screen bg-muted/40 pb-28">
@@ -49,7 +46,7 @@ const DisclaimerPage = () => {
         </button>
 
         <p className="text-xs text-muted-foreground">Hello !</p>
-        <h1 className="text-xl font-bold text-foreground">{displayName}</h1>
+        <h1 className="text-xl font-bold text-foreground">{firstName}</h1>
       </div>
 
       {/* Content */}
