@@ -11,11 +11,13 @@ import diaformIcon from "@/assets/diaform-icon.png";
 import gestationIcon from "@/assets/gestation-icon.png";
 import maintenanceIcon from "@/assets/maintenance-icon.png";
 import videosIcon from "@/assets/videos-icon.png";
+import steroidIcon from "@/assets/steroid-icon.png";
 
 const toolkitItems = [
   { label: "DiaForm", icon: null, image: diaformIcon, color: "bg-primary" },
   { label: "Gestation", icon: null, image: gestationIcon, color: "bg-[#f47055]" },
   { label: "Maintenance", icon: null, image: maintenanceIcon, color: "bg-[#FAE672]" },
+  { label: "Steroid", icon: null, image: steroidIcon, color: "bg-[#8A38F5]" },
   { label: "Videos", icon: null, image: videosIcon, color: "bg-[#B5E962]" },
 ];
 
