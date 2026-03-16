@@ -331,20 +331,38 @@ const AdminDashboard = () => {
               </div>
 
               {/* Primary Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <StatCard
-                  icon={<Users className="h-5 w-5" />}
-                  label="Total Users"
-                  value={loading ? "—" : String(total)}
-                  onClick={handleViewUsers}
-                  iconBg="bg-primary/10 text-primary"
-                  clickable
-                />
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <div className="group relative text-left rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:border-primary/30 cursor-pointer" onClick={handleViewUsers}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      <Users className="h-5 w-5" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                        <DialogTrigger asChild>
+                          <button
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary text-primary-foreground hover:opacity-90 transition-opacity"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="mx-4 rounded-2xl">
+                          <DialogHeader><DialogTitle>Add New User</DialogTitle></DialogHeader>
+                          <CreateUserForm />
+                        </DialogContent>
+                      </Dialog>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
+                  </div>
+                  <p className="text-xs font-semibold text-muted-foreground">Total Users</p>
+                  <p className="text-3xl font-black text-foreground mt-0.5">{loading ? "—" : String(total)}</p>
+                </div>
                 <StatCard
                   icon={<FileText className="h-5 w-5" />}
-                  label="Submissions"
+                  label="Total Submissions"
                   value={loading ? "—" : String(totalSubmissions)}
-                  onClick={handleViewSubmissions}
+                  onClick={() => handleViewSubmissions()}
                   iconBg="bg-accent text-accent-foreground"
                   clickable
                 />
@@ -354,12 +372,29 @@ const AdminDashboard = () => {
                   value={String(videoCount)}
                   iconBg="bg-secondary text-secondary-foreground"
                 />
-                <StatCard
-                  icon={<Activity className="h-5 w-5" />}
-                  label="Active Forms"
-                  value="4"
-                  iconBg="bg-muted text-muted-foreground"
-                />
+              </div>
+
+              {/* Form Submissions Breakdown - Clickable */}
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm mb-8">
+                <div className="flex items-center gap-2.5 mb-5">
+                  <div className="h-8 w-8 rounded-lg bg-accent flex items-center justify-center">
+                    <BarChart3 className="h-4 w-4 text-accent-foreground" />
+                  </div>
+                  <h2 className="text-lg font-extrabold text-foreground">Form Submissions</h2>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {Object.entries(FORM_LABELS).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => handleViewSubmissions(key)}
+                      className={`group rounded-xl border border-border p-4 text-center hover:border-primary/30 hover:shadow-md transition-all cursor-pointer ${FORM_COLORS[key]?.split(" ")[0] || "bg-muted/50"}`}
+                    >
+                      <p className="text-xs font-semibold text-muted-foreground mb-1">{label}</p>
+                      <p className="text-2xl font-black text-foreground">{formStats[key] || 0}</p>
+                      <p className="text-[10px] text-muted-foreground mt-1 group-hover:text-primary transition-colors">Click to view →</p>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Subscription Overview - Premium Card */}
