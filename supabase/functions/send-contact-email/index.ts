@@ -55,6 +55,7 @@ serve(async (req) => {
       body: JSON.stringify({
         from: "Precise DM <onboarding@resend.dev>",
         to: ["precise.diabetes@gmail.com"],
+        cc: ["neeraj@hyperrevamp.com"],
         subject: `New Contact Form Message from ${userName}`,
         html: `
           <h2>New Contact Form Submission</h2>
