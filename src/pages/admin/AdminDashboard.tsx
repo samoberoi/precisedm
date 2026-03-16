@@ -22,6 +22,10 @@ import {
 } from "@/components/ui/dialog";
 import PreciseLogo from "@/components/PreciseLogo";
 import { toast } from "@/hooks/use-toast";
+import diaformIcon from "@/assets/diaform-card-icon.png";
+import gestationIcon from "@/assets/gestation-card-icon.png";
+import maintenanceIcon from "@/assets/maintenance-icon.png";
+import steroidIcon from "@/assets/steroid-icon.png";
 import {
   Users,
   Plus,
