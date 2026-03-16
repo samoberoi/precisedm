@@ -15,7 +15,7 @@ import videosIcon from "@/assets/videos-icon.png";
 import steroidIcon from "@/assets/steroid-icon.png";
 
 const toolkitItems = [
-  { label: "DiaForm", icon: null, image: diaformIcon, color: "bg-primary" },
+  { label: "DiaForm", icon: null, image: diaformIcon, color: "bg-primary", route: "/diaform" },
   { label: "Gestation", icon: null, image: gestationIcon, color: "bg-[#f47055]", route: "/gestation" },
   { label: "Maintenance", icon: null, image: maintenanceIcon, color: "bg-[#FAE672]", route: "/maintenance" },
   { label: "Steroid", icon: null, image: steroidIcon, color: "bg-[#8A38F5]", route: "/steroid" },
