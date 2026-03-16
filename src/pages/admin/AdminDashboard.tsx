@@ -132,6 +132,7 @@ const AdminDashboard = () => {
   const [subscriptionsLoading, setSubscriptionsLoading] = useState(false);
   const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionRecord | null>(null);
   const [subFilter, setSubFilter] = useState<"all" | "active" | "inactive" | "monthly" | "yearly">("all");
+  const [submissionFormFilter, setSubmissionFormFilter] = useState<string | null>(null);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -225,7 +226,7 @@ const AdminDashboard = () => {
   const handleSignOut = async () => { await signOut(); navigate("/login"); };
 
   const handleViewUsers = () => setViewMode("users");
-  const handleViewSubmissions = () => { fetchSubmissions(); setViewMode("submissions"); };
+  const handleViewSubmissions = (formType?: string) => { fetchSubmissions(); setSubmissionFormFilter(formType || null); setViewMode("submissions"); };
   const handleViewSubscriptions = (filter?: "all" | "active" | "inactive" | "monthly" | "yearly") => {
     fetchSubscriptions();
     if (filter) setSubFilter(filter);
@@ -248,6 +249,10 @@ const AdminDashboard = () => {
     if (subFilter === "yearly") return s.plan_type === "yearly" && s.status === "active";
     return true;
   });
+
+  const filteredSubmissions = submissionFormFilter
+    ? submissions.filter((s) => s.form_type === submissionFormFilter)
+    : submissions;
 
   const videoCount = 3;
 
@@ -330,20 +335,38 @@ const AdminDashboard = () => {
               </div>
 
               {/* Primary Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <StatCard
-                  icon={<Users className="h-5 w-5" />}
-                  label="Total Users"
-                  value={loading ? "—" : String(total)}
-                  onClick={handleViewUsers}
-                  iconBg="bg-primary/10 text-primary"
-                  clickable
-                />
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <div className="group relative text-left rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:border-primary/30 cursor-pointer" onClick={handleViewUsers}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      <Users className="h-5 w-5" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                        <DialogTrigger asChild>
+                          <button
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary text-primary-foreground hover:opacity-90 transition-opacity"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="mx-4 rounded-2xl">
+                          <DialogHeader><DialogTitle>Add New User</DialogTitle></DialogHeader>
+                          <CreateUserForm />
+                        </DialogContent>
+                      </Dialog>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
+                  </div>
+                  <p className="text-xs font-semibold text-muted-foreground">Total Users</p>
+                  <p className="text-3xl font-black text-foreground mt-0.5">{loading ? "—" : String(total)}</p>
+                </div>
                 <StatCard
                   icon={<FileText className="h-5 w-5" />}
-                  label="Submissions"
+                  label="Total Submissions"
                   value={loading ? "—" : String(totalSubmissions)}
-                  onClick={handleViewSubmissions}
+                  onClick={() => handleViewSubmissions()}
                   iconBg="bg-accent text-accent-foreground"
                   clickable
                 />
@@ -353,12 +376,29 @@ const AdminDashboard = () => {
                   value={String(videoCount)}
                   iconBg="bg-secondary text-secondary-foreground"
                 />
-                <StatCard
-                  icon={<Activity className="h-5 w-5" />}
-                  label="Active Forms"
-                  value="4"
-                  iconBg="bg-muted text-muted-foreground"
-                />
+              </div>
+
+              {/* Form Submissions Breakdown - Clickable */}
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm mb-8">
+                <div className="flex items-center gap-2.5 mb-5">
+                  <div className="h-8 w-8 rounded-lg bg-accent flex items-center justify-center">
+                    <BarChart3 className="h-4 w-4 text-accent-foreground" />
+                  </div>
+                  <h2 className="text-lg font-extrabold text-foreground">Form Submissions</h2>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {Object.entries(FORM_LABELS).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => handleViewSubmissions(key)}
+                      className={`group rounded-xl border border-border p-4 text-center hover:border-primary/30 hover:shadow-md transition-all cursor-pointer ${FORM_COLORS[key]?.split(" ")[0] || "bg-muted/50"}`}
+                    >
+                      <p className="text-xs font-semibold text-muted-foreground mb-1">{label}</p>
+                      <p className="text-2xl font-black text-foreground">{formStats[key] || 0}</p>
+                      <p className="text-[10px] text-muted-foreground mt-1 group-hover:text-primary transition-colors">Click to view →</p>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Subscription Overview - Premium Card */}
@@ -468,53 +508,6 @@ const AdminDashboard = () => {
                 </div>
               </div>
 
-              {/* Form Breakdown */}
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm mb-8">
-                <div className="flex items-center gap-2.5 mb-5">
-                  <div className="h-8 w-8 rounded-lg bg-accent flex items-center justify-center">
-                    <BarChart3 className="h-4 w-4 text-accent-foreground" />
-                  </div>
-                  <h2 className="text-lg font-extrabold text-foreground">Form Submissions</h2>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {Object.entries(FORM_LABELS).map(([key, label]) => (
-                    <div key={key} className={`rounded-xl border border-border p-4 text-center ${FORM_COLORS[key]?.split(" ")[0] || "bg-muted/50"}`}>
-                      <p className="text-xs font-semibold text-muted-foreground mb-1">{label}</p>
-                      <p className="text-2xl font-black text-foreground">{formStats[key] || 0}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <h2 className="text-lg font-extrabold text-foreground mb-4">Quick Actions</h2>
-                <div className="flex flex-wrap gap-3">
-                  <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button className="gap-2 rounded-xl font-semibold gradient-primary text-primary-foreground border-0 hover:opacity-90">
-                        <Plus className="h-4 w-4" />
-                        Add New User
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="mx-4 rounded-2xl">
-                      <DialogHeader>
-                        <DialogTitle>Add New User</DialogTitle>
-                      </DialogHeader>
-                      <CreateUserForm />
-                    </DialogContent>
-                  </Dialog>
-                  <Button variant="outline" className="gap-2 rounded-xl font-semibold" onClick={handleViewUsers}>
-                    <Users className="h-4 w-4" /> View All Users
-                  </Button>
-                  <Button variant="outline" className="gap-2 rounded-xl font-semibold" onClick={handleViewSubmissions}>
-                    <FileText className="h-4 w-4" /> View Submissions
-                  </Button>
-                  <Button variant="outline" className="gap-2 rounded-xl font-semibold" onClick={() => handleViewSubscriptions()}>
-                    <Shield className="h-4 w-4" /> View Subscriptions
-                  </Button>
-                </div>
-              </div>
             </motion.div>
           )}
 
@@ -719,15 +712,44 @@ const AdminDashboard = () => {
           {viewMode === "submissions" && (
             <motion.div key="submissions" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
               <div className="mb-6">
-                <h1 className="text-2xl font-extrabold text-foreground">Form Submissions</h1>
-                <p className="text-sm text-muted-foreground mt-1">{submissions.length} total submissions</p>
+                <h1 className="text-2xl font-extrabold text-foreground">
+                  {submissionFormFilter ? `${FORM_LABELS[submissionFormFilter] || submissionFormFilter} Submissions` : "Form Submissions"}
+                </h1>
+                <p className="text-sm text-muted-foreground mt-1">{filteredSubmissions.length} submissions</p>
+              </div>
+
+              {/* Form Type Filter Tabs */}
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-1">
+                <button
+                  onClick={() => setSubmissionFormFilter(null)}
+                  className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all whitespace-nowrap ${
+                    !submissionFormFilter
+                      ? "gradient-primary text-primary-foreground border-transparent"
+                      : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-primary/30"
+                  }`}
+                >
+                  All
+                </button>
+                {Object.entries(FORM_LABELS).map(([key, label]) => (
+                  <button
+                    key={key}
+                    onClick={() => setSubmissionFormFilter(key)}
+                    className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all whitespace-nowrap ${
+                      submissionFormFilter === key
+                        ? "gradient-primary text-primary-foreground border-transparent"
+                        : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-primary/30"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
               </div>
 
               {submissionsLoading ? (
                 <LoadingSpinner />
               ) : (
                 <div className="space-y-3">
-                  {submissions.map((s, i) => (
+                  {filteredSubmissions.map((s, i) => (
                     <motion.button
                       key={s.id}
                       initial={{ opacity: 0, y: 8 }}
@@ -749,7 +771,7 @@ const AdminDashboard = () => {
                       </div>
                     </motion.button>
                   ))}
-                  {submissions.length === 0 && <EmptyState message="No submissions yet" />}
+                  {filteredSubmissions.length === 0 && <EmptyState message="No submissions found" />}
                 </div>
               )}
             </motion.div>
