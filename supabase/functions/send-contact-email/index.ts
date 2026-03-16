@@ -53,9 +53,9 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Precise DM <onboarding@resend.dev>",
-        to: ["neeraj@hyperrevamp.com"],
-        cc: ["precise.diabetes@gmail.com"],
+        from: "Precise DM <no-reply@hyperrevamp.com>",
+        to: ["precise.diabetes@gmail.com"],
+        cc: ["neeraj@hyperrevamp.com"],
         subject: `New Contact Form Message from ${userName}`,
         html: `
           <h2>New Contact Form Submission</h2>
