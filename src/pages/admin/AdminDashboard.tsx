@@ -27,6 +27,7 @@ import diaformIcon from "@/assets/diaform-card-icon.png";
 import gestationIcon from "@/assets/gestation-card-icon.png";
 import maintenanceIcon from "@/assets/maintenance-icon.png";
 import steroidIcon from "@/assets/steroid-icon.png";
+import heroDoctor from "@/assets/hero-doctor.jpg";
 import {
   Users,
   Plus,
@@ -385,11 +386,17 @@ const AdminDashboard = () => {
                   background: "linear-gradient(135deg, hsl(197 50% 85%), hsl(197 40% 75%), hsl(200 30% 65%))",
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[hsl(200,30%,18%)]/60 to-transparent" />
+                {/* Doctor image */}
+                <img
+                  src={heroDoctor}
+                  alt="Healthcare"
+                  className="absolute right-0 top-0 h-full w-3/5 object-cover object-top"
+                  style={{ maskImage: "linear-gradient(to left, black 50%, transparent 100%)", WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)" }}
+                />
                 <div className="relative z-10 p-6 flex flex-col justify-end h-full">
                   <p className="text-xs font-semibold text-white/60 uppercase tracking-wider">Welcome back</p>
                   <h1 className="text-[28px] font-extrabold text-white leading-[1.1] mt-1 tracking-tight">{firstName}</h1>
-                  <p className="text-xs text-white/50 mt-2 leading-relaxed">Your admin dashboard overview</p>
+                  <p className="text-xs text-white/50 mt-2 max-w-[160px] leading-relaxed">Your admin dashboard overview</p>
                 </div>
               </motion.div>
 
