@@ -135,6 +135,25 @@ const AdminDashboard = () => {
   const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionRecord | null>(null);
   const [subFilter, setSubFilter] = useState<"all" | "active" | "inactive" | "monthly" | "yearly">("all");
   const [submissionFormFilter, setSubmissionFormFilter] = useState<string | null>(null);
+
+  // Shared filter state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dateFilter, setDateFilter] = useState<"today" | "yesterday" | "this_week" | "this_month" | "custom">("today");
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
+
+  // Subscriptions-specific filters
+  const [subSearchQuery, setSubSearchQuery] = useState("");
+  const [subDateFilter, setSubDateFilter] = useState<"today" | "yesterday" | "this_week" | "this_month" | "custom">("today");
+  const [subCustomStartDate, setSubCustomStartDate] = useState("");
+  const [subCustomEndDate, setSubCustomEndDate] = useState("");
+
+  // Users-specific filters
+  const [userSearchQuery, setUserSearchQuery] = useState("");
+  const [userDateFilter, setUserDateFilter] = useState<"today" | "yesterday" | "this_week" | "this_month" | "custom">("today");
+  const [userCustomStartDate, setUserCustomStartDate] = useState("");
+  const [userCustomEndDate, setUserCustomEndDate] = useState("");
+
   const [form, setForm] = useState({
     email: "",
     password: "",
