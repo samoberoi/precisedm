@@ -20,6 +20,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import DisclaimerPage from "./pages/DisclaimerPage";
 import VideosPage from "./pages/VideosPage";
 import SteroidPage from "./pages/SteroidPage";
+import MaintenancePage from "./pages/MaintenancePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
