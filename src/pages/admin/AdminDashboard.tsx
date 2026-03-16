@@ -340,7 +340,73 @@ const AdminDashboard = () => {
                 </div>
               </div>
 
-              {/* Quick Actions */}
+              {/* Subscription Overview */}
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm mb-8">
+                <div className="flex items-center gap-2 mb-5">
+                  <Shield className="h-5 w-5 text-primary" />
+                  <h2 className="text-lg font-bold text-foreground">Subscription Overview</h2>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                  <div className="rounded-xl border border-border p-4 text-center">
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Subscribed</p>
+                    <p className="text-2xl font-extrabold text-green-500">{subStats.totalSubscribed}</p>
+                  </div>
+                  <div className="rounded-xl border border-border p-4 text-center">
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Unsubscribed</p>
+                    <p className="text-2xl font-extrabold text-foreground">{subStats.totalUnsubscribed}</p>
+                  </div>
+                  <div className="rounded-xl border border-border p-4 text-center">
+                    <div className="flex items-center justify-center gap-1 mb-1">
+                      <CreditCard className="h-3 w-3 text-muted-foreground" />
+                      <p className="text-xs font-medium text-muted-foreground">Monthly</p>
+                    </div>
+                    <p className="text-2xl font-extrabold text-foreground">{subStats.monthly}</p>
+                  </div>
+                  <div className="rounded-xl border border-border p-4 text-center">
+                    <div className="flex items-center justify-center gap-1 mb-1">
+                      <Calendar className="h-3 w-3 text-muted-foreground" />
+                      <p className="text-xs font-medium text-muted-foreground">Yearly</p>
+                    </div>
+                    <p className="text-2xl font-extrabold text-foreground">{subStats.yearly}</p>
+                  </div>
+                </div>
+
+                {/* Upcoming Renewals */}
+                <div className="border-t border-border pt-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Clock className="h-4 w-4 text-primary" />
+                    <h3 className="text-sm font-bold text-foreground">Upcoming Renewals (Next 15 Days)</h3>
+                  </div>
+                  {subStats.upcomingRenewals.length > 0 ? (
+                    <div className="space-y-2">
+                      {subStats.upcomingRenewals.map((r) => {
+                        const daysLeft = Math.max(0, Math.ceil((new Date(r.next_billing_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+                        return (
+                          <div key={r.id} className="flex items-center gap-3 rounded-xl border border-border p-3">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-xs shrink-0">
+                              {r.user_name.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold text-foreground truncate">{r.user_name}</p>
+                              <p className="text-xs text-muted-foreground truncate">{r.user_email}</p>
+                            </div>
+                            <span className="text-xs font-medium bg-accent px-2.5 py-1 rounded-full text-accent-foreground capitalize shrink-0">
+                              {r.plan_type}
+                            </span>
+                            <div className="text-right shrink-0">
+                              <p className="text-sm font-bold text-foreground">{daysLeft}d</p>
+                              <p className="text-[10px] text-muted-foreground">{new Date(r.next_billing_date).toLocaleDateString()}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground text-center py-4">No renewals in the next 15 days</p>
+                  )}
+                </div>
+              </div>
+
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-foreground mb-4">Quick Actions</h2>
                 <div className="flex flex-wrap gap-3">
