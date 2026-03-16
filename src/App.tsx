@@ -54,11 +54,11 @@ const App = () => (
             <Route path="/subscription" element={<SubscriptionPage />} />
             <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
             {/* Protected tools - require subscription */}
-            <Route path="/videos" element={<SubscriptionGate><VideosPage /></SubscriptionGate>} />
-            <Route path="/steroid" element={<SubscriptionGate><SteroidPage /></SubscriptionGate>} />
-            <Route path="/maintenance" element={<SubscriptionGate><MaintenancePage /></SubscriptionGate>} />
-            <Route path="/gestation" element={<SubscriptionGate><GestationPage /></SubscriptionGate>} />
-            <Route path="/diaform" element={<SubscriptionGate><DiaFormPage /></SubscriptionGate>} />
+            <Route path="/videos" element={<VideosPage />} />
+            <Route path="/steroid" element={<SteroidPage />} />
+            <Route path="/maintenance" element={<MaintenancePage />} />
+            <Route path="/gestation" element={<GestationPage />} />
+            <Route path="/diaform" element={<DiaFormPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
