@@ -14,7 +14,7 @@ const BottomNav = () => {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50">
-      <div className="mx-4 mb-4 rounded-2xl glass-card-strong">
+      <div className="mx-4 mb-4 rounded-2xl bg-card/80 backdrop-blur-2xl border border-border/60 shadow-xl">
         <div className="flex items-center justify-around py-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -34,7 +34,7 @@ const BottomNav = () => {
                   <item.icon className="h-5 w-5" />
                 </div>
                 <span
-                  className={`text-[11px] font-medium ${
+                  className={`text-[11px] font-semibold ${
                     isActive ? "text-primary" : "text-muted-foreground"
                   }`}
                 >

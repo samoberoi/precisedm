@@ -10,7 +10,7 @@ const sections = [
     paragraphs: [
       "The diaForm process developed by PreciseDM, LLC is intended only for use by trained medical professionals. While the diaForm process will provide a recommended insulin dosage range, users should consult closely with appropriate medical professionals, including treating physicians, to confirm any recommended dosage is appropriate for a particular patient.",
       "PreciseDM, LLC shall not be held liable for any improper or incorrect use of the diaForm product (including any error in inputting data or interpreting of the information described and/or contained therein and assumes no responsibility for anyone's use of the information.",
-      "In no event shall PreciseDM, LLC or its contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused on any theory of liability, whether in contract, strict liability, tort (including negligence or otherwise), or any other theory arising in any way out of the use of this system, even if advised of the possibility of such damage. This disclaimer of liability applies to any damages or injury, whether based on alleged breach of contract, tortious behavior, negligence or any other cause of action, including but not limited to damages or injuries caused by or resulting from any failure of performance, error, omission, interruption, deletion, defect, delay in operation or transmission, computer virus, communication line failure, and/or theft, destruction or unauthorized access to, alteration of, or use of any record.",
+      "In no event shall PreciseDM, LLC or its contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages however caused on any theory of liability, whether in contract, strict liability, tort (including negligence or otherwise), or any other theory arising in any way out of the use of this system, even if advised of the possibility of such damage.",
     ],
   },
   {
@@ -20,11 +20,10 @@ const sections = [
     ],
   },
   {
-    title: "Disclaimer of Warranties/Accuracy and Use of Data/Computer Viruses",
+    title: "Disclaimer of Warranties",
     paragraphs: [
-      "Although the data contained in or produced by the diaForm process has been produced and processed from sources believed to be reliable, no warranty, expressed or implied, is made regarding accuracy, adequacy, completeness, legality, reliability, or usefulness of any information. User should rely upon its own independent medical training and experience when using the diaForm process.",
-      'This disclaimer applies to both isolated and aggregate uses of the information. PreciseDM, LLC provides this information on an "AS IS" basis. All warranties of any kind, whether express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, freedom from contamination by computer viruses, and non-infringement of proprietary rights are disclaimed to the greatest extent permitted by law.',
-      "Changes may be periodically added to the information herein; these changes may or may not be incorporated in any new version of the publication. If the user has obtained information from the diaForm process from a source other than PreciseDM, LLC itself, the user must be aware that electronic data can be altered subsequent to original distribution. Data can also quickly become out-of-date. It is recommended that the user pay careful attention to the contents of any data or information associated with a file, and that the originator of the data or information be contacted with any questions regarding appropriate use. If the user finds any errors or omissions, we encourage the user to report them to PreciseDM, LLC.",
+      "Although the data contained in or produced by the diaForm process has been produced and processed from sources believed to be reliable, no warranty, expressed or implied, is made regarding accuracy, adequacy, completeness, legality, reliability, or usefulness of any information.",
+      'PreciseDM, LLC provides this information on an "AS IS" basis. All warranties of any kind, whether express or implied, are disclaimed to the greatest extent permitted by law.',
     ],
   },
 ];
@@ -34,42 +33,30 @@ const DisclaimerPage = () => {
   const { firstName } = useProfile();
 
   return (
-    <div className="min-h-screen gradient-surface pb-28">
+    <div className="min-h-screen bg-background pb-28">
       {/* Header */}
-      <div className="glass-card-strong px-5 pt-6 pb-5">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-1 text-foreground mb-3"
-        >
-          <ChevronLeft className="h-5 w-5" />
-          <span className="text-sm font-medium">Back</span>
+      <div className="flex items-center justify-between px-5 pt-12 pb-3">
+        <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+          <ChevronLeft className="h-5 w-5 text-foreground" />
         </button>
-
-        <p className="text-xs text-muted-foreground">Hello !</p>
-        <h1 className="text-xl font-bold text-foreground">{firstName}</h1>
+        <h1 className="text-lg font-bold text-foreground">Disclaimer</h1>
+        <div className="w-10" />
       </div>
 
       {/* Content */}
-      <div className="px-5 mt-5 space-y-4">
+      <div className="px-5 mt-3 space-y-3">
         {sections.map((section, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.08 }}
-            className="rounded-2xl glass-card p-5"
+            className="rounded-2xl bg-card border border-border shadow-sm p-5"
           >
-            <h2 className="text-lg font-bold text-foreground mb-3">
-              {section.title}
-            </h2>
+            <h2 className="text-base font-bold text-foreground mb-3">{section.title}</h2>
             <div className="space-y-3">
               {section.paragraphs.map((p, j) => (
-                <p
-                  key={j}
-                  className="text-sm leading-relaxed text-muted-foreground"
-                >
-                  {p}
-                </p>
+                <p key={j} className="text-sm leading-relaxed text-muted-foreground">{p}</p>
               ))}
             </div>
           </motion.div>

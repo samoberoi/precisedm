@@ -28,81 +28,51 @@ const LoginPage = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-
     const result = loginSchema.safeParse({ email, password });
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
-      result.error.errors.forEach((err) => {
-        if (err.path[0]) fieldErrors[err.path[0] as string] = err.message;
-      });
+      result.error.errors.forEach((err) => { if (err.path[0]) fieldErrors[err.path[0] as string] = err.message; });
       setErrors(fieldErrors);
       return;
     }
-
     setLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
-
-    if (error) {
-      toast({ title: "Login failed", description: error.message, variant: "destructive" });
-    } else if (data.user) {
-      const { data: isAdmin } = await supabase.rpc("has_role", {
-        _user_id: data.user.id,
-        _role: "admin",
-      });
+    if (error) { toast({ title: "Login failed", description: error.message, variant: "destructive" }); }
+    else if (data.user) {
+      const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: data.user.id, _role: "admin" });
       navigate(isAdmin ? "/admin" : "/home");
     }
   };
 
-  const handleSkip = () => {
-    setSkipMode(true);
-    navigate("/home");
-  };
+  const handleSkip = () => { setSkipMode(true); navigate("/home"); };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="min-h-screen flex flex-col px-8 pt-16 gradient-surface"
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+      className="min-h-screen flex flex-col px-8 pt-16 bg-background">
       <div className="flex justify-center mb-10">
         <PreciseLogo size={64} />
       </div>
 
-      <h1 className="text-2xl font-bold text-foreground text-center tracking-tight">
+      <h1 className="text-2xl font-extrabold text-foreground text-center tracking-tight">
         Sign in to PreciseDM
       </h1>
 
       <form onSubmit={handleLogin} className="mt-8 space-y-5">
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-muted-foreground">Email Address</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border"
-          />
+        <div className="space-y-1.5">
+          <Label htmlFor="email" className="text-xs text-muted-foreground font-medium">Email Address</Label>
+          <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
+            className="h-12 rounded-2xl bg-card border-border shadow-sm" />
           {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="password" className="text-muted-foreground">Password</Label>
+        <div className="space-y-1.5">
+          <Label htmlFor="password" className="text-xs text-muted-foreground font-medium">Password</Label>
           <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border pr-12"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-            >
+            <Input id="password" type={showPassword ? "text" : "password"} placeholder="Enter your password"
+              value={password} onChange={(e) => setPassword(e.target.value)}
+              className="h-12 rounded-2xl bg-card border-border shadow-sm pr-12" />
+            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
@@ -110,32 +80,18 @@ const LoginPage = () => {
         </div>
 
         <div className="flex justify-end">
-          <Link to="/forgot-password" className="text-sm text-primary font-medium">
-            Forgot Password?
-          </Link>
+          <Link to="/forgot-password" className="text-sm text-primary font-medium">Forgot Password?</Link>
         </div>
 
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full h-12 rounded-xl text-base font-semibold gradient-primary glow-primary"
-        >
+        <Button type="submit" disabled={loading} className="w-full h-12 rounded-2xl text-base font-bold gradient-primary glow-primary">
           {loading ? "Signing in..." : "Login"}
         </Button>
       </form>
 
-      <button
-        onClick={handleSkip}
-        className="mt-4 text-sm text-muted-foreground underline underline-offset-2 mx-auto"
-      >
-        Skip
-      </button>
+      <button onClick={handleSkip} className="mt-4 text-sm text-muted-foreground underline underline-offset-2 mx-auto">Skip</button>
 
       <p className="mt-8 text-center text-sm text-muted-foreground">
-        Don't have an account?{" "}
-        <Link to="/signup" className="text-primary font-semibold">
-          Sign Up
-        </Link>
+        Don't have an account? <Link to="/signup" className="text-primary font-semibold">Sign Up</Link>
       </p>
     </motion.div>
   );
