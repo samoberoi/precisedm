@@ -27,6 +27,7 @@ import diaformIcon from "@/assets/diaform-card-icon.png";
 import gestationIcon from "@/assets/gestation-card-icon.png";
 import maintenanceIcon from "@/assets/maintenance-icon.png";
 import steroidIcon from "@/assets/steroid-icon.png";
+import heroDoctor from "@/assets/hero-doctor.jpg";
 import {
   Users,
   Plus,
