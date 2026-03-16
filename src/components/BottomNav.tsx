@@ -1,0 +1,53 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import { Home, Users, Phone, User } from "lucide-react";
+
+const navItems = [
+  { label: "Home", icon: Home, path: "/home" },
+  { label: "About Us", icon: Users, path: "/about" },
+  { label: "Connect", icon: Phone, path: "/connect" },
+  { label: "Profile", icon: User, path: "/profile" },
+];
+
+const BottomNav = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 z-50">
+      {/* Glass effect background */}
+      <div className="mx-4 mb-4 rounded-2xl border border-border/40 bg-card/70 backdrop-blur-xl shadow-lg">
+        <div className="flex items-center justify-around py-2">
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <button
+                key={item.label}
+                onClick={() => navigate(item.path)}
+                className="flex flex-col items-center gap-1 px-4 py-2 transition-all"
+              >
+                <div
+                  className={`flex h-11 w-11 items-center justify-center rounded-full transition-all ${
+                    isActive
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  <item.icon className="h-5 w-5" />
+                </div>
+                <span
+                  className={`text-[11px] font-medium ${
+                    isActive ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  {item.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default BottomNav;
