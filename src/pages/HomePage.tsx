@@ -81,22 +81,12 @@ const HomePage = () => {
 
       {/* Hero Banner */}
       <div className="px-6 py-3">
-        <div className="relative overflow-hidden rounded-2xl h-44">
+        <div className="overflow-hidden rounded-2xl h-44">
           <img
             src={heroDoctor}
             alt="Precise DM"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="h-full w-full object-cover"
           />
-          {/* Glass overlay on left side */}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/85 via-primary/60 to-transparent" />
-          <div className="relative z-10 flex h-full flex-col justify-center px-6">
-            <h3 className="text-2xl font-extrabold text-primary-foreground tracking-tight">
-              Precise DM
-            </h3>
-            <p className="mt-1 text-sm text-primary-foreground/90 font-medium">
-              personalized insulin dosing
-            </p>
-          </div>
         </div>
       </div>
 
