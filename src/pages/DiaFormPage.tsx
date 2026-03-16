@@ -244,31 +244,31 @@ const DiaFormPage = () => {
       {!result && (
         <>
           {/* Progress Steps */}
-          <div className="px-5 mt-5">
-            <div className="flex items-center justify-between">
+          <div className="px-6 mt-5">
+            <div className="flex items-start">
               {STEPS.map((s, i) => (
-                <div key={i} className="flex items-center flex-1">
-                  <div className="flex flex-col items-center">
+                <div key={i} className="flex items-start flex-1">
+                  <div className="flex flex-col items-center min-w-[48px]">
                     <div
-                      className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
+                      className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
                         i < step
                           ? "bg-primary text-primary-foreground"
                           : i === step
-                          ? "bg-primary text-primary-foreground shadow-md"
+                          ? "bg-primary text-primary-foreground shadow-lg ring-4 ring-primary/20"
                           : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {i < step ? <Check className="h-4 w-4" /> : i + 1}
                     </div>
-                    <span className={`text-[10px] mt-1 font-medium text-center leading-tight ${
+                    <span className={`text-[10px] mt-1.5 font-semibold text-center leading-tight whitespace-nowrap ${
                       i <= step ? "text-primary" : "text-muted-foreground"
                     }`}>
                       {s.title}
                     </span>
                   </div>
                   {i < STEPS.length - 1 && (
-                    <div className={`flex-1 h-0.5 mx-1 mt-[-14px] rounded-full transition-colors duration-300 ${
-                      i < step ? "bg-primary" : "bg-muted"
+                    <div className={`flex-1 h-[2px] mt-[18px] mx-1 rounded-full transition-colors duration-300 ${
+                      i < step ? "bg-primary" : "bg-border"
                     }`} />
                   )}
                 </div>
