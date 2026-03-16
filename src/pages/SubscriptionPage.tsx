@@ -50,11 +50,15 @@ const SubscriptionPage = () => {
         next_billing_date: trialEnd.toISOString(),
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Trial insert error:", error);
+        throw new Error(error.message);
+      }
 
       toast({ title: "Trial Activated!", description: "You have 7 days of free access to all tools." });
       refresh();
     } catch (err) {
+      console.error("Trial error:", err);
       toast({ title: "Error", description: err instanceof Error ? err.message : "Failed to start trial.", variant: "destructive" });
     } finally {
       setTrialProcessing(false);
