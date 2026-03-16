@@ -208,11 +208,11 @@ const DiaFormPage = () => {
   const goPrev = () => { setDirection(-1); prevStep(); };
 
   return (
-    <div className="min-h-screen bg-background pb-28">
+    <div className="min-h-screen bg-background pb-36">
       <SubscriptionBanner />
 
       {/* Header */}
-      <div className="px-5 pt-12 pb-3">
+      <div className="px-5 pt-6 pb-3">
         <div className="flex items-center justify-between">
           <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
             <ChevronLeft className="h-5 w-5 text-foreground" />
@@ -225,50 +225,50 @@ const DiaFormPage = () => {
       </div>
 
       {/* Hero Card */}
-      <div className="px-5 pt-1">
+      <div className="px-5 pt-2">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl p-5"
+          className="relative overflow-hidden rounded-2xl p-5"
           style={{ background: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,35%))" }}
         >
           <div className="relative z-10">
-            <p className="text-xs font-semibold text-white/60 uppercase tracking-wider">Initial Dosing</p>
-            <h2 className="text-xl font-extrabold text-white mt-1">DiaForm Calculator</h2>
-            <p className="text-xs text-white/70 mt-1 max-w-[220px]">Calculate initial insulin dose for adult diabetes patients</p>
+            <p className="text-[10px] font-semibold text-white/60 uppercase tracking-widest">Initial Dosing</p>
+            <h2 className="text-lg font-extrabold text-white mt-1">DiaForm Calculator</h2>
+            <p className="text-[11px] text-white/70 mt-1 max-w-[200px] leading-snug">Calculate initial insulin dose for adult diabetes patients</p>
           </div>
-          <img src={diaformIcon} alt="" className="absolute bottom-0 right-3 h-20 w-20 opacity-20" />
+          <img src={diaformIcon} alt="" className="absolute -bottom-2 -right-2 h-24 w-24 opacity-15 object-contain" />
         </motion.div>
       </div>
 
       {!result && (
         <>
           {/* Progress Steps */}
-          <div className="px-5 mt-5">
-            <div className="flex items-center justify-between">
+          <div className="px-6 mt-5">
+            <div className="flex items-start">
               {STEPS.map((s, i) => (
-                <div key={i} className="flex items-center flex-1">
-                  <div className="flex flex-col items-center">
+                <div key={i} className="flex items-start flex-1">
+                  <div className="flex flex-col items-center min-w-[48px]">
                     <div
-                      className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
+                      className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
                         i < step
                           ? "bg-primary text-primary-foreground"
                           : i === step
-                          ? "bg-primary text-primary-foreground shadow-md"
+                          ? "bg-primary text-primary-foreground shadow-lg ring-4 ring-primary/20"
                           : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {i < step ? <Check className="h-4 w-4" /> : i + 1}
                     </div>
-                    <span className={`text-[10px] mt-1 font-medium text-center leading-tight ${
+                    <span className={`text-[10px] mt-1.5 font-semibold text-center leading-tight whitespace-nowrap ${
                       i <= step ? "text-primary" : "text-muted-foreground"
                     }`}>
                       {s.title}
                     </span>
                   </div>
                   {i < STEPS.length - 1 && (
-                    <div className={`flex-1 h-0.5 mx-1 mt-[-14px] rounded-full transition-colors duration-300 ${
-                      i < step ? "bg-primary" : "bg-muted"
+                    <div className={`flex-1 h-[2px] mt-[18px] mx-1 rounded-full transition-colors duration-300 ${
+                      i < step ? "bg-primary" : "bg-border"
                     }`} />
                   )}
                 </div>
@@ -435,7 +435,7 @@ const DiaFormPage = () => {
           </div>
 
           {/* Navigation Buttons */}
-          <div className="px-5 mt-4 flex gap-3">
+          <div className="px-5 mt-4 mb-6 flex gap-3">
             {step > 0 && (
               <Button variant="outline" onClick={goPrev} className="flex-1 h-12 rounded-xl font-bold gap-1">
                 <ChevronLeft className="h-4 w-4" /> Back
