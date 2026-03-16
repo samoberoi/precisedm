@@ -78,8 +78,8 @@ const SplashScreen = () => {
                     className="absolute z-10"
                     style={{
                       left: "50%",
-                      top: "50%",
-                      transform: "translate(-50%, -58%)",
+                      top: "-30%",
+                      transform: "translateX(-50%)",
                     }}
                   >
                     <BloodDrop size={50} />
