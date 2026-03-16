@@ -63,39 +63,28 @@ const AboutPage = () => {
       <div className="pl-5 pr-2 pb-2">
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
           {[
-            { img: drColleenCook, isCard: true },
-            { img: drMelanieProctor, isCard: true },
+            { img: drColleenCook, name: "Dr. Colleen Cook", credentials: "PharmD, BC-ADM, CDCES", role: "CEO", hasPhoto: true },
+            { img: drMelanieProctor, name: "Dr. Melanie Proctor", credentials: "PharmD, BCGP", role: "COO", hasPhoto: true },
+            { img: drSuzanneChung, name: "Dr. Suzanne Chung", credentials: "PhD Analytical Chemistry", role: "COO", hasPhoto: false },
           ].map((doc, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 + i * 0.08 }}
-              className="shrink-0 w-[260px] overflow-hidden rounded-2xl bg-card border border-border shadow-sm"
+              className="shrink-0 w-[260px] overflow-hidden rounded-2xl shadow-sm relative"
+              style={{ minHeight: 320 }}
             >
-              <img src={doc.img} alt="Team member" className="w-full object-contain" />
+              <img src={doc.img} alt={doc.name} className="w-full h-full object-cover absolute inset-0" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h3 className="text-lg font-extrabold text-white leading-tight">{doc.name}</h3>
+                <p className="text-xs text-white/70 mt-0.5">{doc.credentials}</p>
+                <p className="text-xs text-white/50 mt-0.5">{doc.role}</p>
+              </div>
             </motion.div>
           ))}
         </div>
-      </div>
-
-      {/* Dr. Suzanne Chung */}
-      <div className="px-5 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className="flex items-center gap-4 rounded-2xl bg-card border border-border shadow-sm p-4"
-        >
-          <div className="h-16 w-16 rounded-full overflow-hidden ring-2 ring-primary/20 shrink-0">
-            <img src={drSuzanneChung} alt="Dr. Suzanne Chung" className="h-full w-full object-cover" />
-          </div>
-          <div>
-            <h3 className="text-base font-bold text-foreground">Dr. Suzanne Chung</h3>
-            <p className="text-xs text-muted-foreground mt-0.5">PhD Analytical Chemistry</p>
-            <p className="text-xs text-primary font-semibold mt-0.5">COO</p>
-          </div>
-        </motion.div>
       </div>
 
       {/* Our History */}
