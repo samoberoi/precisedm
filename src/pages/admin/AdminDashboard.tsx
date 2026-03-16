@@ -59,6 +59,23 @@ interface SubmissionRow {
   user_email: string;
 }
 
+interface UpcomingRenewal {
+  id: string;
+  user_id: string;
+  plan_type: string;
+  next_billing_date: string;
+  user_name: string;
+  user_email: string;
+}
+
+interface SubscriptionStats {
+  totalSubscribed: number;
+  totalUnsubscribed: number;
+  monthly: number;
+  yearly: number;
+  upcomingRenewals: UpcomingRenewal[];
+}
+
 type ViewMode = "dashboard" | "users" | "submissions" | "submission-detail";
 
 const FORM_LABELS: Record<string, string> = {
