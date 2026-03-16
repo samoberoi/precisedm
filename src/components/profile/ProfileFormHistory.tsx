@@ -20,9 +20,9 @@ const FORM_LABELS: Record<string, string> = {
 
 const FORM_COLORS: Record<string, string> = {
   diaform: "bg-primary/15 text-primary",
-  steroid: "bg-[hsl(270,90%,60%)]/15 text-[hsl(270,90%,70%)]",
-  maintenance: "bg-[hsl(48,95%,60%)]/15 text-[hsl(48,90%,55%)]",
-  gestation: "bg-[hsl(14,85%,55%)]/15 text-[hsl(14,85%,60%)]",
+  steroid: "bg-accent text-accent-foreground",
+  maintenance: "bg-secondary text-secondary-foreground",
+  gestation: "bg-destructive/15 text-destructive",
 };
 
 function formatLabel(key: string): string {
