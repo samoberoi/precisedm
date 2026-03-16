@@ -170,12 +170,12 @@ const HomePage = () => {
           transition={{ delay: 0.5 }}
           className="relative overflow-hidden rounded-3xl"
         >
-          <img src={diaformCard} alt="DiaForm" className="h-40 w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+          <img src={diaformCard} alt="DiaForm" className="h-48 w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-5">
-            <p className="text-xs font-semibold text-primary uppercase tracking-wider">Featured</p>
-            <p className="text-sm font-bold text-foreground mt-1">About DiaForm</p>
-            <p className="text-xs text-muted-foreground mt-1 leading-relaxed line-clamp-2">
+            <p className="text-xs font-semibold text-sky-400 uppercase tracking-wider">Featured</p>
+            <p className="text-sm font-bold text-white mt-1">About DiaForm</p>
+            <p className="text-xs text-white/70 mt-1 leading-relaxed line-clamp-2">
               An innovative insulin dosing tool for trained healthcare providers across a range of clinical scenarios.
             </p>
           </div>
