@@ -435,7 +435,7 @@ const DiaFormPage = () => {
           </div>
 
           {/* Navigation Buttons */}
-          <div className="px-5 mt-4 flex gap-3">
+          <div className="px-5 mt-4 mb-6 flex gap-3">
             {step > 0 && (
               <Button variant="outline" onClick={goPrev} className="flex-1 h-12 rounded-xl font-bold gap-1">
                 <ChevronLeft className="h-4 w-4" /> Back
