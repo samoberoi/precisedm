@@ -22,6 +22,10 @@ import {
 } from "@/components/ui/dialog";
 import PreciseLogo from "@/components/PreciseLogo";
 import { toast } from "@/hooks/use-toast";
+import diaformIcon from "@/assets/diaform-card-icon.png";
+import gestationIcon from "@/assets/gestation-card-icon.png";
+import maintenanceIcon from "@/assets/maintenance-icon.png";
+import steroidIcon from "@/assets/steroid-icon.png";
 import {
   Users,
   Plus,
@@ -112,6 +116,13 @@ const FORM_GRADIENTS: Record<string, string> = {
   gestation: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))",
 };
 
+const FORM_ICONS: Record<string, string> = {
+  diaform: diaformIcon,
+  steroid: steroidIcon,
+  maintenance: maintenanceIcon,
+  gestation: gestationIcon,
+};
+
 const AdminDashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -133,17 +144,17 @@ const AdminDashboard = () => {
   const [submissionFormFilter, setSubmissionFormFilter] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [dateFilter, setDateFilter] = useState<"today" | "yesterday" | "this_week" | "this_month" | "custom">("today");
+  const [dateFilter, setDateFilter] = useState<"all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom">("all_time");
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
 
   const [subSearchQuery, setSubSearchQuery] = useState("");
-  const [subDateFilter, setSubDateFilter] = useState<"today" | "yesterday" | "this_week" | "this_month" | "custom">("today");
+  const [subDateFilter, setSubDateFilter] = useState<"all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom">("all_time");
   const [subCustomStartDate, setSubCustomStartDate] = useState("");
   const [subCustomEndDate, setSubCustomEndDate] = useState("");
 
   const [userSearchQuery, setUserSearchQuery] = useState("");
-  const [userDateFilter, setUserDateFilter] = useState<"today" | "yesterday" | "this_week" | "this_month" | "custom">("today");
+  const [userDateFilter, setUserDateFilter] = useState<"all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom">("all_time");
   const [userCustomStartDate, setUserCustomStartDate] = useState("");
   const [userCustomEndDate, setUserCustomEndDate] = useState("");
 
@@ -253,7 +264,8 @@ const AdminDashboard = () => {
     else setViewMode("dashboard");
   };
 
-  const getDateRange = (filter: "today" | "yesterday" | "this_week" | "this_month" | "custom", startDate?: string, endDate?: string): { start: Date; end: Date } => {
+  const getDateRange = (filter: "all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom", startDate?: string, endDate?: string): { start: Date; end: Date } | null => {
+    if (filter === "all_time") return null;
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const todayEnd = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000);
@@ -267,13 +279,13 @@ const AdminDashboard = () => {
   };
 
   const filterByDateAndSearch = <T extends { created_at: string }>(
-    items: T[], df: "today" | "yesterday" | "this_week" | "this_month" | "custom",
+    items: T[], df: "all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom",
     sq: string, cStart: string, cEnd: string, getSearchable: (item: T) => string
   ): T[] => {
-    const { start, end } = getDateRange(df, cStart, cEnd);
+    const range = getDateRange(df, cStart, cEnd);
     return items.filter((item) => {
-      const d = new Date(item.created_at);
-      return d >= start && d < end && (!sq || getSearchable(item).toLowerCase().includes(sq.toLowerCase()));
+      const inDate = range ? (() => { const d = new Date(item.created_at); return d >= range.start && d < range.end; })() : true;
+      return inDate && (!sq || getSearchable(item).toLowerCase().includes(sq.toLowerCase()));
     });
   };
 
@@ -295,10 +307,11 @@ const AdminDashboard = () => {
   }, [submissions, submissionFormFilter, dateFilter, searchQuery, customStartDate, customEndDate]);
 
   const filteredUsers = useMemo(() => {
-    const { start, end } = getDateRange(userDateFilter, userCustomStartDate, userCustomEndDate);
+    const range = getDateRange(userDateFilter, userCustomStartDate, userCustomEndDate);
     return users.filter((u) => {
-      const d = new Date(u.created_at);
-      return d >= start && d < end && (!userSearchQuery || `${u.full_name} ${u.email}`.toLowerCase().includes(userSearchQuery.toLowerCase()));
+      const inDate = range ? (() => { const d = new Date(u.created_at); return d >= range.start && d < range.end; })() : true;
+      const inSearch = !userSearchQuery || `${u.full_name} ${u.email}`.toLowerCase().includes(userSearchQuery.toLowerCase());
+      return inDate && inSearch;
     });
   }, [users, userDateFilter, userSearchQuery, userCustomStartDate, userCustomEndDate]);
 
@@ -434,13 +447,14 @@ const AdminDashboard = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 + i * 0.06 }}
                       onClick={() => handleViewSubmissions(key)}
-                      className="relative flex flex-col items-start rounded-2xl p-4 text-left transition-all active:scale-[0.97] shadow-lg"
-                      style={{ minHeight: 110, background: FORM_GRADIENTS[key] }}
+                      className="relative flex flex-col items-start rounded-2xl p-4 text-left transition-all active:scale-[0.97] shadow-lg overflow-hidden"
+                      style={{ minHeight: 130, background: FORM_GRADIENTS[key] }}
                     >
-                      <p className="text-sm font-bold text-white">{label}</p>
+                      <p className="text-base font-bold text-white leading-tight">{label}</p>
+                      <p className="text-xs text-white/60 mt-0.5">{formStats[key] || 0} submissions</p>
                       <div className="flex-1" />
-                      <div className="flex items-end justify-between w-full mt-2">
-                        <p className="text-3xl font-black text-white">{formStats[key] || 0}</p>
+                      <div className="flex items-end justify-between w-full mt-3">
+                        <img src={FORM_ICONS[key]} alt={label} className="h-10 w-10 object-contain opacity-40" />
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white">
                           <ArrowUpRight className="h-4 w-4" />
                         </div>
@@ -816,9 +830,10 @@ const AdminDashboard = () => {
 
 /* ─── Reusable Components ─── */
 
-type DateFilterType = "today" | "yesterday" | "this_week" | "this_month" | "custom";
+type DateFilterType = "all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom";
 
 const DATE_FILTER_LABELS: Record<DateFilterType, string> = {
+  all_time: "All Time",
   today: "Today",
   yesterday: "Yesterday",
   this_week: "This Week",
