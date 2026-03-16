@@ -94,44 +94,8 @@ const SplashScreen = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-
-      {/* Welcome text */}
-      <AnimatePresence>
-        {step >= 4 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mt-10 text-center"
-          >
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">
-              Welcome to PreciseDM
-            </h1>
-            <p className="mt-3 text-muted-foreground leading-relaxed max-w-xs mx-auto">
-              Personalized insulin dosing to optimize diabetes management.
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {step >= 4 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.35 }}
-            className="fixed bottom-8 left-0 right-0 px-8"
-          >
-            <Button
-              onClick={() => navigate("/onboarding/features")}
-              className="w-full h-12 rounded-xl text-base font-semibold"
-            >
-              Next
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    </div>
+  );
     </div>
   );
 };
