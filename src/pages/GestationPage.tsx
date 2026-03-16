@@ -245,6 +245,7 @@ function calculateGestation(form: FormData): CalcResult {
 const GestationPage = () => {
   const navigate = useNavigate();
   const { firstName } = useProfile();
+  const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [form, setForm] = useState<FormData>({ ...initialForm });
