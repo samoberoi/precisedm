@@ -18,7 +18,7 @@ const toolkitItems = [
   { label: "DiaForm", icon: null, image: diaformIcon, color: "bg-primary" },
   { label: "Gestation", icon: null, image: gestationIcon, color: "bg-[#f47055]" },
   { label: "Maintenance", icon: null, image: maintenanceIcon, color: "bg-[#FAE672]" },
-  { label: "Steroid", icon: null, image: steroidIcon, color: "bg-[#8A38F5]" },
+  { label: "Steroid", icon: null, image: steroidIcon, color: "bg-[#8A38F5]", route: "/steroid" },
   { label: "Videos", icon: null, image: videosIcon, color: "bg-[#B5E962]", route: "/videos" },
 ];
 
