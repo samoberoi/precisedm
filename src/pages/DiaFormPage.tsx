@@ -37,6 +37,23 @@ interface FormData {
   dialysis: string;
 }
 
+interface CalcResult {
+  bmi: number;
+  bmiCategory: string;
+  egfr: number;
+  kidneyCategory: string;
+  doseCategory: string;
+  doseLow: number;
+  doseHigh: number;
+  doseLowPerKg: number;
+  doseHighPerKg: number;
+  weightKg: number;
+  weightLbs: number;
+  heightInches: number;
+  scrMgDl: number;
+  inputs: FormData;
+}
+
 const initialForm: FormData = {
   measurementSystem: "imperial",
   weight: "",
@@ -52,6 +69,112 @@ const initialForm: FormData = {
   dialysis: "no",
 };
 
+/* ── Dose range table ── */
+
+const doseRanges: Record<string, { low: number; high: number; label: string }> = {
+  MB1: { low: 0.15, high: 0.18, label: "MB1 (0.15–0.18 units/kg)" },
+  MB2: { low: 0.18, high: 0.23, label: "MB2 (0.18–0.23 units/kg)" },
+  MB3: { low: 0.23, high: 0.28, label: "MB3 (0.23–0.28 units/kg)" },
+  MB4: { low: 0.28, high: 0.33, label: "MB4 (0.28–0.33 units/kg)" },
+  GC1: { low: 0.10, high: 0.15, label: "GC1 (0.10–0.15 units/kg)" },
+  GC2: { low: 0.15, high: 0.20, label: "GC2 (0.15–0.20 units/kg)" },
+  DLS1: { low: 0.10, high: 0.15, label: "DLS1 (0.10–0.15 units/kg)" },
+};
+
+/* ── Calculation Logic ── */
+
+function calculate(form: FormData): CalcResult {
+  const ageNum = parseFloat(form.age);
+  const isImperial = form.measurementSystem === "imperial";
+
+  // STEP 1 — Convert units
+  let weightLbs: number;
+  let heightIn: number;
+
+  if (isImperial) {
+    weightLbs = parseFloat(form.weight);
+    heightIn = parseFloat(form.heightFeet) * 12 + (parseFloat(form.heightInches) || 0);
+  } else {
+    weightLbs = parseFloat(form.weight) * 2.20462;
+    heightIn = parseFloat(form.heightCm) * 0.393701;
+  }
+
+  // STEP 2 — BMI
+  const bmi = (weightLbs / (heightIn * heightIn)) * 703;
+
+  let bmiCategory: string;
+  if (bmi < 24) bmiCategory = "MS11";
+  else if (bmi < 31) bmiCategory = "MS12";
+  else if (bmi < 41) bmiCategory = "MS13";
+  else bmiCategory = "MS14";
+
+  // STEP 3 — Creatinine conversion
+  let scrMgDl = parseFloat(form.serumCreatinine);
+  if (form.creatinineUnits === "µmol/l") {
+    scrMgDl = scrMgDl * 0.01131221;
+  }
+
+  // STEP 4 — eGFR (MDRD)
+  const genderFactor = form.gender === "female" ? 0.742 : 1;
+  const raceFactor = form.race === "black" ? 1.212 : 1;
+
+  const egfrRaw =
+    175 *
+    Math.pow(ageNum, -0.203) *
+    Math.pow(scrMgDl, -1.154) *
+    genderFactor *
+    raceFactor;
+
+  const egfr = Math.floor(egfrRaw);
+
+  // STEP 5 — Kidney function category
+  let kidneyCategory: string;
+  if (egfr >= 58) kidneyCategory = "MS21";
+  else if (egfr >= 16) kidneyCategory = "MS22";
+  else kidneyCategory = "MS23";
+
+  // STEP 6 — Dose category
+  let doseCategory: string;
+
+  if (form.dialysis === "yes" || kidneyCategory === "MS23") {
+    doseCategory = "DLS1";
+  } else if (kidneyCategory === "MS22") {
+    doseCategory = bmi >= 24 ? "GC2" : "GC1";
+  } else {
+    // MS21
+    const bmiToDose: Record<string, string> = {
+      MS11: "MB1",
+      MS12: "MB2",
+      MS13: "MB3",
+      MS14: "MB4",
+    };
+    doseCategory = bmiToDose[bmiCategory];
+  }
+
+  // STEP 7 & 8 — Final dose
+  const range = doseRanges[doseCategory];
+  const weightKg = weightLbs / 2.20462;
+  const doseLow = Math.round(range.low * weightKg);
+  const doseHigh = Math.round(range.high * weightKg);
+
+  return {
+    bmi: Math.round(bmi * 10) / 10,
+    bmiCategory,
+    egfr,
+    kidneyCategory,
+    doseCategory,
+    doseLow,
+    doseHigh,
+    doseLowPerKg: range.low,
+    doseHighPerKg: range.high,
+    weightKg: Math.round(weightKg * 10) / 10,
+    weightLbs: Math.round(weightLbs * 10) / 10,
+    heightInches: Math.round(heightIn * 10) / 10,
+    scrMgDl: Math.round(scrMgDl * 100) / 100,
+    inputs: form,
+  };
+}
+
 /* ── Page Component ── */
 
 const DiaFormPage = () => {
@@ -60,7 +183,7 @@ const DiaFormPage = () => {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [form, setForm] = useState<FormData>({ ...initialForm });
-  const [result, setResult] = useState<Record<string, string> | null>(null);
+  const [result, setResult] = useState<CalcResult | null>(null);
 
   const update = (key: keyof FormData, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -73,8 +196,7 @@ const DiaFormPage = () => {
       toast({ title: "Invalid Age", description: "Age must be 18 or older.", variant: "destructive" });
       return;
     }
-    const weightNum = parseFloat(form.weight);
-    if (!weightNum || weightNum <= 0) {
+    if (!form.weight || parseFloat(form.weight) <= 0) {
       toast({ title: "Invalid Weight", description: "Please enter a valid weight.", variant: "destructive" });
       return;
     }
@@ -98,8 +220,8 @@ const DiaFormPage = () => {
       return;
     }
 
-    // Placeholder — will be replaced with real logic
-    setResult({ placeholder: "true" });
+    const res = calculate(form);
+    setResult(res);
     setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 
@@ -239,7 +361,7 @@ const DiaFormPage = () => {
         </motion.div>
       )}
 
-      {/* Results (placeholder) */}
+      {/* Results */}
       <AnimatePresence>
         {result && (
           <motion.div
@@ -249,15 +371,34 @@ const DiaFormPage = () => {
             exit={{ opacity: 0, y: 20 }}
             className="mx-5 mt-6 space-y-5"
           >
+            {/* Main Recommendation */}
             <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm">
               <h3 className="text-lg font-extrabold text-foreground mb-4">
                 Recommended Initial Insulin Dosage
               </h3>
-              <div className="rounded-xl bg-primary/10 p-4 text-center">
-                <p className="text-sm font-semibold text-muted-foreground mb-1">Calculation logic pending</p>
-                <p className="text-base font-extrabold text-primary">
-                  Results will appear here once logic is provided.
+
+              <div className="rounded-xl bg-primary/10 p-5 text-center mb-4">
+                <p className="text-sm font-semibold text-muted-foreground mb-1">Recommended Insulin Dosage Range</p>
+                <p className="text-3xl font-extrabold text-primary">
+                  {result.doseLow} – {result.doseHigh}
                 </p>
+                <p className="text-sm font-bold text-primary/80">units</p>
+              </div>
+
+              <div className="rounded-xl bg-card border border-border p-4 space-y-2 text-sm text-foreground">
+                <p>This represents <span className="font-bold">50% of Total Daily Dose (TDD)</span></p>
+                <p>• <span className="font-semibold">Basal insulin</span> = 50% of TDD</p>
+                <p>• <span className="font-semibold">Prandial insulin</span> = 50% of TDD divided across 3 meals</p>
+              </div>
+            </div>
+
+            {/* Calculated Values */}
+            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+              <h3 className="text-lg font-extrabold text-foreground mb-4">Calculated Values</h3>
+              <div className="space-y-3">
+                <ResultRow label="BMI" value={`${result.bmi}`} />
+                <ResultRow label="eGFR" value={`${result.egfr} mL/min/1.73m²`} />
+                <ResultRow label="Dose Category" value={doseRanges[result.doseCategory].label} />
               </div>
             </div>
 
@@ -265,15 +406,15 @@ const DiaFormPage = () => {
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
               <h3 className="text-lg font-extrabold text-foreground mb-4">Submitted Inputs</h3>
               <div className="space-y-3">
-                <ResultRow label="Measurement System" value={isImperial ? "Imperial" : "Metric"} />
-                <ResultRow label="Weight" value={`${form.weight} ${isImperial ? "lbs" : "kg"}`} />
-                <ResultRow label="Height" value={isImperial ? `${form.heightFeet}' ${form.heightInches || 0}"` : `${form.heightCm} cm`} />
-                <ResultRow label="Serum Creatinine" value={`${form.serumCreatinine} ${form.creatinineUnits === "mg/dl" ? "mg/dL" : "µmol/L"}`} />
-                <ResultRow label="A1c" value={form.a1c} />
-                <ResultRow label="Age" value={`${form.age} years`} />
-                <ResultRow label="Gender" value={form.gender === "male" ? "Male" : "Female"} />
-                <ResultRow label="Race" value={raceLabel} />
-                <ResultRow label="Dialysis" value={form.dialysis === "yes" ? "Yes" : "No"} />
+                <ResultRow label="Measurement System" value={result.inputs.measurementSystem === "imperial" ? "Imperial" : "Metric"} />
+                <ResultRow label="Weight" value={result.inputs.measurementSystem === "imperial" ? `${result.inputs.weight} lbs (${result.weightKg} kg)` : `${result.inputs.weight} kg (${result.weightLbs} lbs)`} />
+                <ResultRow label="Height" value={result.inputs.measurementSystem === "imperial" ? `${result.inputs.heightFeet}' ${result.inputs.heightInches || 0}"` : `${result.inputs.heightCm} cm`} />
+                <ResultRow label="Serum Creatinine" value={`${result.inputs.serumCreatinine} ${result.inputs.creatinineUnits === "mg/dl" ? "mg/dL" : "µmol/L"}${result.inputs.creatinineUnits === "µmol/l" ? ` (${result.scrMgDl} mg/dL)` : ""}`} />
+                <ResultRow label="A1c" value={result.inputs.a1c} />
+                <ResultRow label="Age" value={`${result.inputs.age} years`} />
+                <ResultRow label="Gender" value={result.inputs.gender === "male" ? "Male" : "Female"} />
+                <ResultRow label="Race" value={raceOptions.find((r) => r.toLowerCase() === result.inputs.race) ?? result.inputs.race} />
+                <ResultRow label="Dialysis" value={result.inputs.dialysis === "yes" ? "Yes" : "No"} />
               </div>
             </div>
 
