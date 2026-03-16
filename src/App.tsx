@@ -43,6 +43,7 @@ const AnimatedRoutes = () => {
 
   return (
     <>
+      <ScrollToTop />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<PageTransition><SplashScreen /></PageTransition>} />
