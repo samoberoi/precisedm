@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/use-profile";
+import { useSubscription } from "@/hooks/use-subscription";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { Info, ArrowUpRight, Search } from "lucide-react";
-
+import { Info, ArrowUpRight, Search, Gift } from "lucide-react";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import diaformCard from "@/assets/diaform-card.jpg";
 import diaformIcon from "@/assets/diaform-card-icon.png";
