@@ -219,7 +219,7 @@ const ProfilePage = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Plan</span>
-                <span className="text-sm font-bold text-foreground capitalize">{subscription.plan_type === "monthly" ? "Monthly" : "Yearly"}</span>
+                <span className="text-sm font-bold text-foreground capitalize">{subscription.plan_type === "monthly" ? "Monthly" : subscription.plan_type === "trial" ? "Free Trial" : "Yearly"}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Status</span>
