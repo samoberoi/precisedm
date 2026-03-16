@@ -46,7 +46,6 @@ const LoginPage = () => {
     if (error) {
       toast({ title: "Login failed", description: error.message, variant: "destructive" });
     } else if (data.user) {
-      // Check if user is admin
       const { data: isAdmin } = await supabase.rpc("has_role", {
         _user_id: data.user.id,
         _role: "admin",
@@ -64,7 +63,7 @@ const LoginPage = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen flex flex-col px-8 pt-16"
+      className="min-h-screen flex flex-col px-8 pt-16 gradient-surface"
     >
       <div className="flex justify-center mb-10">
         <PreciseLogo size={64} />
@@ -76,20 +75,20 @@ const LoginPage = () => {
 
       <form onSubmit={handleLogin} className="mt-8 space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="email">Email Address</Label>
+          <Label htmlFor="email" className="text-muted-foreground">Email Address</Label>
           <Input
             id="email"
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="h-12 rounded-xl bg-muted/40"
+            className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border"
           />
           {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password" className="text-muted-foreground">Password</Label>
           <div className="relative">
             <Input
               id="password"
@@ -97,7 +96,7 @@ const LoginPage = () => {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-12 rounded-xl bg-muted/40 pr-12"
+              className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border pr-12"
             />
             <button
               type="button"
@@ -119,7 +118,7 @@ const LoginPage = () => {
         <Button
           type="submit"
           disabled={loading}
-          className="w-full h-12 rounded-xl text-base font-semibold"
+          className="w-full h-12 rounded-xl text-base font-semibold gradient-primary glow-primary"
         >
           {loading ? "Signing in..." : "Login"}
         </Button>

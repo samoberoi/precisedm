@@ -21,7 +21,7 @@ const GetStartedScreen = () => {
           alt="Healthcare professional"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
       </div>
 
       {/* Text content */}
@@ -53,7 +53,7 @@ const GetStartedScreen = () => {
         >
           <div className="w-2.5 h-2.5 rounded-full bg-muted-foreground/30" />
           <div className="w-2.5 h-2.5 rounded-full bg-muted-foreground/30" />
-          <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+          <div className="w-2.5 h-2.5 rounded-full gradient-primary glow-primary" />
         </motion.div>
       </div>
 
@@ -61,7 +61,7 @@ const GetStartedScreen = () => {
       <div className="fixed bottom-8 left-0 right-0 px-8">
         <Button
           onClick={() => navigate("/login")}
-          className="w-full h-12 rounded-xl text-base font-semibold"
+          className="w-full h-12 rounded-xl text-base font-semibold gradient-primary glow-primary"
         >
           Get Started
         </Button>

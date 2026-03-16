@@ -98,12 +98,12 @@ const SubscriptionPage = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-background pb-28"
+      className="min-h-screen gradient-surface pb-28"
     >
       {/* Header */}
-      <div className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur-md">
+      <div className="sticky top-0 z-10 border-b border-border/50 glass-card-strong">
         <div className="flex items-center gap-3 px-4 py-4">
-          <button onClick={() => navigate(-1)} className="p-1.5 rounded-lg hover:bg-muted transition-colors">
+          <button onClick={() => navigate(-1)} className="p-1.5 rounded-lg hover:bg-accent transition-colors">
             <ChevronLeft className="h-5 w-5 text-foreground" />
           </button>
           <h1 className="text-lg font-bold text-foreground">Subscription</h1>
@@ -116,11 +116,11 @@ const SubscriptionPage = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 rounded-2xl border border-primary/20 bg-primary/5 p-5"
+            className="mb-6 rounded-2xl glass-card p-5 border-primary/20"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/15">
-                <Shield className="h-5 w-5 text-primary" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary">
+                <Shield className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
                 <p className="text-sm font-bold text-foreground">Active Subscription</p>
@@ -136,7 +136,7 @@ const SubscriptionPage = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="rounded-xl text-xs font-semibold"
+                className="rounded-xl text-xs font-semibold border-border"
                 onClick={() => window.open("https://www.paypal.com/myaccount/autopay/", "_blank")}
               >
                 Manage Subscription
@@ -148,8 +148,8 @@ const SubscriptionPage = () => {
         {/* Hero */}
         {!isActive && (
           <div className="text-center mb-8">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 mx-auto mb-4">
-              <Crown className="h-8 w-8 text-primary" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-primary glow-primary mx-auto mb-4">
+              <Crown className="h-8 w-8 text-primary-foreground" />
             </div>
             <h2 className="text-2xl font-extrabold text-foreground mb-2">Unlock All Tools</h2>
             <p className="text-sm text-muted-foreground max-w-xs mx-auto">
@@ -168,12 +168,12 @@ const SubscriptionPage = () => {
               transition={{ delay: i * 0.1 }}
               className={`relative rounded-2xl border-2 p-5 transition-all ${
                 plan.badge
-                  ? "border-primary bg-primary/[0.03] shadow-md"
-                  : "border-border bg-card"
+                  ? "border-primary/40 glass-card glow-primary"
+                  : "border-border/50 glass-card"
               }`}
             >
               {plan.badge && (
-                <span className="absolute -top-3 left-5 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
+                <span className="absolute -top-3 left-5 gradient-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
                   {plan.badge}
                 </span>
               )}
@@ -202,8 +202,7 @@ const SubscriptionPage = () => {
               </ul>
 
               <Button
-                className="w-full h-12 rounded-xl font-bold text-sm"
-                variant={plan.badge ? "default" : "outline"}
+                className={`w-full h-12 rounded-xl font-bold text-sm ${plan.badge ? "gradient-primary glow-primary" : "bg-accent hover:bg-accent/80 text-foreground"}`}
                 disabled={processing || isActive}
                 onClick={() => handleSubscribe(plan.id)}
               >

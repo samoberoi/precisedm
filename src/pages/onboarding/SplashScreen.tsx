@@ -14,7 +14,7 @@ const BloodDrop = ({ size = 48 }: { size?: number }) => (
       d="M24 3C24 3 4 23 4 38C4 48.493 12.507 57 23 57H25C35.493 57 44 48.493 44 38C44 23 24 3 24 3Z"
       fill="hsl(var(--destructive))"
     />
-    <ellipse cx="17" cy="33" rx="3.5" ry="6" fill="hsl(var(--background))" opacity="0.25" />
+    <ellipse cx="17" cy="33" rx="3.5" ry="6" fill="hsl(var(--foreground))" opacity="0.25" />
   </svg>
 );
 
@@ -34,7 +34,7 @@ const SplashScreen = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-8 pb-32 bg-background">
+    <div className="min-h-screen flex flex-col items-center justify-center px-8 pb-32 gradient-surface">
       <div className="flex items-center justify-center select-none" style={{ minHeight: 80 }}>
         <AnimatePresence>
           {step >= 1 && (

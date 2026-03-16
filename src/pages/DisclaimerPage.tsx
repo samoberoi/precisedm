@@ -34,9 +34,9 @@ const DisclaimerPage = () => {
   const { firstName } = useProfile();
 
   return (
-    <div className="min-h-screen bg-muted/40 pb-28">
+    <div className="min-h-screen gradient-surface pb-28">
       {/* Header */}
-      <div className="bg-background px-5 pt-6 pb-5 shadow-sm">
+      <div className="glass-card-strong px-5 pt-6 pb-5">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-1 text-foreground mb-3"
@@ -57,7 +57,7 @@ const DisclaimerPage = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.08 }}
-            className="rounded-2xl border border-border bg-card p-5 shadow-sm"
+            className="rounded-2xl glass-card p-5"
           >
             <h2 className="text-lg font-bold text-foreground mb-3">
               {section.title}

@@ -15,13 +15,12 @@ import videosIcon from "@/assets/videos-icon.png";
 import steroidIcon from "@/assets/steroid-icon.png";
 
 const toolkitItems = [
-  { label: "DiaForm", icon: null, image: diaformIcon, color: "bg-primary", route: "/diaform" },
-  { label: "Gestation", icon: null, image: gestationIcon, color: "bg-[#f47055]", route: "/gestation" },
-  { label: "Maintenance", icon: null, image: maintenanceIcon, color: "bg-[#FAE672]", route: "/maintenance" },
-  { label: "Steroid", icon: null, image: steroidIcon, color: "bg-[#8A38F5]", route: "/steroid" },
-  { label: "Videos", icon: null, image: videosIcon, color: "bg-[#B5E962]", route: "/videos" },
+  { label: "DiaForm", icon: null, image: diaformIcon, color: "gradient-primary", route: "/diaform" },
+  { label: "Gestation", icon: null, image: gestationIcon, color: "bg-[hsl(14,85%,55%)]", route: "/gestation" },
+  { label: "Maintenance", icon: null, image: maintenanceIcon, color: "bg-[hsl(48,90%,55%)]", route: "/maintenance" },
+  { label: "Steroid", icon: null, image: steroidIcon, color: "bg-[hsl(270,80%,60%)]", route: "/steroid" },
+  { label: "Videos", icon: null, image: videosIcon, color: "bg-[hsl(90,60%,50%)]", route: "/videos" },
 ];
-
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -39,7 +38,7 @@ const HomePage = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-background pb-28"
+      className="min-h-screen gradient-surface pb-28"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-6 pt-10 pb-2">
@@ -47,7 +46,10 @@ const HomePage = () => {
           <p className="text-sm text-muted-foreground font-medium">Hii !!</p>
           <p className="text-lg font-bold text-foreground">{firstName}</p>
         </div>
-        <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/60 backdrop-blur-sm">
+        <button
+          onClick={() => navigate("/disclaimer")}
+          className="flex h-10 w-10 items-center justify-center rounded-full glass-card"
+        >
           <Info className="h-5 w-5 text-muted-foreground" />
         </button>
       </div>
@@ -68,10 +70,10 @@ const HomePage = () => {
               key={item.label}
               type="button"
               onClick={item.route ? () => navigate(item.route) : undefined}
-              className="flex flex-col items-center gap-2"
+              className="flex flex-col items-center gap-2 group"
             >
               <div
-                className={`flex h-14 w-14 items-center justify-center rounded-full ${item.color} text-primary-foreground shadow-md`}
+                className={`flex h-14 w-14 items-center justify-center rounded-full ${item.color} shadow-lg transition-transform group-hover:scale-110`}
               >
                 {item.image ? (
                   <img src={item.image} alt={item.label} className="h-7 w-7 object-contain" />
@@ -79,7 +81,7 @@ const HomePage = () => {
                   <item.icon className="h-6 w-6" />
                 ) : null}
               </div>
-              <span className="text-xs font-medium text-foreground">{item.label}</span>
+              <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item.label}</span>
             </button>
           ))}
         </div>
@@ -87,36 +89,34 @@ const HomePage = () => {
 
       {/* Hero Banner */}
       <div className="px-6 py-3">
-        <div className="overflow-hidden rounded-2xl h-44">
+        <div className="overflow-hidden rounded-2xl h-44 relative">
           <img
             src={heroDoctor}
             alt="Precise DM"
             className="h-full w-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
         </div>
       </div>
 
       {/* Learn more about DiaForm */}
       <div className="px-6 py-3">
         <h2 className="text-base font-bold text-foreground mb-3">Learn more about DiaForm</h2>
-        <div className="relative overflow-hidden rounded-2xl">
+        <div className="relative overflow-hidden rounded-2xl glass-card">
           <img
             src={diaformCard}
             alt="DiaForm"
-            className="h-48 w-full object-cover"
+            className="h-48 w-full object-cover opacity-40"
           />
-          {/* Glass text overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-5">
-            <p className="text-sm text-primary-foreground/95 leading-relaxed font-medium">
+            <p className="text-sm text-foreground/90 leading-relaxed font-medium">
               DiaForm, is an innovative, individualized insulin dosing tool designed for use by trained healthcare providers to confidently determine initial and ongoing insulin doses for adult patients initiating insulin across a range of scenarios. DiaForm consists of four powerful tools: in initial insulin dosing, steroid dosing, pregnancy care, and ongoing maintenance.
             </p>
           </div>
         </div>
       </div>
 
-
-      {/* Bottom Navigation */}
       <BottomNav />
     </motion.div>
   );

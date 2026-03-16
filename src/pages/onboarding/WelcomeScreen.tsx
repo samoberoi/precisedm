@@ -14,15 +14,14 @@ const WelcomeScreen = () => {
       transition={{ duration: 0.4 }}
       className="min-h-screen flex flex-col bg-background relative"
     >
-      {/* Hero image — fills top portion */}
+      {/* Hero image */}
       <div className="relative w-full flex-1 min-h-[55vh]">
         <img
           src={onboardingImg}
           alt="Doctor consulting patient"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Gradient overlay fading into background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
       </div>
 
       {/* Text content */}
@@ -52,7 +51,7 @@ const WelcomeScreen = () => {
           transition={{ delay: 0.5 }}
           className="flex gap-2 mt-6 justify-center"
         >
-          <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+          <div className="w-2.5 h-2.5 rounded-full gradient-primary glow-primary" />
           <div className="w-2.5 h-2.5 rounded-full bg-muted-foreground/30" />
           <div className="w-2.5 h-2.5 rounded-full bg-muted-foreground/30" />
         </motion.div>
@@ -62,7 +61,7 @@ const WelcomeScreen = () => {
       <div className="fixed bottom-8 left-0 right-0 px-8">
         <Button
           onClick={() => navigate("/onboarding/features")}
-          className="w-full h-12 rounded-xl text-base font-semibold"
+          className="w-full h-12 rounded-xl text-base font-semibold gradient-primary glow-primary"
         >
           Next
         </Button>

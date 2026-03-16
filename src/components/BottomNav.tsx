@@ -14,8 +14,7 @@ const BottomNav = () => {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50">
-      {/* Glass effect background */}
-      <div className="mx-4 mb-4 rounded-2xl border border-border/40 bg-card/70 backdrop-blur-xl shadow-lg">
+      <div className="mx-4 mb-4 rounded-2xl glass-card-strong">
         <div className="flex items-center justify-around py-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -28,8 +27,8 @@ const BottomNav = () => {
                 <div
                   className={`flex h-11 w-11 items-center justify-center rounded-full transition-all ${
                     isActive
-                      ? "bg-primary text-primary-foreground shadow-md"
-                      : "text-muted-foreground"
+                      ? "gradient-primary text-primary-foreground shadow-md glow-primary"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <item.icon className="h-5 w-5" />

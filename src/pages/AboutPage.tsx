@@ -20,7 +20,7 @@ const AboutPage = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-background pb-28"
+      className="min-h-screen gradient-surface pb-28"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-6 pt-10 pb-2">
@@ -28,7 +28,7 @@ const AboutPage = () => {
           <p className="text-sm text-muted-foreground font-medium">Hello !!</p>
           <p className="text-lg font-bold text-foreground">{firstName}</p>
         </div>
-        <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/60 backdrop-blur-sm">
+        <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full glass-card">
           <Info className="h-5 w-5 text-muted-foreground" />
         </button>
       </div>
@@ -40,14 +40,10 @@ const AboutPage = () => {
 
       <div className="px-6 py-3">
         <div className="relative overflow-hidden rounded-2xl">
-          <img
-            src={aboutHero}
-            alt="About Us"
-            className="h-52 w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-foreground/40" />
+          <img src={aboutHero} alt="About Us" className="h-52 w-full object-cover" />
+          <div className="absolute inset-0 bg-background/50 backdrop-blur-sm" />
           <div className="absolute inset-0 flex items-center justify-center p-6">
-            <p className="text-xl font-bold text-primary-foreground text-center leading-snug">
+            <p className="text-xl font-bold text-foreground text-center leading-snug">
               This is the story{"\n"}about how we got{"\n"}started
             </p>
           </div>
@@ -59,37 +55,22 @@ const AboutPage = () => {
         <h2 className="text-xl font-extrabold text-foreground">Our Team</h2>
       </div>
 
-      {/* Dr. Colleen Cook */}
       <div className="px-6 py-3">
-        <div className="overflow-hidden rounded-2xl">
-          <img
-            src={drColleenCook}
-            alt="Dr. Colleen Cook"
-            className="w-full object-contain"
-          />
+        <div className="overflow-hidden rounded-2xl glass-card">
+          <img src={drColleenCook} alt="Dr. Colleen Cook" className="w-full object-contain" />
         </div>
       </div>
 
-      {/* Dr. Melanie Proctor */}
       <div className="px-6 py-3">
-        <div className="overflow-hidden rounded-2xl">
-          <img
-            src={drMelanieProctor}
-            alt="Dr. Melanie Proctor"
-            className="w-full object-contain"
-          />
+        <div className="overflow-hidden rounded-2xl glass-card">
+          <img src={drMelanieProctor} alt="Dr. Melanie Proctor" className="w-full object-contain" />
         </div>
       </div>
 
-      {/* Dr. Suzanne Chung */}
       <div className="px-6 py-3">
         <div className="flex flex-col items-center">
-          <div className="h-48 w-48 rounded-full overflow-hidden bg-muted">
-            <img
-              src={drSuzanneChung}
-              alt="Dr. Suzanne Chung"
-              className="h-full w-full object-cover"
-            />
+          <div className="h-48 w-48 rounded-full overflow-hidden ring-2 ring-primary/30">
+            <img src={drSuzanneChung} alt="Dr. Suzanne Chung" className="h-full w-full object-cover" />
           </div>
           <h3 className="text-2xl font-bold text-foreground mt-4">Dr. Suzanne Chung</h3>
           <p className="text-sm text-muted-foreground mt-1">PhD Analytical Chemistry</p>
@@ -103,7 +84,7 @@ const AboutPage = () => {
       </div>
 
       <div className="px-6 py-3">
-        <div className="rounded-2xl bg-primary p-6">
+        <div className="rounded-2xl gradient-primary p-6 glow-primary">
           <h3 className="text-lg font-bold text-primary-foreground text-center mb-4">Our History</h3>
           <div className="space-y-4 text-sm text-primary-foreground/90 leading-relaxed">
             <p>
@@ -135,15 +116,11 @@ const AboutPage = () => {
       {/* Our Vision */}
       <div className="px-6 py-3">
         <div className="relative overflow-hidden rounded-2xl">
-          <img
-            src={visionImage}
-            alt="Our Vision"
-            className="h-52 w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent" />
+          <img src={visionImage} alt="Our Vision" className="h-52 w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-5">
-            <h3 className="text-xl font-bold text-primary-foreground mb-1">Our Vision</h3>
-            <p className="text-sm text-primary-foreground/90 leading-relaxed">
+            <h3 className="text-xl font-bold text-foreground mb-1">Our Vision</h3>
+            <p className="text-sm text-foreground/80 leading-relaxed">
               At Precise DM, our aim is to advance the Healthcare for individuals with Diabetes.
             </p>
           </div>
@@ -153,15 +130,11 @@ const AboutPage = () => {
       {/* Our Mission */}
       <div className="px-6 py-3">
         <div className="relative overflow-hidden rounded-2xl">
-          <img
-            src={missionImage}
-            alt="Our Mission"
-            className="h-52 w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent" />
+          <img src={missionImage} alt="Our Mission" className="h-52 w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-5">
-            <h3 className="text-xl font-bold text-primary-foreground mb-1">Our Mission</h3>
-            <p className="text-sm text-primary-foreground/90 leading-relaxed">
+            <h3 className="text-xl font-bold text-foreground mb-1">Our Mission</h3>
+            <p className="text-sm text-foreground/80 leading-relaxed">
               We believe that every patient is unique and special in their own way. We strive to
               individualize Diabetes care with insulin dosing tools that are quick, easy and accurate.
             </p>

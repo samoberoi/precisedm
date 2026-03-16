@@ -35,10 +35,10 @@ const FORM_LABELS: Record<string, string> = {
 };
 
 const FORM_COLORS: Record<string, string> = {
-  diaform: "bg-primary/10 text-primary",
-  steroid: "bg-[hsl(270,90%,60%)]/10 text-[hsl(270,90%,50%)]",
-  maintenance: "bg-[hsl(48,95%,60%)]/10 text-[hsl(48,70%,35%)]",
-  gestation: "bg-[hsl(14,85%,55%)]/10 text-[hsl(14,85%,45%)]",
+  diaform: "bg-primary/15 text-primary",
+  steroid: "bg-[hsl(270,90%,60%)]/15 text-[hsl(270,90%,70%)]",
+  maintenance: "bg-[hsl(48,95%,60%)]/15 text-[hsl(48,90%,65%)]",
+  gestation: "bg-[hsl(14,85%,55%)]/15 text-[hsl(14,85%,65%)]",
 };
 
 const ProfilePage = () => {
@@ -129,7 +129,7 @@ const ProfilePage = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex min-h-screen items-center justify-center gradient-surface">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       </div>
     );
@@ -137,14 +137,13 @@ const ProfilePage = () => {
 
   const displayFirstName = firstName || profile?.full_name?.split(" ")[0] || "User";
 
-  // Group submissions by form type for stats
   const submissionStats = submissions.reduce((acc, s) => {
     acc[s.form_type] = (acc[s.form_type] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   return (
-    <div className="min-h-screen bg-background pb-28">
+    <div className="min-h-screen gradient-surface pb-28">
       {/* Header */}
       <div className="px-5 pt-6">
         <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-foreground mb-3">
@@ -158,9 +157,9 @@ const ProfilePage = () => {
           </div>
           <button
             onClick={() => navigate("/disclaimer")}
-            className="mt-1 flex h-10 w-10 items-center justify-center rounded-full border border-border"
+            className="mt-1 flex h-10 w-10 items-center justify-center rounded-full glass-card"
           >
-            <Info className="h-5 w-5 text-foreground" />
+            <Info className="h-5 w-5 text-muted-foreground" />
           </button>
         </div>
       </div>
@@ -172,8 +171,9 @@ const ProfilePage = () => {
         </div>
 
         {/* Hero Image */}
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-2xl mb-4">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-2xl mb-4 relative">
           <img src={profileHero} alt="Profile banner" className="h-48 w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
         </motion.div>
 
         {/* Edit Button */}
@@ -187,7 +187,7 @@ const ProfilePage = () => {
                 setLastName(nameParts.slice(1).join(" ") || "");
                 setPhoneNumber(profile?.phone_number || "");
               }}>Cancel</Button>
-              <Button size="sm" onClick={handleSave} disabled={saving}>
+              <Button size="sm" onClick={handleSave} disabled={saving} className="gradient-primary">
                 {saving ? "Saving..." : "Save"}
               </Button>
             </div>
@@ -201,13 +201,13 @@ const ProfilePage = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-2xl border border-border bg-card p-5 space-y-5"
+          className="rounded-2xl glass-card p-5 space-y-5"
         >
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label className="text-xs text-muted-foreground">First Name</Label>
               {editing ? (
-                <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="mt-1" />
+                <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="mt-1 bg-card/60 border-border" />
               ) : (
                 <p className="mt-1 text-sm font-semibold text-foreground">{firstName || "—"}</p>
               )}
@@ -215,7 +215,7 @@ const ProfilePage = () => {
             <div>
               <Label className="text-xs text-muted-foreground">Last Name</Label>
               {editing ? (
-                <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="mt-1" />
+                <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="mt-1 bg-card/60 border-border" />
               ) : (
                 <p className="mt-1 text-sm font-semibold text-foreground">{lastName || "—"}</p>
               )}
@@ -226,7 +226,7 @@ const ProfilePage = () => {
             <div>
               <Label className="text-xs text-muted-foreground">Phone Number</Label>
               {editing ? (
-                <Input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="mt-1" placeholder="Enter phone" />
+                <Input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="mt-1 bg-card/60 border-border" placeholder="Enter phone" />
               ) : (
                 <p className="mt-1 text-sm font-semibold text-foreground">{phoneNumber || "—"}</p>
               )}
@@ -264,7 +264,7 @@ const ProfilePage = () => {
           {submissions.length > 0 && (
             <div className="grid grid-cols-4 gap-2 mb-4">
               {Object.entries(FORM_LABELS).map(([key, label]) => (
-                <div key={key} className="rounded-xl border border-border bg-card p-3 text-center">
+                <div key={key} className="rounded-xl glass-card p-3 text-center">
                   <p className="text-lg font-extrabold text-foreground">{submissionStats[key] || 0}</p>
                   <p className="text-[10px] font-medium text-muted-foreground leading-tight">{label}</p>
                 </div>
@@ -278,7 +278,7 @@ const ProfilePage = () => {
               <button
                 key={s.id}
                 onClick={() => setSelectedSubmission(selectedSubmission?.id === s.id ? null : s)}
-                className="w-full text-left rounded-xl border border-border bg-card p-3 hover:border-primary/20 transition-colors"
+                className="w-full text-left rounded-xl glass-card p-3 hover:border-primary/30 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <div className={`flex h-9 w-9 items-center justify-center rounded-lg text-xs font-bold shrink-0 ${FORM_COLORS[s.form_type] || "bg-muted text-muted-foreground"}`}>
@@ -302,8 +302,7 @@ const ProfilePage = () => {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden"
                     >
-                      <div className="mt-3 pt-3 border-t border-border space-y-3">
-                        {/* Results */}
+                      <div className="mt-3 pt-3 border-t border-border/50 space-y-3">
                         <div>
                           <p className="text-xs font-bold text-primary mb-1.5">Results</p>
                           <div className="space-y-1">
@@ -315,7 +314,6 @@ const ProfilePage = () => {
                             ))}
                           </div>
                         </div>
-                        {/* Inputs */}
                         <div>
                           <p className="text-xs font-bold text-muted-foreground mb-1.5">Inputs</p>
                           <div className="space-y-1">
@@ -334,7 +332,7 @@ const ProfilePage = () => {
               </button>
             ))}
             {submissions.length === 0 && (
-              <div className="rounded-xl border border-dashed border-border p-8 text-center">
+              <div className="rounded-xl border border-dashed border-border/50 p-8 text-center">
                 <FileText className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
                 <p className="text-sm text-muted-foreground">No form submissions yet</p>
                 <p className="text-xs text-muted-foreground mt-1">Your calculation history will appear here</p>
@@ -346,7 +344,7 @@ const ProfilePage = () => {
         {/* Logout */}
         <Button
           variant="outline"
-          className="mt-6 w-full gap-2 text-destructive border-destructive/30 hover:bg-destructive/10"
+          className="mt-6 w-full gap-2 text-destructive border-destructive/30 hover:bg-destructive/10 rounded-xl"
           onClick={handleLogout}
         >
           <LogOut className="h-4 w-4" />

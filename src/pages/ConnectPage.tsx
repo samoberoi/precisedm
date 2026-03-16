@@ -63,7 +63,7 @@ const ConnectPage = () => {
   const { firstName } = useProfile();
 
   return (
-    <div className="min-h-screen bg-background pb-28">
+    <div className="min-h-screen gradient-surface pb-28">
       {/* Header */}
       <div className="flex items-center justify-between px-6 pt-6 pb-2">
         <div>
@@ -72,9 +72,9 @@ const ConnectPage = () => {
         </div>
         <button
           onClick={() => navigate("/disclaimer")}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-border"
+          className="flex h-10 w-10 items-center justify-center rounded-full glass-card"
         >
-          <Info className="h-5 w-5 text-foreground" />
+          <Info className="h-5 w-5 text-muted-foreground" />
         </button>
       </div>
 
@@ -92,9 +92,10 @@ const ConnectPage = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
-          className="rounded-2xl overflow-hidden mb-6"
+          className="rounded-2xl overflow-hidden mb-6 relative"
         >
           <img src={connectHero} alt="Connect with us" className="w-full h-48 object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
         </motion.div>
 
         {/* Contact Form */}
@@ -113,7 +114,7 @@ const ConnectPage = () => {
               placeholder="Enter Phone Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="rounded-xl border-border bg-background"
+              className="rounded-xl border-border bg-card/60 backdrop-blur-sm h-12"
               maxLength={20}
             />
           </div>
@@ -126,7 +127,7 @@ const ConnectPage = () => {
               placeholder="Enter Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="rounded-xl border-border bg-background"
+              className="rounded-xl border-border bg-card/60 backdrop-blur-sm h-12"
               maxLength={255}
             />
           </div>
@@ -138,7 +139,7 @@ const ConnectPage = () => {
               placeholder="Enter Your Message.."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="rounded-xl border-border bg-background min-h-[120px]"
+              className="rounded-xl border-border bg-card/60 backdrop-blur-sm min-h-[120px]"
               maxLength={1000}
             />
           </div>
@@ -146,7 +147,7 @@ const ConnectPage = () => {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full rounded-full py-6 text-base font-semibold"
+            className="w-full rounded-full py-6 text-base font-semibold gradient-primary glow-primary"
           >
             {loading ? "Sending..." : "Submit"}
           </Button>
@@ -154,7 +155,7 @@ const ConnectPage = () => {
 
         {/* Divider */}
         <div className="flex justify-center my-6">
-          <div className="w-24 h-1 rounded-full bg-foreground/20" />
+          <div className="w-24 h-1 rounded-full bg-border" />
         </div>
 
         {/* Contact Cards */}
@@ -166,10 +167,10 @@ const ConnectPage = () => {
         >
           <a
             href="tel:612-916-4059"
-            className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4"
+            className="flex items-center gap-4 rounded-2xl glass-card p-4 hover:border-primary/30 transition-colors"
           >
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-muted">
-              <Phone className="h-6 w-6 text-foreground" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full gradient-primary">
+              <Phone className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
               <h3 className="font-bold text-foreground">Give Us A Call</h3>
@@ -179,10 +180,10 @@ const ConnectPage = () => {
 
           <a
             href="mailto:precise.diabetes@gmail.com"
-            className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4"
+            className="flex items-center gap-4 rounded-2xl glass-card p-4 hover:border-primary/30 transition-colors"
           >
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-muted">
-              <Mail className="h-6 w-6 text-foreground" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full gradient-primary">
+              <Mail className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
               <h3 className="font-bold text-foreground">Send Us A Message</h3>

@@ -101,7 +101,7 @@ const SignUpPage = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen flex flex-col px-8 pt-12 pb-12"
+      className="min-h-screen flex flex-col px-8 pt-12 pb-12 gradient-surface"
     >
       <div className="flex justify-center mb-6">
         <PreciseLogo size={56} />
@@ -112,36 +112,33 @@ const SignUpPage = () => {
       </h1>
 
       <form onSubmit={handleSignUp} className="mt-6 space-y-4">
-        {/* Full Name */}
         <div className="space-y-1.5">
-          <Label htmlFor="fullName">Full Name</Label>
+          <Label htmlFor="fullName" className="text-muted-foreground">Full Name</Label>
           <Input
             id="fullName"
             placeholder="John Doe"
             value={form.fullName}
             onChange={(e) => update("fullName", e.target.value)}
-            className="h-12 rounded-xl bg-muted/40"
+            className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border"
           />
           {errors.fullName && <p className="text-sm text-destructive">{errors.fullName}</p>}
         </div>
 
-        {/* Email */}
         <div className="space-y-1.5">
-          <Label htmlFor="signupEmail">Email Address</Label>
+          <Label htmlFor="signupEmail" className="text-muted-foreground">Email Address</Label>
           <Input
             id="signupEmail"
             type="email"
             placeholder="you@example.com"
             value={form.email}
             onChange={(e) => update("email", e.target.value)}
-            className="h-12 rounded-xl bg-muted/40"
+            className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border"
           />
           {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
         </div>
 
-        {/* Password */}
         <div className="space-y-1.5">
-          <Label htmlFor="signupPassword">Create Password</Label>
+          <Label htmlFor="signupPassword" className="text-muted-foreground">Create Password</Label>
           <div className="relative">
             <Input
               id="signupPassword"
@@ -149,7 +146,7 @@ const SignUpPage = () => {
               placeholder="Min. 8 characters"
               value={form.password}
               onChange={(e) => update("password", e.target.value)}
-              className="h-12 rounded-xl bg-muted/40 pr-12"
+              className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border pr-12"
             />
             <button
               type="button"
@@ -162,9 +159,8 @@ const SignUpPage = () => {
           {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
         </div>
 
-        {/* Confirm Password */}
         <div className="space-y-1.5">
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Label htmlFor="confirmPassword" className="text-muted-foreground">Confirm Password</Label>
           <div className="relative">
             <Input
               id="confirmPassword"
@@ -172,7 +168,7 @@ const SignUpPage = () => {
               placeholder="Re-enter password"
               value={form.confirmPassword}
               onChange={(e) => update("confirmPassword", e.target.value)}
-              className="h-12 rounded-xl bg-muted/40 pr-12"
+              className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border pr-12"
             />
             <button
               type="button"
@@ -187,14 +183,13 @@ const SignUpPage = () => {
           )}
         </div>
 
-        {/* User Type */}
         <div className="space-y-1.5">
-          <Label>User Type</Label>
+          <Label className="text-muted-foreground">User Type</Label>
           <Select value={form.userType} onValueChange={(v) => update("userType", v)}>
-            <SelectTrigger className="h-12 rounded-xl bg-muted/40">
+            <SelectTrigger className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border">
               <SelectValue placeholder="Select user type" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-card border-border">
               <SelectItem value="student">Student</SelectItem>
               <SelectItem value="practitioner">Practitioner</SelectItem>
             </SelectContent>
@@ -202,25 +197,23 @@ const SignUpPage = () => {
           {errors.userType && <p className="text-sm text-destructive">{errors.userType}</p>}
         </div>
 
-        {/* Custom User ID */}
         <div className="space-y-1.5">
-          <Label htmlFor="customUserId">User ID (optional)</Label>
+          <Label htmlFor="customUserId" className="text-muted-foreground">User ID (optional)</Label>
           <Input
             id="customUserId"
             placeholder="e.g. Hospital ID, Student ID"
             value={form.customUserId}
             onChange={(e) => update("customUserId", e.target.value)}
-            className="h-12 rounded-xl bg-muted/40"
+            className="h-12 rounded-xl bg-card/60 backdrop-blur-sm border-border"
           />
         </div>
 
-        {/* Terms */}
         <div className="flex items-start gap-3 pt-1">
           <Checkbox
             id="terms"
             checked={form.acceptedTerms}
             onCheckedChange={(checked) => update("acceptedTerms", !!checked)}
-            className="mt-0.5"
+            className="mt-0.5 border-border data-[state=checked]:bg-primary"
           />
           <label htmlFor="terms" className="text-sm text-muted-foreground leading-snug">
             I accept the Terms and Privacy Policy
@@ -233,7 +226,7 @@ const SignUpPage = () => {
         <Button
           type="submit"
           disabled={loading}
-          className="w-full h-12 rounded-xl text-base font-semibold"
+          className="w-full h-12 rounded-xl text-base font-semibold gradient-primary glow-primary"
         >
           {loading ? "Creating account..." : "Sign Up"}
         </Button>
