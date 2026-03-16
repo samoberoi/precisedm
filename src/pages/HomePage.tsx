@@ -16,10 +16,10 @@ import steroidIcon from "@/assets/steroid-icon.png";
 import PreciseLogo from "@/components/PreciseLogo";
 
 const toolkitItems = [
-  { label: "DiaForm", desc: "Initial Dosing", image: diaformIcon, route: "/diaform", bg: "bg-[hsl(210,100%,97%)]", iconBg: "bg-[hsl(210,100%,92%)]", accent: "bg-primary" },
-  { label: "Gestation", desc: "Pregnancy Care", image: gestationIcon, route: "/gestation", bg: "bg-[hsl(15,100%,97%)]", iconBg: "bg-[hsl(15,90%,92%)]", accent: "bg-[hsl(15,85%,60%)]" },
-  { label: "Maintenance", desc: "Ongoing Doses", image: maintenanceIcon, route: "/maintenance", bg: "bg-[hsl(45,100%,96%)]", iconBg: "bg-[hsl(45,90%,88%)]", accent: "bg-[hsl(45,90%,50%)]" },
-  { label: "Steroid", desc: "Steroid Dosing", image: steroidIcon, route: "/steroid", bg: "bg-[hsl(200,30%,18%)]", iconBg: "bg-[hsl(200,20%,28%)]", accent: "bg-primary", dark: true },
+  { label: "DiaForm", desc: "Initial Dosing", image: diaformIcon, route: "/diaform", gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", iconBg: "bg-white/15" },
+  { label: "Gestation", desc: "Pregnancy Care", image: gestationIcon, route: "/gestation", gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))", iconBg: "bg-white/15" },
+  { label: "Maintenance", desc: "Ongoing Doses", image: maintenanceIcon, route: "/maintenance", gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))", iconBg: "bg-white/15" },
+  { label: "Steroid", desc: "Steroid Dosing", image: steroidIcon, route: "/steroid", gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))", iconBg: "bg-white/15" },
 ];
 
 const HomePage = () => {
