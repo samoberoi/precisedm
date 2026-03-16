@@ -42,10 +42,10 @@ const SplashScreen = () => {
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="relative flex items-stretch"
+              className="relative"
             >
-              {/* Outer blue container — the full rectangle */}
-              <div className="flex items-stretch bg-primary border-[3px] border-primary rounded-sm overflow-visible">
+              {/* Outer blue container */}
+              <div className="flex items-stretch bg-primary border-[3px] border-primary rounded-sm">
                 {/* PRECISE — white inset box */}
                 <div className="bg-background px-5 py-2.5 flex items-center m-[3px] mr-0">
                   <span className="text-3xl sm:text-4xl font-black italic tracking-wide text-foreground leading-none whitespace-nowrap">
@@ -53,7 +53,10 @@ const SplashScreen = () => {
                   </span>
                 </div>
 
-                {/* DM — directly on blue, no extra box */}
+                {/* Spacer for blood drop */}
+                {step >= 3 && <div style={{ width: 28 }} />}
+
+                {/* DM — directly on blue */}
                 <AnimatePresence>
                   {step >= 2 && (
                     <motion.div
@@ -70,24 +73,21 @@ const SplashScreen = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Blood drop — overlapping between PRECISE and DM */}
+              {/* Blood drop — centered at the PRECISE/DM boundary, extending above and below */}
               <AnimatePresence>
                 {step >= 3 && (
                   <motion.div
-                    initial={{ opacity: 0, y: -40 }}
+                    initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
                     className="absolute z-10"
                     style={{
-                      right: step >= 2 ? "calc(50% + 8px)" : "0",
+                      left: "50%",
                       top: "50%",
-                      transform: "translateY(-50%)",
-                      marginTop: 4,
+                      transform: "translate(-50%, -42%)",
                     }}
                   >
-                    <div className="relative -top-1">
-                      <BloodDrop size={42} />
-                    </div>
+                    <BloodDrop size={50} />
                   </motion.div>
                 )}
               </AnimatePresence>
