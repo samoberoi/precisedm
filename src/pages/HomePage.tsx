@@ -16,10 +16,10 @@ import steroidIcon from "@/assets/steroid-icon.png";
 import PreciseLogo from "@/components/PreciseLogo";
 
 const toolkitItems = [
-  { label: "DiaForm", desc: "Initial Dosing", image: diaformIcon, route: "/diaform", bg: "bg-[hsl(210,100%,97%)]", iconBg: "bg-[hsl(210,100%,92%)]", accent: "bg-primary" },
-  { label: "Gestation", desc: "Pregnancy Care", image: gestationIcon, route: "/gestation", bg: "bg-[hsl(15,100%,97%)]", iconBg: "bg-[hsl(15,90%,92%)]", accent: "bg-[hsl(15,85%,60%)]" },
-  { label: "Maintenance", desc: "Ongoing Doses", image: maintenanceIcon, route: "/maintenance", bg: "bg-[hsl(45,100%,96%)]", iconBg: "bg-[hsl(45,90%,88%)]", accent: "bg-[hsl(45,90%,50%)]" },
-  { label: "Steroid", desc: "Steroid Dosing", image: steroidIcon, route: "/steroid", bg: "bg-[hsl(200,30%,18%)]", iconBg: "bg-[hsl(200,20%,28%)]", accent: "bg-primary", dark: true },
+  { label: "DiaForm", desc: "Initial Dosing", image: diaformIcon, route: "/diaform", gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", iconBg: "bg-white/15" },
+  { label: "Gestation", desc: "Pregnancy Care", image: gestationIcon, route: "/gestation", gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))", iconBg: "bg-white/15" },
+  { label: "Maintenance", desc: "Ongoing Doses", image: maintenanceIcon, route: "/maintenance", gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))", iconBg: "bg-white/15" },
+  { label: "Steroid", desc: "Steroid Dosing", image: steroidIcon, route: "/steroid", gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))", iconBg: "bg-white/15" },
 ];
 
 const HomePage = () => {
@@ -113,43 +113,31 @@ const HomePage = () => {
       {/* Toolkit Grid - 2x2 */}
       <div className="px-5">
         <div className="grid grid-cols-2 gap-3">
-          {toolkitItems.map((item, i) => {
-            const isDark = item.dark;
-            return (
+          {toolkitItems.map((item, i) => (
               <motion.button
                 key={item.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 + i * 0.06 }}
                 onClick={() => navigate(item.route)}
-                className={`relative flex flex-col items-start rounded-2xl p-4 text-left transition-all active:scale-[0.97] shadow-sm ${item.bg} ${
-                  isDark ? "" : "border border-border"
-                }`}
-                style={{ minHeight: 130 }}
+                className="relative flex flex-col items-start rounded-2xl p-4 text-left transition-all active:scale-[0.97] shadow-lg"
+                style={{ minHeight: 130, background: item.gradient }}
               >
-                {/* Icon logo top-right */}
-                <div className={`absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-xl ${item.iconBg}`}>
-                  <img src={item.image} alt={item.label} className="h-5 w-5 object-contain" />
-                </div>
-                <p className={`text-base font-bold leading-tight ${isDark ? "text-white" : "text-foreground"}`}>
+                <p className="text-base font-bold leading-tight text-white">
                   {item.label}
                 </p>
-                <p className={`text-xs mt-0.5 ${isDark ? "text-white/60" : "text-muted-foreground"}`}>
+                <p className="text-xs mt-0.5 text-white/60">
                   {item.desc}
                 </p>
                 <div className="flex-1" />
                 <div className="flex items-end justify-between w-full mt-3">
-                  {isDark && <img src={item.image} alt={item.label} className="h-10 w-10 object-contain opacity-40" />}
-                  {!isDark && <div />}
-                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${
-                    isDark ? `${item.accent} text-primary-foreground` : "bg-primary/10 text-primary"
-                  }`}>
+                  <img src={item.image} alt={item.label} className="h-10 w-10 object-contain opacity-40" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white">
                     <ArrowUpRight className="h-4 w-4" />
                   </div>
                 </div>
               </motion.button>
-            );
-          })}
+          ))}
         </div>
       </div>
 
