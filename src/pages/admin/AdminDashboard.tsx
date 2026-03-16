@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { UserGrowthChart, RevenueChart } from "@/components/admin/AdminCharts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -221,7 +222,7 @@ const AdminDashboard = () => {
     setSubscriptionsLoading(false);
   };
 
-  useEffect(() => { fetchUsers(); }, []);
+  useEffect(() => { fetchUsers(); fetchSubscriptions(); }, []);
 
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -431,6 +432,12 @@ const AdminDashboard = () => {
                   <p className="text-2xl font-black text-white">{loading ? "—" : String(totalSubmissions)}</p>
                   <p className="text-xs text-white/60 mt-0.5">Total Submissions</p>
                 </motion.button>
+              </div>
+
+              {/* Charts */}
+              <div className="mt-5 space-y-4">
+                <UserGrowthChart users={users} />
+                <RevenueChart subscriptions={allSubscriptions} />
               </div>
 
               {/* Form Breakdown - 2x2 grid matching toolkit style */}
