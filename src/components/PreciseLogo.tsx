@@ -1,15 +1,18 @@
-const PreciseLogo = ({ size = 80 }: { size?: number }) => (
-  <div
-    className="rounded-2xl flex items-center justify-center bg-primary"
-    style={{ width: size, height: size }}
-  >
-    <span
-      className="font-bold text-primary-foreground"
-      style={{ fontSize: size * 0.3 }}
-    >
-      P
-    </span>
-  </div>
+import logoIcon from "@/assets/logo-icon.png";
+import logoFull from "@/assets/logo-full.png";
+
+interface PreciseLogoProps {
+  size?: number;
+  variant?: "icon" | "full";
+}
+
+const PreciseLogo = ({ size = 80, variant = "icon" }: PreciseLogoProps) => (
+  <img
+    src={variant === "full" ? logoFull : logoIcon}
+    alt="PreciseDM"
+    style={{ height: size }}
+    className="object-contain"
+  />
 );
 
 export default PreciseLogo;
