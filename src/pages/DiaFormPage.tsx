@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Info, RotateCcw, Printer, Pencil } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
+import { useSaveSubmission } from "@/hooks/use-save-submission";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -180,6 +181,7 @@ function calculate(form: FormData): CalcResult {
 const DiaFormPage = () => {
   const navigate = useNavigate();
   const { firstName } = useProfile();
+  const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [form, setForm] = useState<FormData>({ ...initialForm });
@@ -222,6 +224,13 @@ const DiaFormPage = () => {
 
     const res = calculate(form);
     setResult(res);
+    saveSubmission("diaform", form as any, {
+      doseLow: res.doseLow,
+      doseHigh: res.doseHigh,
+      bmi: res.bmi,
+      egfr: res.egfr,
+      doseCategory: res.doseCategory,
+    });
     setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 

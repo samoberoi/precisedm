@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      form_submissions: {
+        Row: {
+          created_at: string
+          form_type: string
+          id: string
+          inputs: Json
+          results: Json
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          form_type: string
+          id?: string
+          inputs?: Json
+          results?: Json
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          form_type?: string
+          id?: string
+          inputs?: Json
+          results?: Json
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           accepted_terms: boolean

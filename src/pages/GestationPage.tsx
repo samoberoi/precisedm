@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Info, RotateCcw, Printer, Pencil } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
+import { useSaveSubmission } from "@/hooks/use-save-submission";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -244,6 +245,7 @@ function calculateGestation(form: FormData): CalcResult {
 const GestationPage = () => {
   const navigate = useNavigate();
   const { firstName } = useProfile();
+  const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [form, setForm] = useState<FormData>({ ...initialForm });
@@ -274,6 +276,12 @@ const GestationPage = () => {
 
     const res = calculateGestation(form);
     setResult(res);
+    saveSubmission("gestation", form as any, {
+      basalRecommendation: res.basalRecommendation,
+      prandialRecommendation: res.prandialRecommendation,
+      tdd: res.tdd,
+      isf: res.isf,
+    });
     setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 

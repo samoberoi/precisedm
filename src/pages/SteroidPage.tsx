@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Info, RotateCcw, Printer } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
+import { useSaveSubmission } from "@/hooks/use-save-submission";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,6 +114,7 @@ function calculate(
 const SteroidPage = () => {
   const navigate = useNavigate();
   const { firstName } = useProfile();
+  const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [age, setAge] = useState("");
@@ -158,7 +160,13 @@ const SteroidPage = () => {
 
     const res = calculate(ageNum, weightNum, feetNum, inchesNum, a1cNum, scrNum, gender, dialysis);
     setResult(res);
-
+    saveSubmission("steroid", { age, weight, heightFeet, heightInches, a1c, serumCreatinine, gender, race, dialysis }, {
+      doseLowUnits: res.doseLowUnits,
+      doseHighUnits: res.doseHighUnits,
+      bmi: res.bmi,
+      egfr: res.egfr,
+      categoryCode: res.categoryCode,
+    });
     setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 

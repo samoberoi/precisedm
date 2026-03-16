@@ -12,7 +12,6 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Verify caller is admin
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -26,7 +25,6 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Verify caller from JWT
     const token = authHeader.replace("Bearer ", "");
     const { data: { user: caller } } = await supabaseAdmin.auth.getUser(token);
     if (!caller) {
@@ -36,7 +34,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Check admin role
     const { data: isAdmin } = await supabaseAdmin.rpc("has_role", {
       _user_id: caller.id,
       _role: "admin",
@@ -50,9 +47,46 @@ Deno.serve(async (req) => {
     }
 
     const url = new URL(req.url);
+    const action = url.searchParams.get("action");
 
-    // GET = list users with count
+    // GET = list users with count + stats
     if (req.method === "GET") {
+      // If action=submissions, return form submission data
+      if (action === "submissions") {
+        const { data: submissions, error } = await supabaseAdmin
+          .from("form_submissions")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        // Get profiles for user names
+        const { data: profiles } = await supabaseAdmin
+          .from("profiles")
+          .select("user_id, full_name, email");
+
+        const enriched = (submissions || []).map((s: any) => {
+          const profile = profiles?.find((p: any) => p.user_id === s.user_id);
+          return {
+            ...s,
+            user_name: profile?.full_name || "Unknown",
+            user_email: profile?.email || "",
+          };
+        });
+
+        // Compute stats
+        const stats: Record<string, number> = {};
+        for (const s of submissions || []) {
+          stats[s.form_type] = (stats[s.form_type] || 0) + 1;
+        }
+
+        return new Response(
+          JSON.stringify({ submissions: enriched, stats, total: (submissions || []).length }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      // Default: list users
       const { data: usersData } = await supabaseAdmin.auth.admin.listUsers({
         page: 1,
         perPage: 1000,
@@ -62,8 +96,8 @@ Deno.serve(async (req) => {
         .from("profiles")
         .select("*");
 
-      const users = (usersData?.users || []).map((u) => {
-        const profile = profiles?.find((p) => p.user_id === u.id);
+      const users = (usersData?.users || []).map((u: any) => {
+        const profile = profiles?.find((p: any) => p.user_id === u.id);
         return {
           id: u.id,
           email: u.email,
@@ -75,8 +109,23 @@ Deno.serve(async (req) => {
         };
       });
 
+      // Also get submission counts
+      const { data: submissions } = await supabaseAdmin
+        .from("form_submissions")
+        .select("form_type");
+
+      const formStats: Record<string, number> = {};
+      for (const s of submissions || []) {
+        formStats[s.form_type] = (formStats[s.form_type] || 0) + 1;
+      }
+
       return new Response(
-        JSON.stringify({ users, total: users.length }),
+        JSON.stringify({ 
+          users, 
+          total: users.length, 
+          formStats,
+          totalSubmissions: (submissions || []).length,
+        }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
