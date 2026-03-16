@@ -1,0 +1,1 @@
+UPDATE subscriptions SET status = 'active', plan_type = 'yearly', start_date = now(), next_billing_date = now() + interval '1 year' WHERE user_id = '5eec1106-416a-42dc-bca1-c9f6a99139b2';
