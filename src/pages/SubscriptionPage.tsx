@@ -24,29 +24,67 @@ const plans = [
 
 const SubscriptionPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, session, loading: authLoading } = useAuth();
   const { subscription, isActive, daysRemaining } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
 
   const handleSubscribe = async (planType: string) => {
-    if (!user) { navigate("/login"); return; }
-    setProcessing(true); setSelectedPlan(planType);
+    if (authLoading) return;
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    setProcessing(true);
+    setSelectedPlan(planType);
+
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      let accessToken = session?.access_token;
+      if (!accessToken) {
+        const { data } = await supabase.auth.getSession();
+        accessToken = data.session?.access_token;
+      }
+
+      if (!accessToken) {
+        throw new Error("Please log in again to continue.");
+      }
+
       const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
       const baseUrl = window.location.origin;
       const res = await fetch(`https://${projectId}.supabase.co/functions/v1/paypal-subscription?action=create`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${session?.access_token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ plan_type: planType, return_url: `${baseUrl}/subscription/success`, cancel_url: `${baseUrl}/subscription` }),
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          plan_type: planType,
+          return_url: `${baseUrl}/subscription/success`,
+          cancel_url: `${baseUrl}/subscription`,
+        }),
       });
+
       const data = await res.json();
-      if (data.approve_url) { window.location.href = data.approve_url; }
-      else throw new Error("No approval URL received");
-    } catch {
-      toast({ title: "Error", description: "Failed to create subscription.", variant: "destructive" });
-    } finally { setProcessing(false); setSelectedPlan(null); }
+      if (!res.ok) {
+        throw new Error(data?.error || "Failed to create subscription.");
+      }
+
+      if (data.approve_url) {
+        window.location.href = data.approve_url;
+      } else {
+        throw new Error("No approval URL received");
+      }
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err instanceof Error ? err.message : "Failed to create subscription.",
+        variant: "destructive",
+      });
+    } finally {
+      setProcessing(false);
+      setSelectedPlan(null);
+    }
   };
 
   return (
