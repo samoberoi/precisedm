@@ -171,7 +171,7 @@ const HomePage = () => {
           className="relative overflow-hidden rounded-3xl"
         >
           <img src={diaformCard} alt="DiaForm" className="h-40 w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-5">
             <p className="text-xs font-semibold text-primary uppercase tracking-wider">Featured</p>
             <p className="text-sm font-bold text-foreground mt-1">About DiaForm</p>
