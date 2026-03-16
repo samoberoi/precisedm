@@ -81,6 +81,7 @@ const VideosPage = () => {
 
   return (
     <div className="min-h-screen bg-background pb-28">
+      <SubscriptionBanner />
       <div className="px-5 pt-6">
         <button
           onClick={() => navigate(-1)}

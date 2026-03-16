@@ -191,6 +191,7 @@ const SteroidPage = () => {
 
   return (
     <div className="min-h-screen bg-background pb-28">
+      <SubscriptionBanner />
       {/* Header */}
       <div className="px-5 pt-6">
         <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-foreground mb-3">
