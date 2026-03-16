@@ -1,5 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Home, Users, Phone, User, LayoutDashboard } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const userNavItems = [
   { label: "Home", icon: Home, path: "/home" },
@@ -16,9 +19,17 @@ const adminNavItems = [
 const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const isAdminPage = location.pathname === "/admin";
-  const navItems = isAdminPage ? adminNavItems : userNavItems;
+  useEffect(() => {
+    if (!user) return;
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      if (data) setIsAdmin(true);
+    });
+  }, [user]);
+
+  const navItems = isAdmin ? adminNavItems : userNavItems;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50">
