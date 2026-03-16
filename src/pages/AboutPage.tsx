@@ -100,9 +100,9 @@ const AboutPage = () => {
       </div>
 
       <div className="px-6 py-3">
-        <div className="rounded-2xl bg-muted/50 p-6">
-          <h3 className="text-lg font-bold text-foreground text-center mb-4">Our History</h3>
-          <div className="space-y-4 text-sm text-foreground/80 leading-relaxed">
+        <div className="rounded-2xl bg-primary p-6">
+          <h3 className="text-lg font-bold text-primary-foreground text-center mb-4">Our History</h3>
+          <div className="space-y-4 text-sm text-primary-foreground/90 leading-relaxed">
             <p>
               Precise DM is an innovative med-health company with a vision to improve the diabetes
               care of our community members. Being aware of the growing epidemiology of diabetes, where
