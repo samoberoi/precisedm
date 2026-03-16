@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { Info } from "lucide-react";
@@ -11,6 +12,7 @@ import missionImage from "@/assets/mission-image.jpg";
 
 const AboutPage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const firstName = user?.user_metadata?.full_name?.split(" ")[0] || "There";
 
   return (
@@ -25,7 +27,7 @@ const AboutPage = () => {
           <p className="text-sm text-muted-foreground font-medium">Hello !!</p>
           <p className="text-lg font-bold text-foreground">{firstName}</p>
         </div>
-        <button className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/60 backdrop-blur-sm">
+        <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/60 backdrop-blur-sm">
           <Info className="h-5 w-5 text-muted-foreground" />
         </button>
       </div>

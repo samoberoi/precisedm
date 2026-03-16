@@ -70,7 +70,7 @@ const ConnectPage = () => {
           <h2 className="text-xl font-bold text-foreground">{firstName}</h2>
         </div>
         <button
-          onClick={() => navigate("/about")}
+          onClick={() => navigate("/disclaimer")}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-border"
         >
           <Info className="h-5 w-5 text-foreground" />
