@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useProfile } from "@/hooks/use-profile";
 import { ChevronLeft, ArrowUpRight } from "lucide-react";
-import BottomNav from "@/components/BottomNav";
+
 import aboutHero from "@/assets/about-hero.jpg";
 import drColleenCook from "@/assets/dr-colleen-cook.jpg";
 import drMelanieProctor from "@/assets/dr-melanie-proctor.jpg";
