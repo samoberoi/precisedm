@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, Info, RotateCcw, Printer } from "lucide-react";
+import { ChevronLeft, Info, RotateCcw, Printer, Pencil } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
@@ -33,106 +33,171 @@ interface FormData {
 
 interface CalcResult {
   basalRecommendation: string;
-  basalNewDose: number | null;
+  isBasalError: boolean;
   prandialRecommendation: string | null;
-  prandialNewDose: number | null;
-  correctionRecommendation: string | null;
+  isPrandialError: boolean;
+  basalBGAvg: number | null;
+  prandialBGAvg: number | null;
+  tdd: number;
+  isf: number;
   inputs: FormData;
 }
 
-/* ── Calculation Logic ── */
+/* ── Helpers ── */
+
+function avgOfProvided(values: string[]): number | null {
+  const nums = values.map((v) => parseFloat(v)).filter((v) => !isNaN(v) && v > 0);
+  if (nums.length === 0) return null;
+  return nums.reduce((a, b) => a + b, 0) / nums.length;
+}
+
+/* ── Calculation Logic (matches PHP spec exactly) ── */
 
 function calculateMaintenance(form: FormData): CalcResult {
   const bd = parseFloat(form.basalDose);
   const fbg = parseFloat(form.fastingBG);
-  const basalHypo = form.basalHypo === "yes";
-  const bg1 = parseFloat(form.basalBG1);
-  const bg2 = parseFloat(form.basalBG2);
-  const bg3 = parseFloat(form.basalBG3);
-  const bg4 = parseFloat(form.basalBG4);
+  const ctd = parseFloat(form.correctionDose) || 0;
+  const pd = form.usingPrandial === "yes" ? parseFloat(form.prandialDose) || 0 : 0;
 
-  // Basal Insulin adjustment
+  // STEP 1 — TDD
+  const pdDaily = pd * 3;
+  const tdd = bd + pdDaily + ctd;
+
+  // STEP 2 — ISF
+  let isf = Math.round(1800 / tdd);
+  if (isf <= 9) isf = 10;
+
+  // ── BASAL ADJUSTMENT ──
   let basalRecommendation: string;
-  let basalNewDose: number | null = null;
+  let isBasalError = false;
+  const basalHypo = form.basalHypo === "yes";
+  const basalBGAvg = basalHypo
+    ? avgOfProvided([form.basalBG1, form.basalBG2, form.basalBG3, form.basalBG4])
+    : null;
 
   if (basalHypo) {
-    // If hypoglycemia episodes, check BG values
-    const bgValues = [bg1, bg2, bg3, bg4].filter((v) => !isNaN(v));
-    const anyBelow70 = bgValues.some((v) => v < 70);
-    if (anyBelow70) {
-      basalNewDose = Math.round(bd * 0.8); // reduce by 20%
-      basalRecommendation = `Reduce basal dose by 20%. New recommended dose: ${basalNewDose} units/day`;
+    // CASE 1 — hypoglycemia
+    if (basalBGAvg === null) {
+      basalRecommendation = "Please enter at least one BG value.";
+      isBasalError = true;
+    } else if (basalBGAvg < 40) {
+      const low = Math.round(bd * 0.2);
+      const high = Math.round(bd * 0.3);
+      basalRecommendation = `Decrease current basal dose by ${low} to ${high} units`;
+    } else if (basalBGAvg <= 70) {
+      const low = Math.round(bd * 0.1);
+      const high = Math.round(bd * 0.15);
+      basalRecommendation = `Decrease current basal dose by ${low} to ${high} units`;
     } else {
-      basalRecommendation = "Hypoglycemia reported but BG values ≥ 70. Maintain current basal dose and monitor closely.";
-      basalNewDose = bd;
+      basalRecommendation =
+        "ERROR: Your average BG is above 70 meaning no hypoglycemia occurred.";
+      isBasalError = true;
     }
-  } else if (fbg > 180) {
-    basalNewDose = Math.round(bd * 1.2); // increase by 20%
-    basalRecommendation = `Fasting BG > 180. Increase basal dose by 20%. New recommended dose: ${basalNewDose} units/day`;
-  } else if (fbg > 130) {
-    basalNewDose = Math.round(bd * 1.1); // increase by 10%
-    basalRecommendation = `Fasting BG 131–180. Increase basal dose by 10%. New recommended dose: ${basalNewDose} units/day`;
-  } else if (fbg >= 70) {
-    basalRecommendation = "Fasting BG is at goal (70–130). Maintain current basal dose.";
-    basalNewDose = bd;
   } else {
-    basalNewDose = Math.round(bd * 0.8);
-    basalRecommendation = `Fasting BG < 70. Reduce basal dose by 20%. New recommended dose: ${basalNewDose} units/day`;
+    // CASE 2 — no hypoglycemia
+    if (fbg >= 140) {
+      const delta = (fbg - 100) / isf;
+      const lower = Math.round(delta - 1);
+      const upper = Math.round(delta + 1);
+      if (lower < 1) {
+        basalRecommendation = "No change to basal insulin dose.";
+      } else {
+        basalRecommendation = `Increase current basal dose by ${lower} to ${upper} units`;
+      }
+    } else if (fbg >= 71) {
+      basalRecommendation = "No change to basal insulin dose.";
+    } else {
+      basalRecommendation =
+        "You had hypoglycemia. Please go back and select YES.";
+      isBasalError = true;
+    }
   }
 
-  // Prandial Insulin adjustment
+  // ── PRANDIAL ADJUSTMENT ──
   let prandialRecommendation: string | null = null;
-  let prandialNewDose: number | null = null;
+  let isPrandialError = false;
+  let prandialBGAvg: number | null = null;
 
   if (form.usingPrandial === "yes") {
-    const pd = parseFloat(form.prandialDose);
     const pbg = parseFloat(form.prandialBG);
     const prandialHypo = form.prandialHypo === "yes";
-    const pBG1 = parseFloat(form.prandialBG1);
-    const pBG2 = parseFloat(form.prandialBG2);
-    const pBG3 = parseFloat(form.prandialBG3);
-    const pBG4 = parseFloat(form.prandialBG4);
+    prandialBGAvg = prandialHypo
+      ? avgOfProvided([form.prandialBG1, form.prandialBG2, form.prandialBG3, form.prandialBG4])
+      : null;
 
     if (prandialHypo) {
-      const pBGValues = [pBG1, pBG2, pBG3, pBG4].filter((v) => !isNaN(v));
-      const pAnyBelow70 = pBGValues.some((v) => v < 70);
-      if (pAnyBelow70) {
-        prandialNewDose = Math.round(pd * 0.8);
-        prandialRecommendation = `Reduce prandial dose by 20%. New recommended dose: ${prandialNewDose} units/meal`;
+      // CASE 1 — prandial hypoglycemia
+      if (prandialBGAvg === null) {
+        prandialRecommendation = "Please enter at least one prandial BG value.";
+        isPrandialError = true;
+      } else if (prandialBGAvg < 40) {
+        // 20-30% of PD (per meal), then /3 for per-meal
+        const decreaseLow = Math.round((pd * 0.2));
+        const decreaseHigh = Math.round((pd * 0.3));
+        // PD is already per meal, so decrease amounts are per meal
+        prandialRecommendation = `Decrease current prandial dose per meal by ${decreaseLow} to ${decreaseHigh} units`;
+      } else if (prandialBGAvg <= 70) {
+        const decreaseLow = Math.round((pd * 0.1));
+        const decreaseHigh = Math.round((pd * 0.15));
+        prandialRecommendation = `Decrease current prandial dose per meal by ${decreaseLow} to ${decreaseHigh} units`;
       } else {
-        prandialRecommendation = "Hypoglycemia reported but BG values ≥ 70. Maintain current prandial dose and monitor.";
-        prandialNewDose = pd;
+        prandialRecommendation =
+          "ERROR: Your average BG is above 70 meaning no hypoglycemia occurred.";
+        isPrandialError = true;
       }
-    } else if (pbg > 180) {
-      prandialNewDose = Math.round(pd * 1.2);
-      prandialRecommendation = `Prandial BG > 180. Increase prandial dose by 20%. New recommended dose: ${prandialNewDose} units/meal`;
-    } else if (pbg > 130) {
-      prandialNewDose = Math.round(pd * 1.1);
-      prandialRecommendation = `Prandial BG 131–180. Increase prandial dose by 10%. New recommended dose: ${prandialNewDose} units/meal`;
-    } else if (pbg >= 70) {
-      prandialRecommendation = "Prandial BG is at goal (70–130). Maintain current prandial dose.";
-      prandialNewDose = pd;
     } else {
-      prandialNewDose = Math.round(pd * 0.8);
-      prandialRecommendation = `Prandial BG < 70. Reduce prandial dose by 20%. New recommended dose: ${prandialNewDose} units/meal`;
+      // CASE 2 — no prandial hypoglycemia
+      if (pbg >= 140) {
+        const delta = (pbg - 100) / isf;
+        const deltaMeal = delta / 3;
+        let lower = Math.round(deltaMeal - 1);
+        let upper = Math.round(deltaMeal + 1);
+        if (lower < 1) lower = 1;
+        if (upper < 2) upper = 2;
+        prandialRecommendation = `Increase current prandial dose per meal by ${lower} to ${upper} units`;
+      } else if (pbg >= 71) {
+        prandialRecommendation = "No change to prandial insulin dose.";
+      } else {
+        prandialRecommendation =
+          "You had hypoglycemia. Please go back and select YES.";
+        isPrandialError = true;
+      }
     }
   }
-
-  // Correction dose — display as submitted
-  const ctd = parseFloat(form.correctionDose);
-  const correctionRecommendation = !isNaN(ctd)
-    ? `Current correction dose: ${ctd} units/day. Review and adjust as needed based on BG trends.`
-    : null;
 
   return {
     basalRecommendation,
-    basalNewDose,
+    isBasalError,
     prandialRecommendation,
-    prandialNewDose,
-    correctionRecommendation,
+    isPrandialError,
+    basalBGAvg: basalBGAvg !== null ? Math.round(basalBGAvg * 10) / 10 : null,
+    prandialBGAvg: prandialBGAvg !== null ? Math.round(prandialBGAvg * 10) / 10 : null,
+    tdd,
+    isf,
     inputs: form,
   };
 }
+
+/* ── Initial form state ── */
+
+const initialForm: FormData = {
+  basalDose: "",
+  fastingBG: "",
+  basalHypo: "no",
+  basalBG1: "",
+  basalBG2: "",
+  basalBG3: "",
+  basalBG4: "",
+  usingPrandial: "no",
+  prandialDose: "",
+  prandialBG: "",
+  prandialHypo: "no",
+  prandialBG1: "",
+  prandialBG2: "",
+  prandialBG3: "",
+  prandialBG4: "",
+  correctionDose: "",
+};
 
 /* ── Page Component ── */
 
@@ -141,25 +206,7 @@ const MaintenancePage = () => {
   const { firstName } = useProfile();
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  const [form, setForm] = useState<FormData>({
-    basalDose: "",
-    fastingBG: "",
-    basalHypo: "no",
-    basalBG1: "",
-    basalBG2: "",
-    basalBG3: "",
-    basalBG4: "",
-    usingPrandial: "no",
-    prandialDose: "",
-    prandialBG: "",
-    prandialHypo: "no",
-    prandialBG1: "",
-    prandialBG2: "",
-    prandialBG3: "",
-    prandialBG4: "",
-    correctionDose: "",
-  });
-
+  const [form, setForm] = useState<FormData>({ ...initialForm });
   const [result, setResult] = useState<CalcResult | null>(null);
 
   const update = (key: keyof FormData, value: string) =>
@@ -190,25 +237,13 @@ const MaintenancePage = () => {
     setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 
-  const handleStartOver = () => {
-    setForm({
-      basalDose: "",
-      fastingBG: "",
-      basalHypo: "no",
-      basalBG1: "",
-      basalBG2: "",
-      basalBG3: "",
-      basalBG4: "",
-      usingPrandial: "no",
-      prandialDose: "",
-      prandialBG: "",
-      prandialHypo: "no",
-      prandialBG1: "",
-      prandialBG2: "",
-      prandialBG3: "",
-      prandialBG4: "",
-      correctionDose: "",
-    });
+  const handleEditInputs = () => {
+    setResult(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleFreshStart = () => {
+    setForm({ ...initialForm });
     setResult(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -270,12 +305,23 @@ const MaintenancePage = () => {
             />
           </div>
 
-          <BGValuesGroup
-            label="What are the Blood Glucose (BG) Values"
-            values={[form.basalBG1, form.basalBG2, form.basalBG3, form.basalBG4]}
-            placeholders={["ex: 68", "ex: 69", "ex: 67", "ex: 66"]}
-            onChange={(i, v) => update((`basalBG${i + 1}` as keyof FormData), v)}
-          />
+          <AnimatePresence>
+            {form.basalHypo === "yes" && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <BGValuesGroup
+                  label="What are the Blood Glucose (BG) Values"
+                  values={[form.basalBG1, form.basalBG2, form.basalBG3, form.basalBG4]}
+                  placeholders={["ex: 68", "ex: 69", "ex: 67", "ex: 66"]}
+                  onChange={(i, v) => update(`basalBG${i + 1}` as keyof FormData, v)}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Prandial Section */}
           <RadioField
@@ -311,12 +357,23 @@ const MaintenancePage = () => {
                   />
                 </div>
 
-                <BGValuesGroup
-                  label="What are the Blood Glucose (BG) Values"
-                  values={[form.prandialBG1, form.prandialBG2, form.prandialBG3, form.prandialBG4]}
-                  placeholders={["ex: 69", "ex: 68", "ex: 66", "ex: 65"]}
-                  onChange={(i, v) => update((`prandialBG${i + 1}` as keyof FormData), v)}
-                />
+                <AnimatePresence>
+                  {form.prandialHypo === "yes" && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <BGValuesGroup
+                        label="What are the Blood Glucose (BG) Values"
+                        values={[form.prandialBG1, form.prandialBG2, form.prandialBG3, form.prandialBG4]}
+                        placeholders={["ex: 69", "ex: 68", "ex: 66", "ex: 65"]}
+                        onChange={(i, v) => update(`prandialBG${i + 1}` as keyof FormData, v)}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             )}
           </AnimatePresence>
@@ -342,74 +399,87 @@ const MaintenancePage = () => {
             exit={{ opacity: 0, y: 20 }}
             className="mx-5 mt-6 space-y-5"
           >
-            {/* Basal Recommendation */}
+            {/* Main Recommendation Card */}
             <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm">
-              <h3 className="text-lg font-extrabold text-foreground mb-3">Basal Insulin Recommendation</h3>
-              {result.basalNewDose !== null && (
-                <div className="rounded-xl bg-primary/10 p-4 text-center mb-3">
-                  <p className="text-sm font-semibold text-muted-foreground mb-1">Recommended Basal Dose</p>
-                  <p className="text-3xl font-extrabold text-primary">{result.basalNewDose}</p>
-                  <p className="text-sm font-bold text-primary/80">units/day</p>
+              <h3 className="text-lg font-extrabold text-foreground mb-4">
+                Recommended Adjustments to Basal and/or Prandial Insulin Doses
+              </h3>
+
+              {/* Basal result */}
+              <div className={`rounded-xl p-4 text-center mb-3 ${result.isBasalError ? "bg-destructive/10" : "bg-primary/10"}`}>
+                <p className="text-sm font-semibold text-muted-foreground mb-1">Basal Insulin</p>
+                <p className={`text-base font-extrabold ${result.isBasalError ? "text-destructive" : "text-primary"}`}>
+                  {result.basalRecommendation}
+                </p>
+              </div>
+
+              {/* Prandial result */}
+              {result.prandialRecommendation && (
+                <div className={`rounded-xl p-4 text-center ${result.isPrandialError ? "bg-destructive/10" : "bg-primary/10"}`}>
+                  <p className="text-sm font-semibold text-muted-foreground mb-1">Prandial Insulin</p>
+                  <p className={`text-base font-extrabold ${result.isPrandialError ? "text-destructive" : "text-primary"}`}>
+                    {result.prandialRecommendation}
+                  </p>
                 </div>
               )}
-              <p className="text-sm text-foreground leading-relaxed">{result.basalRecommendation}</p>
             </div>
 
-            {/* Prandial Recommendation */}
-            {result.prandialRecommendation && (
-              <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm">
-                <h3 className="text-lg font-extrabold text-foreground mb-3">Prandial Insulin Recommendation</h3>
-                {result.prandialNewDose !== null && (
-                  <div className="rounded-xl bg-primary/10 p-4 text-center mb-3">
-                    <p className="text-sm font-semibold text-muted-foreground mb-1">Recommended Prandial Dose</p>
-                    <p className="text-3xl font-extrabold text-primary">{result.prandialNewDose}</p>
-                    <p className="text-sm font-bold text-primary/80">units/meal</p>
-                  </div>
-                )}
-                <p className="text-sm text-foreground leading-relaxed">{result.prandialRecommendation}</p>
-              </div>
-            )}
-
-            {/* Correction Dose */}
-            {result.correctionRecommendation && (
-              <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-                <h3 className="text-lg font-extrabold text-foreground mb-3">Correction Insulin</h3>
-                <p className="text-sm text-foreground leading-relaxed">{result.correctionRecommendation}</p>
-              </div>
-            )}
-
-            {/* Submitted Inputs */}
+            {/* Submitted Inputs Card */}
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
               <h3 className="text-lg font-extrabold text-foreground mb-4">Submitted Inputs</h3>
               <div className="space-y-3">
                 <ResultRow label="Basal Dose (BD)" value={`${result.inputs.basalDose} units`} />
-                <ResultRow label="Fasting BG" value={`${result.inputs.fastingBG} mg/dL`} />
-                <ResultRow label="Basal Hypoglycemia" value={result.inputs.basalHypo === "yes" ? "Yes" : "No"} />
-                {result.inputs.basalBG1 && <ResultRow label="Basal BG Values" value={[result.inputs.basalBG1, result.inputs.basalBG2, result.inputs.basalBG3, result.inputs.basalBG4].filter(Boolean).join(", ")} />}
+                <ResultRow label="Fasting Blood Glucose" value={`${result.inputs.fastingBG} mg/dL`} />
+                <ResultRow label="Basal Hypoglycemia Episodes" value={result.inputs.basalHypo === "yes" ? "Yes" : "No"} />
+                {result.inputs.basalHypo === "yes" && (
+                  <>
+                    <ResultRow
+                      label="Basal BG Values"
+                      value={[result.inputs.basalBG1, result.inputs.basalBG2, result.inputs.basalBG3, result.inputs.basalBG4].filter(Boolean).join(", ") || "—"}
+                    />
+                    {result.basalBGAvg !== null && (
+                      <ResultRow label="Basal BG Average" value={`${result.basalBGAvg}`} />
+                    )}
+                  </>
+                )}
                 <ResultRow label="Using Prandial" value={result.inputs.usingPrandial === "yes" ? "Yes" : "No"} />
                 {result.inputs.usingPrandial === "yes" && (
                   <>
-                    <ResultRow label="Prandial Dose (PD)" value={`${result.inputs.prandialDose} units`} />
-                    <ResultRow label="Prandial BG" value={`${result.inputs.prandialBG} mg/dL`} />
-                    <ResultRow label="Prandial Hypoglycemia" value={result.inputs.prandialHypo === "yes" ? "Yes" : "No"} />
-                    {result.inputs.prandialBG1 && <ResultRow label="Prandial BG Values" value={[result.inputs.prandialBG1, result.inputs.prandialBG2, result.inputs.prandialBG3, result.inputs.prandialBG4].filter(Boolean).join(", ")} />}
+                    <ResultRow label="Prandial Dose (PD)" value={`${result.inputs.prandialDose} units/meal`} />
+                    <ResultRow label="Prandial Blood Glucose" value={`${result.inputs.prandialBG} mg/dL`} />
+                    <ResultRow label="Prandial Hypoglycemia Episodes" value={result.inputs.prandialHypo === "yes" ? "Yes" : "No"} />
+                    {result.inputs.prandialHypo === "yes" && (
+                      <>
+                        <ResultRow
+                          label="Prandial BG Values"
+                          value={[result.inputs.prandialBG1, result.inputs.prandialBG2, result.inputs.prandialBG3, result.inputs.prandialBG4].filter(Boolean).join(", ") || "—"}
+                        />
+                        {result.prandialBGAvg !== null && (
+                          <ResultRow label="Prandial BG Average" value={`${result.prandialBGAvg}`} />
+                        )}
+                      </>
+                    )}
                   </>
                 )}
-                {result.inputs.correctionDose && <ResultRow label="Correction Dose (CTD)" value={`${result.inputs.correctionDose} units`} />}
+                <ResultRow label="Correction Dose (CTD)" value={result.inputs.correctionDose ? `${result.inputs.correctionDose} units` : "—"} />
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="flex gap-3">
-              <Button onClick={handleStartOver} variant="outline" className="flex-1 h-12 rounded-xl font-bold gap-2">
-                <RotateCcw className="h-4 w-4" />
-                Start Over
+              <Button onClick={handleEditInputs} variant="outline" className="flex-1 h-12 rounded-xl font-bold gap-2">
+                <Pencil className="h-4 w-4" />
+                Edit Inputs
               </Button>
-              <Button onClick={() => window.print()} className="flex-1 h-12 rounded-xl font-bold gap-2">
-                <Printer className="h-4 w-4" />
-                Print Results
+              <Button onClick={handleFreshStart} variant="outline" className="flex-1 h-12 rounded-xl font-bold gap-2">
+                <RotateCcw className="h-4 w-4" />
+                Fresh Start
               </Button>
             </div>
+            <Button onClick={() => window.print()} className="w-full h-12 rounded-xl font-bold gap-2">
+              <Printer className="h-4 w-4" />
+              Print Results
+            </Button>
           </motion.div>
         )}
       </AnimatePresence>
