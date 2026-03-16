@@ -392,15 +392,6 @@ const DiaFormPage = () => {
               </div>
             </div>
 
-            {/* Calculated Values */}
-            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-              <h3 className="text-lg font-extrabold text-foreground mb-4">Calculated Values</h3>
-              <div className="space-y-3">
-                <ResultRow label="BMI" value={`${result.bmi}`} />
-                <ResultRow label="eGFR" value={`${result.egfr} mL/min/1.73m²`} />
-                <ResultRow label="Dose Category" value={doseRanges[result.doseCategory].label} />
-              </div>
-            </div>
 
             {/* Submitted Inputs */}
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
