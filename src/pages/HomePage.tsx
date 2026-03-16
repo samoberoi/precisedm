@@ -3,19 +3,20 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { Info, Play } from "lucide-react";
+import { Info } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import diaformCard from "@/assets/diaform-card.jpg";
 import diaformIcon from "@/assets/diaform-icon.png";
 import gestationIcon from "@/assets/gestation-icon.png";
 import maintenanceIcon from "@/assets/maintenance-icon.png";
+import videosIcon from "@/assets/videos-icon.png";
 
 const toolkitItems = [
   { label: "DiaForm", icon: null, image: diaformIcon, color: "bg-primary" },
   { label: "Gestation", icon: null, image: gestationIcon, color: "bg-[#f47055]" },
   { label: "Maintenance", icon: null, image: maintenanceIcon, color: "bg-[#FAE672]" },
-  { label: "Videos", icon: Play, image: null, color: "bg-primary" },
+  { label: "Videos", icon: null, image: videosIcon, color: "bg-[#B5E962]" },
 ];
 
 const reviews = [
