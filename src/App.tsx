@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import SubscriptionGate from "@/components/SubscriptionGate";
 import SplashScreen from "./pages/onboarding/SplashScreen";
 import WelcomeScreen from "./pages/onboarding/WelcomeScreen";
@@ -32,39 +33,41 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<SplashScreen />} />
-            <Route path="/onboarding/welcome" element={<WelcomeScreen />} />
-            <Route path="/onboarding/features" element={<FeaturesScreen />} />
-            <Route path="/onboarding/get-started" element={<GetStartedScreen />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/connect" element={<ConnectPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/disclaimer" element={<DisclaimerPage />} />
-            <Route path="/subscription" element={<SubscriptionPage />} />
-            <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
-            {/* Protected tools - require subscription */}
-            <Route path="/videos" element={<SubscriptionGate><VideosPage /></SubscriptionGate>} />
-            <Route path="/steroid" element={<SubscriptionGate><SteroidPage /></SubscriptionGate>} />
-            <Route path="/maintenance" element={<SubscriptionGate><MaintenancePage /></SubscriptionGate>} />
-            <Route path="/gestation" element={<SubscriptionGate><GestationPage /></SubscriptionGate>} />
-            <Route path="/diaform" element={<SubscriptionGate><DiaFormPage /></SubscriptionGate>} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<SplashScreen />} />
+              <Route path="/onboarding/welcome" element={<WelcomeScreen />} />
+              <Route path="/onboarding/features" element={<FeaturesScreen />} />
+              <Route path="/onboarding/get-started" element={<GetStartedScreen />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/connect" element={<ConnectPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/disclaimer" element={<DisclaimerPage />} />
+              <Route path="/subscription" element={<SubscriptionPage />} />
+              <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
+              {/* Protected tools - require subscription */}
+              <Route path="/videos" element={<SubscriptionGate><VideosPage /></SubscriptionGate>} />
+              <Route path="/steroid" element={<SubscriptionGate><SteroidPage /></SubscriptionGate>} />
+              <Route path="/maintenance" element={<SubscriptionGate><MaintenancePage /></SubscriptionGate>} />
+              <Route path="/gestation" element={<SubscriptionGate><GestationPage /></SubscriptionGate>} />
+              <Route path="/diaform" element={<SubscriptionGate><DiaFormPage /></SubscriptionGate>} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

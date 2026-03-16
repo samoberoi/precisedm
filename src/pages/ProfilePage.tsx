@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, Info, LogOut, FileText, ChevronRight, Calendar } from "lucide-react";
+import { ChevronLeft, Info, LogOut, FileText, ChevronRight, Calendar, Sun, Moon } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,7 @@ const ProfilePage = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { theme, toggleTheme } = useTheme();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -341,10 +343,36 @@ const ProfilePage = () => {
           </div>
         </motion.div>
 
+        {/* Settings */}
+        <div className="mt-6 rounded-2xl glass-card p-4">
+          <h3 className="text-sm font-bold text-foreground mb-3">Settings</h3>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {theme === "dark" ? <Moon className="h-5 w-5 text-primary" /> : <Sun className="h-5 w-5 text-primary" />}
+              <div>
+                <p className="text-sm font-medium text-foreground">Dark Mode</p>
+                <p className="text-xs text-muted-foreground">{theme === "dark" ? "On" : "Off"}</p>
+              </div>
+            </div>
+            <button
+              onClick={toggleTheme}
+              className={`relative h-7 w-12 rounded-full transition-colors ${
+                theme === "dark" ? "gradient-primary" : "bg-border"
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 h-6 w-6 rounded-full bg-foreground transition-transform ${
+                  theme === "dark" ? "translate-x-5 bg-primary-foreground" : "translate-x-0.5 bg-card"
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+
         {/* Logout */}
         <Button
           variant="outline"
-          className="mt-6 w-full gap-2 text-destructive border-destructive/30 hover:bg-destructive/10 rounded-xl"
+          className="mt-4 w-full gap-2 text-destructive border-destructive/30 hover:bg-destructive/10 rounded-xl"
           onClick={handleLogout}
         >
           <LogOut className="h-4 w-4" />
