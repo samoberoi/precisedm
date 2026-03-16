@@ -285,8 +285,14 @@ const ProfilePage = () => {
               </div>
             </div>
             <button onClick={toggleTheme}
-              className={`relative h-7 w-12 rounded-full transition-colors ${theme === "dark" ? "gradient-primary" : "bg-border"}`}>
-              <span className={`absolute top-0.5 h-6 w-6 rounded-full shadow-sm transition-transform ${theme === "dark" ? "translate-x-5 bg-white" : "translate-x-0.5 bg-card"}`} />
+              className={`relative h-7 w-12 rounded-full transition-colors duration-300 ${theme === "dark" ? "bg-primary" : "bg-muted-foreground/30"}`}>
+              <motion.span
+                layout
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                className={`absolute top-0.5 flex items-center justify-center h-6 w-6 rounded-full bg-white shadow-md ${theme === "dark" ? "left-[22px]" : "left-0.5"}`}
+              >
+                {theme === "dark" ? <Moon className="h-3 w-3 text-primary" /> : <Sun className="h-3 w-3 text-muted-foreground" />}
+              </motion.span>
             </button>
           </div>
         </div>
