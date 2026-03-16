@@ -127,13 +127,24 @@ Deno.serve(async (req) => {
       const activeSubs = (allSubs || []).filter(
         (s: any) => s.status === "active" && s.next_billing_date && new Date(s.next_billing_date) > new Date()
       );
-      const subscribedUserIds = new Set(activeSubs.map((s: any) => s.user_id));
-      const monthlySubs = activeSubs.filter((s: any) => s.plan_type === "monthly");
-      const yearlySubs = activeSubs.filter((s: any) => s.plan_type === "yearly");
+
+      // Deduplicate: keep only the latest subscription per user
+      const latestPerUser = new Map<string, any>();
+      for (const s of activeSubs) {
+        const existing = latestPerUser.get(s.user_id);
+        if (!existing || new Date(s.created_at) > new Date(existing.created_at)) {
+          latestPerUser.set(s.user_id, s);
+        }
+      }
+      const uniqueActiveSubs = Array.from(latestPerUser.values());
+
+      const subscribedUserIds = new Set(uniqueActiveSubs.map((s: any) => s.user_id));
+      const monthlySubs = uniqueActiveSubs.filter((s: any) => s.plan_type === "monthly");
+      const yearlySubs = uniqueActiveSubs.filter((s: any) => s.plan_type === "yearly");
 
       const now = new Date();
       const fifteenDaysLater = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000);
-      const upcomingRenewals = activeSubs
+      const upcomingRenewals = uniqueActiveSubs
         .filter((s: any) => new Date(s.next_billing_date) <= fifteenDaysLater)
         .map((s: any) => {
           const profile = profiles?.find((p: any) => p.user_id === s.user_id);
@@ -152,7 +163,7 @@ Deno.serve(async (req) => {
           formStats,
           totalSubmissions: (submissions || []).length,
           subscriptionStats: {
-            totalSubscribed: activeSubs.length,
+            totalSubscribed: subscribedUserIds.size,
             totalUnsubscribed: users.length - subscribedUserIds.size,
             monthly: monthlySubs.length,
             yearly: yearlySubs.length,
