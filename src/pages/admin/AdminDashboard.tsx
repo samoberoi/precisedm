@@ -949,6 +949,87 @@ const AdminDashboard = () => {
 
 /* ─── Reusable Components ─── */
 
+type DateFilterType = "today" | "yesterday" | "this_week" | "this_month" | "custom";
+
+const DATE_FILTER_LABELS: Record<DateFilterType, string> = {
+  today: "Today",
+  yesterday: "Yesterday",
+  this_week: "This Week",
+  this_month: "This Month",
+  custom: "Custom Range",
+};
+
+const FilterBar = ({
+  dateFilter,
+  onDateFilterChange,
+  searchQuery,
+  onSearchChange,
+  searchPlaceholder = "Search...",
+  customStartDate,
+  customEndDate,
+  onCustomStartChange,
+  onCustomEndChange,
+}: {
+  dateFilter: DateFilterType;
+  onDateFilterChange: (v: DateFilterType) => void;
+  searchQuery: string;
+  onSearchChange: (v: string) => void;
+  searchPlaceholder?: string;
+  customStartDate: string;
+  customEndDate: string;
+  onCustomStartChange: (v: string) => void;
+  onCustomEndChange: (v: string) => void;
+}) => (
+  <div className="rounded-xl border border-border bg-card/80 p-4 mb-6 space-y-3">
+    <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <CalendarDays className="h-4 w-4 text-muted-foreground shrink-0" />
+        <Select value={dateFilter} onValueChange={(v) => onDateFilterChange(v as DateFilterType)}>
+          <SelectTrigger className="h-10 rounded-lg bg-muted/40 border-border text-sm font-medium w-full sm:w-[180px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(DATE_FILTER_LABELS).map(([key, label]) => (
+              <SelectItem key={key} value={key}>{label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="relative flex-1 min-w-0">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder={searchPlaceholder}
+          className="pl-9 h-10 rounded-lg bg-muted/40 border-border text-sm"
+        />
+      </div>
+    </div>
+    {dateFilter === "custom" && (
+      <div className="flex flex-col sm:flex-row gap-3 pt-1">
+        <div className="flex items-center gap-2 flex-1">
+          <Label className="text-xs text-muted-foreground whitespace-nowrap">Start</Label>
+          <Input
+            type="date"
+            value={customStartDate}
+            onChange={(e) => onCustomStartChange(e.target.value)}
+            className="h-9 rounded-lg bg-muted/40 border-border text-sm flex-1"
+          />
+        </div>
+        <div className="flex items-center gap-2 flex-1">
+          <Label className="text-xs text-muted-foreground whitespace-nowrap">End</Label>
+          <Input
+            type="date"
+            value={customEndDate}
+            onChange={(e) => onCustomEndChange(e.target.value)}
+            className="h-9 rounded-lg bg-muted/40 border-border text-sm flex-1"
+          />
+        </div>
+      </div>
+    )}
+  </div>
+);
+
 const StatCard = ({ icon, label, value, onClick, iconBg, clickable }: {
   icon: React.ReactNode;
   label: string;
