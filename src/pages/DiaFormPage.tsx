@@ -208,7 +208,7 @@ const DiaFormPage = () => {
   const goPrev = () => { setDirection(-1); prevStep(); };
 
   return (
-    <div className="min-h-screen bg-background pb-28">
+    <div className="min-h-screen bg-background pb-36">
       <SubscriptionBanner />
 
       {/* Header */}
