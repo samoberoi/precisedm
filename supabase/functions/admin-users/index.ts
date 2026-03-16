@@ -119,12 +119,45 @@ Deno.serve(async (req) => {
         formStats[s.form_type] = (formStats[s.form_type] || 0) + 1;
       }
 
+      // Get subscription stats
+      const { data: allSubs } = await supabaseAdmin
+        .from("subscriptions")
+        .select("*");
+
+      const activeSubs = (allSubs || []).filter(
+        (s: any) => s.status === "active" && s.next_billing_date && new Date(s.next_billing_date) > new Date()
+      );
+      const subscribedUserIds = new Set(activeSubs.map((s: any) => s.user_id));
+      const monthlySubs = activeSubs.filter((s: any) => s.plan_type === "monthly");
+      const yearlySubs = activeSubs.filter((s: any) => s.plan_type === "yearly");
+
+      const now = new Date();
+      const fifteenDaysLater = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000);
+      const upcomingRenewals = activeSubs
+        .filter((s: any) => new Date(s.next_billing_date) <= fifteenDaysLater)
+        .map((s: any) => {
+          const profile = profiles?.find((p: any) => p.user_id === s.user_id);
+          return {
+            ...s,
+            user_name: profile?.full_name || "Unknown",
+            user_email: profile?.email || "",
+          };
+        })
+        .sort((a: any, b: any) => new Date(a.next_billing_date).getTime() - new Date(b.next_billing_date).getTime());
+
       return new Response(
         JSON.stringify({ 
           users, 
           total: users.length, 
           formStats,
           totalSubmissions: (submissions || []).length,
+          subscriptionStats: {
+            totalSubscribed: activeSubs.length,
+            totalUnsubscribed: users.length - subscribedUserIds.size,
+            monthly: monthlySubs.length,
+            yearly: yearlySubs.length,
+            upcomingRenewals,
+          },
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
