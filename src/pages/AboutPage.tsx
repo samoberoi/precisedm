@@ -12,6 +12,7 @@ import missionImage from "@/assets/mission-image.jpg";
 
 const AboutPage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const firstName = user?.user_metadata?.full_name?.split(" ")[0] || "There";
 
   return (
