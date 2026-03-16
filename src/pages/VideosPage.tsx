@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, Info, Play, Pause } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
 import BottomNav from "@/components/BottomNav";
+import SubscriptionBanner from "@/components/SubscriptionBanner";
 
 const videos = [
   { title: "DiaForm", description: "Learn the DiaForm insulin dosing process", src: "/videos/diaform.mp4" },
