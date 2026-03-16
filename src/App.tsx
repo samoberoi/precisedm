@@ -22,6 +22,7 @@ import VideosPage from "./pages/VideosPage";
 import SteroidPage from "./pages/SteroidPage";
 import MaintenancePage from "./pages/MaintenancePage";
 import GestationPage from "./pages/GestationPage";
+import DiaFormPage from "./pages/DiaFormPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
