@@ -289,15 +289,6 @@ const SteroidPage = () => {
             <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm">
               <h3 className="text-lg font-extrabold text-foreground mb-4">Recommended Steroid Dosage</h3>
 
-              <div className="space-y-3">
-                <ResultRow label="BMI" value={`${result.bmi}`} />
-                <ResultRow label="eGFR" value={`${result.egfr} mL/min/1.73m²`} />
-                <ResultRow
-                  label="Dose Range"
-                  value={`${result.categoryCode} (${result.doseLowPerKg.toFixed(2)}–${result.doseHighPerKg.toFixed(2)} units/kg)`}
-                />
-              </div>
-
               <div className="mt-5 rounded-xl bg-primary/10 p-4 text-center">
                 <p className="text-sm font-semibold text-muted-foreground mb-1">Recommended Total Daily Dose</p>
                 <p className="text-3xl font-extrabold text-primary">
