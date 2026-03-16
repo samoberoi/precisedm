@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { useProfile } from "@/hooks/use-profile";
-import BottomNav from "@/components/BottomNav";
+
 
 const sections = [
   {
@@ -62,8 +62,6 @@ const DisclaimerPage = () => {
           </motion.div>
         ))}
       </div>
-
-      <BottomNav />
     </div>
   );
 };

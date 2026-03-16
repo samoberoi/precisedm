@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/use-profile";
 import { ChevronLeft, Phone, Mail, ArrowUpRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import BottomNav from "@/components/BottomNav";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -131,8 +131,6 @@ const ConnectPage = () => {
           </Button>
         </motion.form>
       </div>
-
-      <BottomNav />
     </div>
   );
 };

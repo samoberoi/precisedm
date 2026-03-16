@@ -5,7 +5,7 @@ import { useProfile } from "@/hooks/use-profile";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Info, ArrowUpRight, Search } from "lucide-react";
-import BottomNav from "@/components/BottomNav";
+
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import diaformCard from "@/assets/diaform-card.jpg";
 import diaformIcon from "@/assets/diaform-card-icon.png";
@@ -181,8 +181,6 @@ const HomePage = () => {
           </div>
         </motion.div>
       </div>
-
-      <BottomNav />
     </motion.div>
   );
 };

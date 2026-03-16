@@ -7,7 +7,7 @@ import { useSubscription } from "@/hooks/use-subscription";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import BottomNav from "@/components/BottomNav";
+
 
 const plans = [
   {
@@ -136,8 +136,6 @@ const SubscriptionPage = () => {
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5" /> Cancel Anytime</div>
         </div>
       </div>
-
-      <BottomNav />
     </motion.div>
   );
 };

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronLeft, Info, Play, Pause } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
-import BottomNav from "@/components/BottomNav";
+
 import SubscriptionBanner from "@/components/SubscriptionBanner";
 
 const videos = [
@@ -112,8 +112,6 @@ const VideosPage = () => {
           ))}
         </div>
       </div>
-
-      <BottomNav />
     </div>
   );
 };
