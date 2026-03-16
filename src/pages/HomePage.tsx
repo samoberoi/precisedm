@@ -64,7 +64,12 @@ const HomePage = () => {
         <h2 className="text-base font-bold text-foreground mb-4">Our Toolkit</h2>
         <div className="flex justify-between">
           {toolkitItems.map((item) => (
-            <button key={item.label} className="flex flex-col items-center gap-2">
+            <button
+              key={item.label}
+              type="button"
+              onClick={item.route ? () => navigate(item.route) : undefined}
+              className="flex flex-col items-center gap-2"
+            >
               <div
                 className={`flex h-14 w-14 items-center justify-center rounded-full ${item.color} text-primary-foreground shadow-md`}
               >
