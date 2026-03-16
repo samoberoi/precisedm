@@ -77,8 +77,8 @@ const SplashScreen = () => {
                     transition={{ duration: 0.5, ease: "easeOut" }}
                     className="absolute z-10"
                     style={{
-                      left: "50%",
-                      top: "-30%",
+                      left: "55%",
+                      top: "-15%",
                       transform: "translateX(-50%)",
                     }}
                   >
