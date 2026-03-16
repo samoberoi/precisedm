@@ -45,6 +45,7 @@ const FORM_COLORS: Record<string, string> = {
 
 const ProfilePage = () => {
   const { user, signOut } = useAuth();
+  const { subscription, isActive, daysRemaining, loading: subLoading } = useSubscription();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { theme, toggleTheme } = useTheme();
