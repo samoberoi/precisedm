@@ -222,7 +222,7 @@ const AdminDashboard = () => {
     setSubscriptionsLoading(false);
   };
 
-  useEffect(() => { fetchUsers(); }, []);
+  useEffect(() => { fetchUsers(); fetchSubscriptions(); }, []);
 
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
