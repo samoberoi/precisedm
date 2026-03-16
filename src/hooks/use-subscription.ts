@@ -28,13 +28,18 @@ export const useSubscription = () => {
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        setSubscription(null);
+        setLoading(false);
+        return;
+      }
       const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
 
       const res = await fetch(
         `https://${projectId}.supabase.co/functions/v1/paypal-subscription?action=status`,
         {
           headers: {
-            Authorization: `Bearer ${session?.access_token}`,
+            Authorization: `Bearer ${session.access_token}`,
             "Content-Type": "application/json",
           },
         }
