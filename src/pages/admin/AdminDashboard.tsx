@@ -160,6 +160,14 @@ const AdminDashboard = () => {
   const [userCustomStartDate, setUserCustomStartDate] = useState("");
   const [userCustomEndDate, setUserCustomEndDate] = useState("");
 
+  // Chart date range states
+  const [userChartRange, setUserChartRange] = useState<ChartDateRange>("7d");
+  const [userChartCustomStart, setUserChartCustomStart] = useState("");
+  const [userChartCustomEnd, setUserChartCustomEnd] = useState("");
+  const [revenueChartRange, setRevenueChartRange] = useState<ChartDateRange>("7d");
+  const [revenueChartCustomStart, setRevenueChartCustomStart] = useState("");
+  const [revenueChartCustomEnd, setRevenueChartCustomEnd] = useState("");
+
   const [form, setForm] = useState({
     email: "",
     password: "",
