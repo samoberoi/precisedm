@@ -78,41 +78,43 @@ const VideosPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { firstName } = useProfile();
-  const disclaimerRoute = location.pathname.startsWith("/w") ? "/w/disclaimer" : "/disclaimer";
+  const isWebsite = location.pathname.startsWith("/w");
+  const disclaimerRoute = isWebsite ? "/w/disclaimer" : "/disclaimer";
+  const cx = isWebsite ? "max-w-5xl mx-auto px-6 lg:px-10" : "px-5";
 
   return (
-    <div className="min-h-screen bg-background pb-36">
-      <SubscriptionBanner />
+    <div className={`min-h-screen bg-background ${isWebsite ? "py-10" : "pb-36"}`}>
+      {!isWebsite && <SubscriptionBanner />}
 
-      {/* Header — consistent with all other pages */}
-      <div className="flex items-center justify-between px-5 pt-12 pb-3">
-        <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-          <ChevronLeft className="h-5 w-5 text-foreground" />
-        </button>
-        <h1 className="text-lg font-bold text-foreground">Videos</h1>
-        <button onClick={() => navigate(disclaimerRoute)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-          <Info className="h-5 w-5 text-foreground" />
-        </button>
-      </div>
+      {!isWebsite && (
+        <div className="flex items-center justify-between px-5 pt-12 pb-3">
+          <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+            <ChevronLeft className="h-5 w-5 text-foreground" />
+          </button>
+          <h1 className="text-lg font-bold text-foreground">Videos</h1>
+          <button onClick={() => navigate(disclaimerRoute)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+            <Info className="h-5 w-5 text-foreground" />
+          </button>
+        </div>
+      )}
 
-      {/* Hero Card */}
-      <div className="px-5 pt-2">
+      <div className={isWebsite ? cx : "px-5 pt-2"}>
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-2xl p-5"
+          className={`relative overflow-hidden rounded-2xl ${isWebsite ? "p-8 lg:p-10" : "p-5"}`}
           style={{ background: "linear-gradient(135deg, hsl(150,50%,40%), hsl(160,45%,30%))" }}
         >
           <div className="relative z-10">
-            <p className="text-[10px] font-semibold text-white/60 uppercase tracking-widest">Learn</p>
-            <h2 className="text-lg font-extrabold text-white mt-1">Educational Videos</h2>
-            <p className="text-[11px] text-white/70 mt-1 max-w-[200px] leading-snug">Learn insulin dosing techniques with video guides</p>
+            <p className={`font-semibold text-white/60 uppercase tracking-widest ${isWebsite ? "text-xs" : "text-[10px]"}`}>Learn</p>
+            <h2 className={`font-extrabold text-white mt-1 ${isWebsite ? "text-2xl lg:text-3xl" : "text-lg"}`}>Educational Videos</h2>
+            <p className={`text-white/70 mt-2 leading-snug ${isWebsite ? "text-sm max-w-md" : "text-[11px] max-w-[200px]"}`}>Learn insulin dosing techniques with video guides</p>
           </div>
-          <img src={videosIcon} alt="" className="absolute -bottom-2 -right-2 h-24 w-24 opacity-15 object-contain" />
+          <img src={videosIcon} alt="" className={`absolute -bottom-2 -right-2 opacity-15 object-contain ${isWebsite ? "h-32 w-32" : "h-24 w-24"}`} />
         </motion.div>
       </div>
 
-      <div className="px-5 mt-5 space-y-4">
+      <div className={`${cx} mt-5 ${isWebsite ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-4"}`}>
         {videos.map((video, i) => (
           <VideoCard key={video.title} video={video} index={i} />
         ))}

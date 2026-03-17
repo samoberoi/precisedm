@@ -319,7 +319,7 @@ const SteroidPage = () => {
       <AnimatePresence>
         {result && (
           <motion.div ref={resultsRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
-            className="px-5 mt-5 space-y-4">
+            className={`${isWebsite ? cx : "px-5"} mt-5 space-y-4`}>
             {/* Dosage Card */}
             <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm">
               <h3 className="text-lg font-extrabold text-foreground mb-4">Recommended Steroid Dosage</h3>
