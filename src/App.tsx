@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import SubscriptionGate from "@/components/SubscriptionGate";
 import PageTransition from "@/components/PageTransition";
 import BottomNav from "@/components/BottomNav";
+import DesktopNav from "@/components/DesktopNav";
 import ScrollToTop from "@/components/ScrollToTop";
 import SplashScreen from "./pages/onboarding/SplashScreen";
 import WelcomeScreen from "./pages/onboarding/WelcomeScreen";
@@ -44,32 +45,35 @@ const AnimatedRoutes = () => {
   return (
     <>
       <ScrollToTop />
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<PageTransition><SplashScreen /></PageTransition>} />
-          <Route path="/onboarding/welcome" element={<PageTransition><WelcomeScreen /></PageTransition>} />
-          <Route path="/onboarding/features" element={<PageTransition><FeaturesScreen /></PageTransition>} />
-          <Route path="/onboarding/get-started" element={<PageTransition><GetStartedScreen /></PageTransition>} />
-          <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
-          <Route path="/signup" element={<PageTransition><SignUpPage /></PageTransition>} />
-          <Route path="/forgot-password" element={<PageTransition><ForgotPasswordPage /></PageTransition>} />
-          <Route path="/reset-password" element={<PageTransition><ResetPasswordPage /></PageTransition>} />
-          <Route path="/home" element={<PageTransition><HomePage /></PageTransition>} />
-          <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
-          <Route path="/connect" element={<PageTransition><ConnectPage /></PageTransition>} />
-          <Route path="/profile" element={<PageTransition><ProfilePage /></PageTransition>} />
-          <Route path="/disclaimer" element={<PageTransition><DisclaimerPage /></PageTransition>} />
-          <Route path="/subscription" element={<PageTransition><SubscriptionPage /></PageTransition>} />
-          <Route path="/subscription/success" element={<PageTransition><SubscriptionSuccessPage /></PageTransition>} />
-          <Route path="/videos" element={<SubscriptionGate><PageTransition><VideosPage /></PageTransition></SubscriptionGate>} />
-          <Route path="/steroid" element={<SubscriptionGate><PageTransition><SteroidPage /></PageTransition></SubscriptionGate>} />
-          <Route path="/maintenance" element={<SubscriptionGate><PageTransition><MaintenancePage /></PageTransition></SubscriptionGate>} />
-          <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
-          <Route path="/diaform" element={<SubscriptionGate><PageTransition><DiaFormPage /></PageTransition></SubscriptionGate>} />
-          <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
-          <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
-        </Routes>
-      </AnimatePresence>
+      {showNav && <DesktopNav />}
+      <div className={showNav ? "md:pt-16" : ""}>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<PageTransition><SplashScreen /></PageTransition>} />
+            <Route path="/onboarding/welcome" element={<PageTransition><WelcomeScreen /></PageTransition>} />
+            <Route path="/onboarding/features" element={<PageTransition><FeaturesScreen /></PageTransition>} />
+            <Route path="/onboarding/get-started" element={<PageTransition><GetStartedScreen /></PageTransition>} />
+            <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+            <Route path="/signup" element={<PageTransition><SignUpPage /></PageTransition>} />
+            <Route path="/forgot-password" element={<PageTransition><ForgotPasswordPage /></PageTransition>} />
+            <Route path="/reset-password" element={<PageTransition><ResetPasswordPage /></PageTransition>} />
+            <Route path="/home" element={<PageTransition><HomePage /></PageTransition>} />
+            <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
+            <Route path="/connect" element={<PageTransition><ConnectPage /></PageTransition>} />
+            <Route path="/profile" element={<PageTransition><ProfilePage /></PageTransition>} />
+            <Route path="/disclaimer" element={<PageTransition><DisclaimerPage /></PageTransition>} />
+            <Route path="/subscription" element={<PageTransition><SubscriptionPage /></PageTransition>} />
+            <Route path="/subscription/success" element={<PageTransition><SubscriptionSuccessPage /></PageTransition>} />
+            <Route path="/videos" element={<SubscriptionGate><PageTransition><VideosPage /></PageTransition></SubscriptionGate>} />
+            <Route path="/steroid" element={<SubscriptionGate><PageTransition><SteroidPage /></PageTransition></SubscriptionGate>} />
+            <Route path="/maintenance" element={<SubscriptionGate><PageTransition><MaintenancePage /></PageTransition></SubscriptionGate>} />
+            <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
+            <Route path="/diaform" element={<SubscriptionGate><PageTransition><DiaFormPage /></PageTransition></SubscriptionGate>} />
+            <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+            <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+          </Routes>
+        </AnimatePresence>
+      </div>
       {showNav && <BottomNav />}
     </>
   );
