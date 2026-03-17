@@ -51,6 +51,7 @@ import BlogPage from "./pages/website/BlogPage";
 import PrivacyPolicyPage from "./pages/website/PrivacyPolicyPage";
 import TermsPage from "./pages/website/TermsPage";
 import WebsiteDisclaimerPage from "./pages/website/WebsiteDisclaimerPage";
+import WebsiteProfilePage from "./pages/website/WebsiteProfilePage";
 
 const queryClient = new QueryClient();
 
