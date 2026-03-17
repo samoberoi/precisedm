@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Clock, Calendar, Tag } from "lucide-react";
 import { blogPosts } from "./blogData";
 import ScrollReveal from "@/components/website/ScrollReveal";
-import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
 
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
