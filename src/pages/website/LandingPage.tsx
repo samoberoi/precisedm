@@ -1,7 +1,10 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Check, Shield, Zap, BookOpen, Calculator, Play, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, Shield, Zap, BookOpen, Calculator, ChevronRight, Play, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/website/ScrollReveal";
+import AuthSlidePanel from "@/components/website/AuthSlidePanel";
+import { useAuth } from "@/contexts/AuthContext";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import diaformIcon from "@/assets/diaform-card-icon.png";
 import gestationIcon from "@/assets/gestation-card-icon.png";
@@ -11,8 +14,6 @@ import drColleenCook from "@/assets/dr-colleen-cook.jpg";
 import drMelanieProctor from "@/assets/dr-melanie-proctor.jpg";
 import drSuzanneChung from "@/assets/dr-suzanne-chung.jpg";
 
-const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5 } };
-
 const features = [
   { icon: Calculator, title: "Advanced Calculators", desc: "4 precision insulin dosing calculators for different clinical scenarios." },
   { icon: Zap, title: "Instant Results", desc: "Calculate recommended dosages in seconds with evidence-based algorithms." },
@@ -21,10 +22,10 @@ const features = [
 ];
 
 const calculators = [
-  { name: "DiaForm", desc: "Initial Insulin Dosing", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))" },
-  { name: "Gestation", desc: "Pregnancy Care Dosing", icon: gestationIcon, gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))" },
-  { name: "Maintenance", desc: "Ongoing Dose Adjustments", icon: maintenanceIcon, gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))" },
-  { name: "Steroid", desc: "Steroid-Induced Dosing", icon: steroidIcon, gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))" },
+  { name: "DiaForm", desc: "Initial Insulin Dosing", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", route: "/diaform" },
+  { name: "Gestation", desc: "Pregnancy Care Dosing", icon: gestationIcon, gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))", route: "/gestation" },
+  { name: "Maintenance", desc: "Ongoing Dose Adjustments", icon: maintenanceIcon, gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))", route: "/maintenance" },
+  { name: "Steroid", desc: "Steroid-Induced Dosing", icon: steroidIcon, gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))", route: "/steroid" },
 ];
 
 const steps = [
@@ -40,172 +41,226 @@ const team = [
   { img: drSuzanneChung, name: "Dr. Suzanne Chung", title: "PhD Analytical Chemistry", role: "COO" },
 ];
 
+const stats = [
+  { value: "4", label: "Precision Calculators" },
+  { value: "3", label: "Clinical Experts" },
+  { value: "50/50", label: "Basal-Prandial Split" },
+  { value: "24/7", label: "Access Anytime" },
+];
+
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("signup");
+
+  const handleCalcClick = (route: string) => {
+    if (user) {
+      navigate(route);
+    } else {
+      setAuthMode("signup");
+      setAuthOpen(true);
+    }
+  };
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden py-20 lg:py-28">
-        <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(135deg, hsl(197 50% 92%), hsl(197 30% 96%), hsl(200 20% 98%))" }} />
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <motion.div {...fadeUp}>
-              <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary mb-6">
-                <Zap className="h-3.5 w-3.5" /> Precision Insulin Dosing
+      {/* ═══ Hero ═══ */}
+      <section className="relative overflow-hidden py-24 lg:py-32 xl:py-40">
+        <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(197 30% 96%) 40%, hsl(200 20% 98%))" }} />
+        <div className="absolute top-20 right-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-primary/3 blur-3xl -z-10" />
+
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+            <ScrollReveal>
+              <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-5 py-2 text-xs font-semibold text-primary mb-8">
+                <Zap className="h-3.5 w-3.5" /> Precision Insulin Dosing Platform
               </span>
-              <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-[1.1]">
+              <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.08]">
                 Individualize Insulin Dosing with{" "}
                 <span className="text-gradient">Confidence</span>
               </h1>
-              <p className="mt-5 text-lg text-muted-foreground max-w-lg leading-relaxed">
+              <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-xl leading-relaxed">
                 An innovative toolkit for trained healthcare providers to quickly and accurately determine starting and maintenance insulin doses across clinical scenarios.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button size="lg" onClick={() => navigate("/signup")} className="rounded-xl gradient-primary glow-primary font-bold text-base h-12 px-7">
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Button size="lg" onClick={() => user ? navigate("/home") : (setAuthMode("signup"), setAuthOpen(true))} className="rounded-xl gradient-primary glow-primary font-bold text-base h-13 px-8">
                   Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => navigate("/w/features")} className="rounded-xl font-bold text-base h-12 px-7">
+                <Button size="lg" variant="outline" onClick={() => navigate("/w/features")} className="rounded-xl font-bold text-base h-13 px-8">
                   Explore Features
                 </Button>
               </div>
-              <div className="mt-8 flex items-center gap-6">
+              <div className="mt-10 flex flex-wrap items-center gap-6">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground"><Check className="h-4 w-4 text-primary" /> Free 7-day trial</div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground"><Check className="h-4 w-4 text-primary" /> No credit card</div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground"><Check className="h-4 w-4 text-primary" /> Cancel anytime</div>
               </div>
-            </motion.div>
+            </ScrollReveal>
 
-            <motion.div {...fadeUp} transition={{ delay: 0.15, duration: 0.5 }} className="relative">
-              <div className="relative overflow-hidden rounded-3xl shadow-2xl" style={{ background: "linear-gradient(135deg, hsl(197 50% 85%), hsl(197 40% 75%))" }}>
-                <img src={heroDoctor} alt="Healthcare professional" className="h-[400px] w-full object-cover object-top lg:h-[480px]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              </div>
-              <div className="absolute -bottom-5 -left-5 rounded-2xl bg-card border border-border shadow-xl p-4 hidden lg:block">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center">
-                    <Calculator className="h-5 w-5 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-foreground">4 Calculators</p>
-                    <p className="text-xs text-muted-foreground">Precision dosing tools</p>
+            <ScrollReveal delay={0.15}>
+              <div className="relative">
+                <div className="relative overflow-hidden rounded-3xl shadow-2xl" style={{ background: "linear-gradient(135deg, hsl(197 50% 85%), hsl(197 40% 75%))" }}>
+                  <img src={heroDoctor} alt="Healthcare professional using PreciseDM" className="h-[420px] w-full object-cover object-top lg:h-[520px] xl:h-[560px]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                </div>
+                <div className="absolute -bottom-5 -left-5 rounded-2xl bg-card border border-border shadow-xl p-4 hidden lg:block">
+                  <div className="flex items-center gap-3">
+                    <div className="h-11 w-11 rounded-xl gradient-primary flex items-center justify-center">
+                      <Calculator className="h-5 w-5 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-foreground">4 Calculators</p>
+                      <p className="text-xs text-muted-foreground">Precision dosing tools</p>
+                    </div>
                   </div>
                 </div>
+                <div className="absolute -top-4 -right-4 rounded-2xl bg-card border border-border shadow-xl p-3 hidden lg:flex items-center gap-2">
+                  <div className="flex -space-x-1">
+                    {[1,2,3,4,5].map(i => <Star key={i} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />)}
+                  </div>
+                  <span className="text-xs font-bold text-foreground">5.0</span>
+                </div>
               </div>
-            </motion.div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <motion.div {...fadeUp} className="text-center mb-14">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Why Choose Precise DM?</h2>
-            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Built by pharmacists and clinical experts to transform diabetes care delivery.</p>
-          </motion.div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* ═══ Stats Bar ═══ */}
+      <section className="py-8 border-y border-border/50 bg-card/50">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            {stats.map((s, i) => (
+              <ScrollReveal key={s.label} delay={i * 0.08}>
+                <div className="text-center">
+                  <p className="text-2xl lg:text-3xl font-extrabold text-primary">{s.value}</p>
+                  <p className="text-xs text-muted-foreground mt-1 font-medium">{s.label}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ Features ═══ */}
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <ScrollReveal className="text-center mb-16">
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Why Choose Precise DM?</h2>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">Built by pharmacists and clinical experts to transform diabetes care delivery.</p>
+          </ScrollReveal>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((f, i) => (
-              <motion.div key={f.title} {...fadeUp} transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="rounded-2xl bg-card border border-border p-6 shadow-sm hover:shadow-lg transition-shadow">
-                <div className="h-12 w-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
-                  <f.icon className="h-6 w-6 text-primary-foreground" />
+              <ScrollReveal key={f.title} delay={i * 0.08}>
+                <div className="rounded-2xl bg-card border border-border p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+                  <div className="h-13 w-13 rounded-xl gradient-primary flex items-center justify-center mb-5">
+                    <f.icon className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <h3 className="text-base font-bold text-foreground mb-2">{f.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
                 </div>
-                <h3 className="text-base font-bold text-foreground mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Calculators Preview */}
-      <section className="py-20 lg:py-24 bg-accent/30">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <motion.div {...fadeUp} className="text-center mb-14">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Our Calculator Suite</h2>
-            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Four precision tools covering the full spectrum of insulin dosing needs.</p>
-          </motion.div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* ═══ Calculators Preview ═══ */}
+      <section className="py-24 lg:py-32 bg-accent/30">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <ScrollReveal className="text-center mb-16">
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Our Calculator Suite</h2>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">Four precision tools covering the full spectrum of insulin dosing needs.</p>
+          </ScrollReveal>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {calculators.map((c, i) => (
-              <motion.div key={c.name} {...fadeUp} transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="group relative overflow-hidden rounded-2xl p-6 text-white shadow-lg hover:scale-[1.02] transition-transform cursor-pointer"
-                style={{ background: c.gradient, minHeight: 180 }}
-                onClick={() => navigate("/signup")}
-              >
-                <h3 className="text-lg font-bold">{c.name}</h3>
-                <p className="text-sm text-white/60 mt-1">{c.desc}</p>
-                <img src={c.icon} alt={c.name} className="absolute bottom-4 right-4 h-14 w-14 object-contain opacity-20 group-hover:opacity-40 transition-opacity" />
-                <div className="mt-6 flex items-center gap-1 text-sm font-semibold text-white/80">
-                  Try it <ChevronRight className="h-4 w-4" />
+              <ScrollReveal key={c.name} delay={i * 0.08}>
+                <div
+                  className="group relative overflow-hidden rounded-2xl p-7 text-white shadow-lg hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                  style={{ background: c.gradient, minHeight: 200 }}
+                  onClick={() => handleCalcClick(c.route)}
+                >
+                  <h3 className="text-lg font-bold">{c.name}</h3>
+                  <p className="text-sm text-white/60 mt-1">{c.desc}</p>
+                  <img src={c.icon} alt={c.name} className="absolute bottom-4 right-4 h-16 w-16 object-contain opacity-15 group-hover:opacity-40 transition-opacity duration-300" />
+                  <div className="mt-8 flex items-center gap-1 text-sm font-semibold text-white/80 group-hover:text-white transition-colors">
+                    Try it <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <motion.div {...fadeUp} className="text-center mb-14">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">How It Works</h2>
-            <p className="mt-3 text-lg text-muted-foreground">Four simple steps to precision dosing.</p>
-          </motion.div>
+      {/* ═══ How it works ═══ */}
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <ScrollReveal className="text-center mb-16">
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">How It Works</h2>
+            <p className="mt-4 text-lg text-muted-foreground">Four simple steps to precision dosing.</p>
+          </ScrollReveal>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
-              <motion.div key={s.num} {...fadeUp} transition={{ delay: i * 0.1, duration: 0.5 }} className="text-center">
-                <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary text-xl font-extrabold mb-4">
-                  {s.num}
+              <ScrollReveal key={s.num} delay={i * 0.1}>
+                <div className="text-center">
+                  <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary text-2xl font-extrabold mb-5">
+                    {s.num}
+                  </div>
+                  <h3 className="text-base font-bold text-foreground mb-2">{s.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                 </div>
-                <h3 className="text-base font-bold text-foreground mb-2">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Team */}
-      <section className="py-20 lg:py-24 bg-accent/30">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <motion.div {...fadeUp} className="text-center mb-14">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Meet Our Team</h2>
-            <p className="mt-3 text-lg text-muted-foreground">Clinical experts dedicated to improving diabetes care.</p>
-          </motion.div>
-          <div className="grid gap-6 sm:grid-cols-3 max-w-4xl mx-auto">
+      {/* ═══ Team ═══ */}
+      <section className="py-24 lg:py-32 bg-accent/30">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <ScrollReveal className="text-center mb-16">
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Meet Our Team</h2>
+            <p className="mt-4 text-lg text-muted-foreground">Clinical experts dedicated to improving diabetes care.</p>
+          </ScrollReveal>
+          <div className="grid gap-8 sm:grid-cols-3 max-w-5xl mx-auto">
             {team.map((t, i) => (
-              <motion.div key={t.name} {...fadeUp} transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="rounded-2xl overflow-hidden bg-card border border-border shadow-sm hover:shadow-lg transition-shadow">
-                <img src={t.img} alt={t.name} className="h-64 w-full object-cover" />
-                <div className="p-5">
-                  <h3 className="text-base font-bold text-foreground">{t.name}</h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">{t.title}</p>
-                  <p className="text-xs text-primary font-semibold mt-1">{t.role}</p>
+              <ScrollReveal key={t.name} delay={i * 0.1}>
+                <div className="rounded-2xl overflow-hidden bg-card border border-border shadow-sm hover:shadow-xl transition-shadow duration-300">
+                  <img src={t.img} alt={t.name} className="h-72 w-full object-cover" />
+                  <div className="p-6">
+                    <h3 className="text-base font-bold text-foreground">{t.name}</h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t.title}</p>
+                    <p className="text-xs text-primary font-semibold mt-1">{t.role}</p>
+                  </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-3xl px-5 text-center">
-          <motion.div {...fadeUp}>
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl mb-4">Ready to Transform Diabetes Care?</h2>
-            <p className="text-lg text-muted-foreground mb-8">Start your free 7-day trial today. No credit card required.</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Button size="lg" onClick={() => navigate("/signup")} className="rounded-xl gradient-primary glow-primary font-bold text-base h-12 px-8">
+      {/* ═══ CTA ═══ */}
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <ScrollReveal>
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl mb-5">Ready to Transform Diabetes Care?</h2>
+            <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">Start your free 7-day trial today. No credit card required.</p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" onClick={() => user ? navigate("/home") : (setAuthMode("signup"), setAuthOpen(true))} className="rounded-xl gradient-primary glow-primary font-bold text-base h-13 px-8">
                 Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" onClick={() => navigate("/w/pricing")} className="rounded-xl font-bold text-base h-12 px-8">
+              <Button size="lg" variant="outline" onClick={() => navigate("/w/pricing")} className="rounded-xl font-bold text-base h-13 px-8">
                 View Pricing
               </Button>
             </div>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </section>
+
+      <AuthSlidePanel open={authOpen} onOpenChange={setAuthOpen} mode={authMode} />
     </div>
   );
 };

@@ -1,6 +1,4 @@
-import { motion } from "framer-motion";
-
-const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5 } };
+import ScrollReveal from "@/components/website/ScrollReveal";
 
 const sections = [
   { title: "Information We Collect", content: "We collect personal information you provide during registration (name, email, phone number, user type) and usage data including form submissions, calculation history, and subscription details. We do not collect patient data — all clinical inputs are processed locally and only summary results are stored." },
@@ -16,26 +14,29 @@ const sections = [
 
 const PrivacyPolicyPage = () => (
   <div>
-    <section className="py-20 lg:py-24" style={{ background: "linear-gradient(135deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
-      <div className="mx-auto max-w-7xl px-5 lg:px-8 text-center">
-        <motion.div {...fadeUp}>
-          <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl tracking-tight">Privacy Policy</h1>
-          <p className="mt-5 text-lg text-muted-foreground">Last updated: March 2026</p>
-        </motion.div>
+    <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
+      <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
+        <ScrollReveal>
+          <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl lg:text-6xl tracking-tight">Privacy Policy</h1>
+          <p className="mt-6 text-lg text-muted-foreground">Last updated: March 2026</p>
+        </ScrollReveal>
       </div>
     </section>
 
-    <section className="py-20 lg:py-24">
-      <div className="mx-auto max-w-3xl px-5 lg:px-8 space-y-6">
-        <motion.p {...fadeUp} className="text-sm text-muted-foreground leading-relaxed">
-          PreciseDM, LLC ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website and application.
-        </motion.p>
+    <section className="py-24 lg:py-32">
+      <div className="mx-auto max-w-4xl px-6 xl:px-10 space-y-6">
+        <ScrollReveal>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            PreciseDM, LLC ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website and application.
+          </p>
+        </ScrollReveal>
         {sections.map((s, i) => (
-          <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.03, duration: 0.5 }}
-            className="rounded-2xl bg-card border border-border p-6 shadow-sm">
-            <h2 className="text-base font-bold text-foreground mb-3">{s.title}</h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">{s.content}</p>
-          </motion.div>
+          <ScrollReveal key={i} delay={i * 0.03}>
+            <div className="rounded-2xl bg-card border border-border p-7 shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <h2 className="text-base font-bold text-foreground mb-3">{s.title}</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">{s.content}</p>
+            </div>
+          </ScrollReveal>
         ))}
       </div>
     </section>

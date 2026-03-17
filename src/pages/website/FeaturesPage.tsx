@@ -1,13 +1,11 @@
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Calculator, Zap, BookOpen, Shield, History, UserCheck, Printer, BarChart3, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/website/ScrollReveal";
 import diaformIcon from "@/assets/diaform-card-icon.png";
 import gestationIcon from "@/assets/gestation-card-icon.png";
 import maintenanceIcon from "@/assets/maintenance-icon.png";
 import steroidIcon from "@/assets/steroid-icon.png";
-
-const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5 } };
 
 const allFeatures = [
   { icon: Calculator, title: "4 Precision Calculators", desc: "DiaForm, Gestation, Maintenance, and Steroid dosing tools covering every clinical scenario." },
@@ -32,64 +30,62 @@ const FeaturesPage = () => {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="py-20 lg:py-24" style={{ background: "linear-gradient(135deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
-        <div className="mx-auto max-w-7xl px-5 lg:px-8 text-center">
-          <motion.div {...fadeUp}>
-            <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl tracking-tight">Powerful Features for<br /><span className="text-gradient">Precision Dosing</span></h1>
-            <p className="mt-5 text-lg text-muted-foreground max-w-2xl mx-auto">Everything you need to individualize insulin therapy with confidence and accuracy.</p>
-          </motion.div>
+      <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
+          <ScrollReveal>
+            <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl lg:text-6xl tracking-tight">Powerful Features for<br /><span className="text-gradient">Precision Dosing</span></h1>
+            <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">Everything you need to individualize insulin therapy with confidence and accuracy.</p>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Feature Grid */}
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {allFeatures.map((f, i) => (
-              <motion.div key={f.title} {...fadeUp} transition={{ delay: i * 0.05, duration: 0.5 }}
-                className="rounded-2xl bg-card border border-border p-6 shadow-sm hover:shadow-lg transition-shadow">
-                <div className="h-12 w-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
-                  <f.icon className="h-6 w-6 text-primary-foreground" />
+              <ScrollReveal key={f.title} delay={i * 0.05}>
+                <div className="rounded-2xl bg-card border border-border p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+                  <div className="h-13 w-13 rounded-xl gradient-primary flex items-center justify-center mb-5">
+                    <f.icon className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <h3 className="text-base font-bold text-foreground mb-2">{f.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
                 </div>
-                <h3 className="text-base font-bold text-foreground mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Calculator Details */}
-      <section className="py-20 lg:py-24 bg-accent/30">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <motion.div {...fadeUp} className="text-center mb-14">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Calculator Deep Dive</h2>
-            <p className="mt-3 text-lg text-muted-foreground">Each tool is purpose-built for a specific clinical scenario.</p>
-          </motion.div>
+      <section className="py-24 lg:py-32 bg-accent/30">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <ScrollReveal className="text-center mb-16">
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Calculator Deep Dive</h2>
+            <p className="mt-4 text-lg text-muted-foreground">Each tool is purpose-built for a specific clinical scenario.</p>
+          </ScrollReveal>
           <div className="grid gap-6 sm:grid-cols-2">
             {calculatorDetails.map((c, i) => (
-              <motion.div key={c.name} {...fadeUp} transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="relative rounded-2xl p-6 text-white shadow-lg overflow-hidden" style={{ background: c.gradient }}>
-                <img src={c.icon} alt={c.name} className="absolute top-4 right-4 h-16 w-16 object-contain opacity-15" />
-                <h3 className="text-xl font-bold mb-2">{c.name}</h3>
-                <p className="text-sm text-white/70 leading-relaxed max-w-sm">{c.desc}</p>
-              </motion.div>
+              <ScrollReveal key={c.name} delay={i * 0.08}>
+                <div className="relative rounded-2xl p-8 text-white shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 h-full" style={{ background: c.gradient }}>
+                  <img src={c.icon} alt={c.name} className="absolute top-4 right-4 h-20 w-20 object-contain opacity-15" />
+                  <h3 className="text-xl font-bold mb-3">{c.name}</h3>
+                  <p className="text-sm text-white/70 leading-relaxed max-w-md">{c.desc}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-3xl px-5 text-center">
-          <motion.div {...fadeUp}>
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl mb-4">Experience It Yourself</h2>
-            <p className="text-lg text-muted-foreground mb-8">Start your free trial and access all features today.</p>
-            <Button size="lg" onClick={() => navigate("/signup")} className="rounded-xl gradient-primary glow-primary font-bold text-base h-12 px-8">
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <ScrollReveal>
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl mb-5">Experience It Yourself</h2>
+            <p className="text-lg text-muted-foreground mb-10">Start your free trial and access all features today.</p>
+            <Button size="lg" onClick={() => navigate("/signup")} className="rounded-xl gradient-primary glow-primary font-bold text-base h-13 px-8">
               Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

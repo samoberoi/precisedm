@@ -1,14 +1,11 @@
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { Clock, ArrowRight } from "lucide-react";
+import { Clock } from "lucide-react";
+import ScrollReveal from "@/components/website/ScrollReveal";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import aboutHero from "@/assets/about-hero.jpg";
 import visionImage from "@/assets/vision-image.jpg";
 import missionImage from "@/assets/mission-image.jpg";
 import diaformCard from "@/assets/diaform-card.jpg";
 import connectHero from "@/assets/connect-hero.jpg";
-
-const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5 } };
 
 const posts = [
   { img: heroDoctor, title: "Understanding Initial Insulin Dosing: A Guide for Practitioners", excerpt: "Learn the fundamentals of calculating initial insulin doses using evidence-based algorithms and BMI categorization.", date: "Mar 15, 2026", read: "5 min read", category: "Clinical Guide" },
@@ -19,30 +16,27 @@ const posts = [
   { img: connectHero, title: "Gestational Diabetes: Dosing Considerations", excerpt: "Trimester-specific insulin adjustments and how our Gestation calculator accounts for changing needs during pregnancy.", date: "Feb 15, 2026", read: "7 min read", category: "Clinical Guide" },
 ];
 
-const BlogPage = () => {
-  const navigate = useNavigate();
+const BlogPage = () => (
+  <div>
+    <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
+      <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
+        <ScrollReveal>
+          <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl lg:text-6xl tracking-tight">Precise DM <span className="text-gradient">Blog</span></h1>
+          <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">Insights, guides, and best practices for insulin dosing and diabetes care.</p>
+        </ScrollReveal>
+      </div>
+    </section>
 
-  return (
-    <div>
-      <section className="py-20 lg:py-24" style={{ background: "linear-gradient(135deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
-        <div className="mx-auto max-w-7xl px-5 lg:px-8 text-center">
-          <motion.div {...fadeUp}>
-            <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl tracking-tight">Precise DM <span className="text-gradient">Blog</span></h1>
-            <p className="mt-5 text-lg text-muted-foreground max-w-2xl mx-auto">Insights, guides, and best practices for insulin dosing and diabetes care.</p>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post, i) => (
-              <motion.article key={i} {...fadeUp} transition={{ delay: i * 0.06, duration: 0.5 }}
-                className="group rounded-2xl bg-card border border-border shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="h-48 overflow-hidden">
+    <section className="py-24 lg:py-32">
+      <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post, i) => (
+            <ScrollReveal key={i} delay={i * 0.06}>
+              <article className="group rounded-2xl bg-card border border-border shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer h-full">
+                <div className="h-52 overflow-hidden">
                   <img src={post.img} alt={post.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
-                <div className="p-5">
+                <div className="p-6">
                   <span className="inline-block rounded-full bg-primary/10 text-primary text-xs font-semibold px-3 py-1 mb-3">{post.category}</span>
                   <h3 className="text-base font-bold text-foreground mb-2 leading-snug group-hover:text-primary transition-colors">{post.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{post.excerpt}</p>
@@ -52,13 +46,13 @@ const BlogPage = () => {
                     <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.read}</span>
                   </div>
                 </div>
-              </motion.article>
-            ))}
-          </div>
+              </article>
+            </ScrollReveal>
+          ))}
         </div>
-      </section>
-    </div>
-  );
-};
+      </div>
+    </section>
+  </div>
+);
 
 export default BlogPage;

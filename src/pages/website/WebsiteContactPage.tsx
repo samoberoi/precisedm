@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-
-const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5 } };
+import ScrollReveal from "@/components/website/ScrollReveal";
 
 const WebsiteContactPage = () => {
   const { user } = useAuth();
@@ -47,30 +45,28 @@ const WebsiteContactPage = () => {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="py-20 lg:py-24" style={{ background: "linear-gradient(135deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
-        <div className="mx-auto max-w-7xl px-5 lg:px-8 text-center">
-          <motion.div {...fadeUp}>
-            <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl tracking-tight">Get in <span className="text-gradient">Touch</span></h1>
-            <p className="mt-5 text-lg text-muted-foreground max-w-2xl mx-auto">Have questions or feedback? We'd love to hear from you.</p>
-          </motion.div>
+      <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
+          <ScrollReveal>
+            <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl lg:text-6xl tracking-tight">Get in <span className="text-gradient">Touch</span></h1>
+            <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">Have questions or feedback? We'd love to hear from you.</p>
+          </ScrollReveal>
         </div>
       </section>
 
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2">
-            {/* Contact Info */}
-            <motion.div {...fadeUp}>
-              <h2 className="text-2xl font-extrabold text-foreground mb-6">Contact Information</h2>
-              <div className="space-y-5">
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <div className="grid gap-14 lg:grid-cols-2">
+            <ScrollReveal>
+              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground mb-8">Contact Information</h2>
+              <div className="space-y-6">
                 {[
                   { icon: Phone, label: "Phone", value: "612-916-4059", href: "tel:612-916-4059" },
                   { icon: Mail, label: "Email", value: "precise.diabetes@gmail.com", href: "mailto:precise.diabetes@gmail.com" },
                   { icon: MapPin, label: "Location", value: "United States", href: undefined },
                 ].map((c) => (
                   <div key={c.label} className="flex items-start gap-4">
-                    <div className="h-12 w-12 shrink-0 rounded-xl gradient-primary flex items-center justify-center">
+                    <div className="h-13 w-13 shrink-0 rounded-xl gradient-primary flex items-center justify-center">
                       <c.icon className="h-5 w-5 text-primary-foreground" />
                     </div>
                     <div>
@@ -84,34 +80,33 @@ const WebsiteContactPage = () => {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </ScrollReveal>
 
-            {/* Form */}
-            <motion.div {...fadeUp} transition={{ delay: 0.1, duration: 0.5 }}>
-              <div className="rounded-2xl bg-card border border-border p-6 lg:p-8 shadow-sm">
-                <h3 className="text-xl font-bold text-foreground mb-5">Send a Message</h3>
-                <form onSubmit={handleSubmit} className="space-y-4">
+            <ScrollReveal delay={0.1}>
+              <div className="rounded-2xl bg-card border border-border p-8 lg:p-10 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                <h3 className="text-xl font-bold text-foreground mb-6">Send a Message</h3>
+                <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-1.5">
                     <Label htmlFor="phone" className="text-xs text-muted-foreground font-medium">Phone Number</Label>
                     <Input id="phone" type="tel" placeholder="Enter Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)}
-                      className="rounded-xl border-border bg-background h-11" maxLength={20} />
+                      className="rounded-xl border-border bg-background h-12" maxLength={20} />
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="email" className="text-xs text-muted-foreground font-medium">Email Address</Label>
                     <Input id="email" type="email" placeholder="Enter Email Address" value={email} onChange={(e) => setEmail(e.target.value)}
-                      className="rounded-xl border-border bg-background h-11" maxLength={255} />
+                      className="rounded-xl border-border bg-background h-12" maxLength={255} />
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="message" className="text-xs text-muted-foreground font-medium">Message</Label>
                     <Textarea id="message" placeholder="Enter Your Message..." value={message} onChange={(e) => setMessage(e.target.value)}
-                      className="rounded-xl border-border bg-background min-h-[120px]" maxLength={1000} />
+                      className="rounded-xl border-border bg-background min-h-[140px]" maxLength={1000} />
                   </div>
-                  <Button type="submit" disabled={loading} className="w-full rounded-xl h-11 font-bold gradient-primary glow-primary">
+                  <Button type="submit" disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
                     {loading ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </div>
-            </motion.div>
+            </ScrollReveal>
           </div>
         </div>
       </section>

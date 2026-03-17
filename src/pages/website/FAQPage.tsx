@@ -1,7 +1,5 @@
-import { motion } from "framer-motion";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
-const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.5 } };
+import ScrollReveal from "@/components/website/ScrollReveal";
 
 const faqs = [
   { category: "General", items: [
@@ -28,29 +26,29 @@ const faqs = [
 
 const FAQPage = () => (
   <div>
-    <section className="py-20 lg:py-24" style={{ background: "linear-gradient(135deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
-      <div className="mx-auto max-w-7xl px-5 lg:px-8 text-center">
-        <motion.div {...fadeUp}>
-          <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl tracking-tight">Frequently Asked <span className="text-gradient">Questions</span></h1>
-          <p className="mt-5 text-lg text-muted-foreground max-w-2xl mx-auto">Everything you need to know about Precise DM.</p>
-        </motion.div>
+    <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
+      <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
+        <ScrollReveal>
+          <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl lg:text-6xl tracking-tight">Frequently Asked <span className="text-gradient">Questions</span></h1>
+          <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">Everything you need to know about Precise DM.</p>
+        </ScrollReveal>
       </div>
     </section>
 
-    <section className="py-20 lg:py-24">
-      <div className="mx-auto max-w-3xl px-5 lg:px-8 space-y-10">
+    <section className="py-24 lg:py-32">
+      <div className="mx-auto max-w-4xl px-6 xl:px-10 space-y-12">
         {faqs.map((group, gi) => (
-          <motion.div key={group.category} {...fadeUp} transition={{ delay: gi * 0.05, duration: 0.5 }}>
-            <h2 className="text-xl font-extrabold text-foreground mb-4">{group.category}</h2>
-            <Accordion type="single" collapsible className="space-y-2">
+          <ScrollReveal key={group.category} delay={gi * 0.05}>
+            <h2 className="text-xl lg:text-2xl font-extrabold text-foreground mb-5">{group.category}</h2>
+            <Accordion type="single" collapsible className="space-y-3">
               {group.items.map((faq, i) => (
-                <AccordionItem key={i} value={`${gi}-${i}`} className="rounded-2xl bg-card border border-border px-5 shadow-sm">
-                  <AccordionTrigger className="text-sm font-bold text-foreground hover:no-underline py-4">{faq.q}</AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-4">{faq.a}</AccordionContent>
+                <AccordionItem key={i} value={`${gi}-${i}`} className="rounded-2xl bg-card border border-border px-6 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                  <AccordionTrigger className="text-sm font-bold text-foreground hover:no-underline py-5">{faq.q}</AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-5">{faq.a}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
-          </motion.div>
+          </ScrollReveal>
         ))}
       </div>
     </section>
