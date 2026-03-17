@@ -18,13 +18,12 @@ const BlogPostPage = () => {
     );
   }
 
+  useEffect(() => {
+    document.title = `${post.title} | Precise DM Blog`;
+  }, [post]);
+
   return (
     <>
-      <Helmet>
-        <title>{post.title} | Precise DM Blog</title>
-        <meta name="description" content={post.excerpt} />
-      </Helmet>
-
       {/* Hero */}
       <section className="relative">
         <div className="h-72 sm:h-96 lg:h-[28rem] overflow-hidden">
