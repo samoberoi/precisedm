@@ -138,7 +138,9 @@ const STEPS = [
 
 const MaintenancePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { firstName } = useProfile();
+  const disclaimerRoute = location.pathname.startsWith("/w") ? "/w/disclaimer" : "/disclaimer";
   const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
