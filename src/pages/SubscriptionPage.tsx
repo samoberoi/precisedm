@@ -133,7 +133,7 @@ const SubscriptionPage = () => {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`min-h-screen bg-background ${websiteMode ? "py-10" : "pb-36"}`}>
       {/* Header — only in app mode */}
-      {!isWebsite && (
+      {!websiteMode && (
         <div className="flex items-center justify-between px-5 pt-12 pb-3">
           <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
             <ChevronLeft className="h-5 w-5 text-foreground" />
