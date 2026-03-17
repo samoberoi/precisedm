@@ -128,7 +128,7 @@ const SubscriptionPage = () => {
     }
   };
 
-  const cx = isWebsite ? "max-w-3xl mx-auto px-6 lg:px-10" : "px-5";
+  const cx = websiteMode ? "max-w-3xl mx-auto px-6 lg:px-10" : "px-5";
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`min-h-screen bg-background ${isWebsite ? "py-10" : "pb-36"}`}>
