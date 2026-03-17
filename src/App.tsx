@@ -76,6 +76,7 @@ const AnimatedRoutes = () => {
             <Route path="contact" element={<WebsiteContactPage />} />
             <Route path="faq" element={<FAQPage />} />
             <Route path="blog" element={<BlogPage />} />
+            <Route path="blog/:slug" element={<BlogPostPage />} />
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="terms" element={<TermsPage />} />
             <Route path="disclaimer" element={<WebsiteDisclaimerPage />} />
