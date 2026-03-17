@@ -11,7 +11,6 @@ import logoIcon from "@/assets/logo-icon.png";
 import AuthSlidePanel from "./AuthSlidePanel";
 
 const navLinks = [
-  { label: "Home", to: "/w" },
   { label: "Features", to: "/w/features" },
   { label: "Pricing", to: "/w/pricing" },
   { label: "About", to: "/w/about" },
