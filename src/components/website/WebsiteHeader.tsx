@@ -221,14 +221,9 @@ const WebsiteHeader = () => {
               {user ? (
                 <ProfileDropdown size="sm" />
               ) : (
-                <>
-                  <Button size="sm" variant="ghost" onClick={() => openAuth("login")} className="rounded-xl font-semibold text-xs h-8">
-                    Log In
-                  </Button>
-                  <Button size="sm" onClick={() => openAuth("signup")} className="rounded-xl gradient-primary glow-primary font-semibold text-xs h-8 px-4">
-                    Sign Up
-                  </Button>
-                </>
+                <Button size="sm" onClick={() => openAuth("login")} className="rounded-xl gradient-primary glow-primary font-semibold text-xs h-8 px-4">
+                  Login
+                </Button>
               )}
             </div>
           </motion.div>
