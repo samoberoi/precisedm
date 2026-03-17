@@ -373,7 +373,7 @@ const AdminDashboard = () => {
             Admin
           </span>
           <button
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate(location.pathname.startsWith("/w") ? "/w/profile" : "/profile")}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 border border-primary/20 overflow-hidden"
           >
             <span className="text-sm font-bold text-primary">{firstName.charAt(0)}</span>

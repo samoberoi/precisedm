@@ -90,7 +90,7 @@ const VideosPage = () => {
           <ChevronLeft className="h-5 w-5 text-foreground" />
         </button>
         <h1 className="text-lg font-bold text-foreground">Videos</h1>
-        <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+        <button onClick={() => navigate(disclaimerRoute)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
           <Info className="h-5 w-5 text-foreground" />
         </button>
       </div>
