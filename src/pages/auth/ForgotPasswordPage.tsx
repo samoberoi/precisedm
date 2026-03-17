@@ -29,6 +29,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen flex flex-col px-8 pt-16 bg-background">
+      <div className="w-full max-w-md mx-auto">
       <Link to="/login" className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
         <ArrowLeft className="h-4 w-4" /> Back to Login
       </Link>
@@ -54,6 +55,7 @@ const ForgotPasswordPage = () => {
           </Button>
         </form>
       )}
+      </div>
     </motion.div>
   );
 };

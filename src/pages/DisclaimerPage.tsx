@@ -3,7 +3,6 @@ import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { useProfile } from "@/hooks/use-profile";
 
-
 const sections = [
   {
     title: "Disclaimer of Liability",
@@ -33,34 +32,36 @@ const DisclaimerPage = () => {
   const { firstName } = useProfile();
 
   return (
-    <div className="min-h-screen bg-background pb-36">
-      {/* Header */}
-      <div className="flex items-center justify-between px-5 pt-12 pb-3">
-        <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-          <ChevronLeft className="h-5 w-5 text-foreground" />
-        </button>
-        <h1 className="text-lg font-bold text-foreground">Disclaimer</h1>
-        <div className="w-10" />
-      </div>
+    <div className="min-h-screen bg-background pb-36 md:pb-16">
+      <div className="max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pt-12 pb-3 md:pt-8">
+          <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm md:hidden">
+            <ChevronLeft className="h-5 w-5 text-foreground" />
+          </button>
+          <h1 className="text-lg md:text-2xl font-bold text-foreground md:w-full">Disclaimer</h1>
+          <div className="w-10 md:hidden" />
+        </div>
 
-      {/* Content */}
-      <div className="px-5 mt-3 space-y-3">
-        {sections.map((section, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.08 }}
-            className="rounded-2xl bg-card border border-border shadow-sm p-5"
-          >
-            <h2 className="text-base font-bold text-foreground mb-3">{section.title}</h2>
-            <div className="space-y-3">
-              {section.paragraphs.map((p, j) => (
-                <p key={j} className="text-sm leading-relaxed text-muted-foreground">{p}</p>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+        {/* Content */}
+        <div className="px-5 mt-3 space-y-3">
+          {sections.map((section, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              className="rounded-2xl bg-card border border-border shadow-sm p-5 md:p-6"
+            >
+              <h2 className="text-base md:text-lg font-bold text-foreground mb-3">{section.title}</h2>
+              <div className="space-y-3">
+                {section.paragraphs.map((p, j) => (
+                  <p key={j} className="text-sm md:text-base leading-relaxed text-muted-foreground">{p}</p>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );

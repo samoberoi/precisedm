@@ -45,6 +45,7 @@ const ResetPasswordPage = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen flex flex-col px-8 pt-16 bg-background">
+      <div className="w-full max-w-md mx-auto">
       <div className="flex justify-center mb-8"><PreciseLogo size={56} /></div>
       <h1 className="text-2xl font-extrabold text-foreground text-center tracking-tight">Set new password</h1>
 
@@ -70,6 +71,7 @@ const ResetPasswordPage = () => {
           {loading ? "Updating..." : "Update Password"}
         </Button>
       </form>
+      </div>
     </motion.div>
   );
 };

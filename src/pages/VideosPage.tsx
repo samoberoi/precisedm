@@ -25,14 +25,8 @@ const VideoCard = ({ video, index }: { video: typeof videos[0]; index: number })
   const handleToggle = () => {
     const el = videoRef.current;
     if (!el) return;
-    if (playing) {
-      el.pause();
-      setPlaying(false);
-    } else {
-      el.muted = false;
-      el.play().catch(console.error);
-      setPlaying(true);
-    }
+    if (playing) { el.pause(); setPlaying(false); }
+    else { el.muted = false; el.play().catch(console.error); setPlaying(true); }
   };
 
   const handleEnded = () => setPlaying(false);
@@ -44,20 +38,8 @@ const VideoCard = ({ video, index }: { video: typeof videos[0]; index: number })
       transition={{ delay: index * 0.08 }}
       className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm"
     >
-      <div
-        className="relative aspect-video bg-muted cursor-pointer group"
-        onClick={handleToggle}
-      >
-        <video
-          ref={videoRef}
-          src={video.src}
-          muted
-          playsInline
-          preload="auto"
-          controls={playing}
-          onEnded={handleEnded}
-          className="h-full w-full object-cover"
-        />
+      <div className="relative aspect-video bg-muted cursor-pointer group" onClick={handleToggle}>
+        <video ref={videoRef} src={video.src} muted playsInline preload="auto" controls={playing} onEnded={handleEnded} className="h-full w-full object-cover" />
         {!playing && (
           <div className="absolute inset-0 flex items-center justify-center bg-foreground/20 group-hover:bg-foreground/30 transition-colors">
             <div className="flex h-14 w-14 items-center justify-center rounded-full gradient-primary text-primary-foreground shadow-lg">
@@ -79,41 +61,43 @@ const VideosPage = () => {
   const { firstName } = useProfile();
 
   return (
-    <div className="min-h-screen bg-background pb-36">
-      <SubscriptionBanner />
+    <div className="min-h-screen bg-background pb-36 md:pb-16">
+      <div className="max-w-5xl mx-auto">
+        <SubscriptionBanner />
 
-      {/* Header — consistent with all other pages */}
-      <div className="flex items-center justify-between px-5 pt-12 pb-3">
-        <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-          <ChevronLeft className="h-5 w-5 text-foreground" />
-        </button>
-        <h1 className="text-lg font-bold text-foreground">Videos</h1>
-        <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-          <Info className="h-5 w-5 text-foreground" />
-        </button>
-      </div>
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pt-12 pb-3 md:pt-8">
+          <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm md:hidden">
+            <ChevronLeft className="h-5 w-5 text-foreground" />
+          </button>
+          <h1 className="text-lg md:text-2xl font-bold text-foreground md:w-full">Videos</h1>
+          <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+            <Info className="h-5 w-5 text-foreground" />
+          </button>
+        </div>
 
-      {/* Hero Card */}
-      <div className="px-5 pt-2">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-2xl p-5"
-          style={{ background: "linear-gradient(135deg, hsl(150,50%,40%), hsl(160,45%,30%))" }}
-        >
-          <div className="relative z-10">
-            <p className="text-[10px] font-semibold text-white/60 uppercase tracking-widest">Learn</p>
-            <h2 className="text-lg font-extrabold text-white mt-1">Educational Videos</h2>
-            <p className="text-[11px] text-white/70 mt-1 max-w-[200px] leading-snug">Learn insulin dosing techniques with video guides</p>
-          </div>
-          <img src={videosIcon} alt="" className="absolute -bottom-2 -right-2 h-24 w-24 opacity-15 object-contain" />
-        </motion.div>
-      </div>
+        {/* Hero Card */}
+        <div className="px-5 pt-2">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative overflow-hidden rounded-2xl p-5 md:p-8"
+            style={{ background: "linear-gradient(135deg, hsl(150,50%,40%), hsl(160,45%,30%))" }}
+          >
+            <div className="relative z-10">
+              <p className="text-[10px] font-semibold text-white/60 uppercase tracking-widest">Learn</p>
+              <h2 className="text-lg md:text-2xl font-extrabold text-white mt-1">Educational Videos</h2>
+              <p className="text-[11px] md:text-sm text-white/70 mt-1 max-w-[300px] leading-snug">Learn insulin dosing techniques with video guides</p>
+            </div>
+            <img src={videosIcon} alt="" className="absolute -bottom-2 -right-2 h-24 w-24 opacity-15 object-contain" />
+          </motion.div>
+        </div>
 
-      <div className="px-5 mt-5 space-y-4">
-        {videos.map((video, i) => (
-          <VideoCard key={video.title} video={video} index={i} />
-        ))}
+        <div className="px-5 mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {videos.map((video, i) => (
+            <VideoCard key={video.title} video={video} index={i} />
+          ))}
+        </div>
       </div>
     </div>
   );

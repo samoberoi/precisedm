@@ -132,7 +132,8 @@ const SteroidPage = () => {
   const raceLabel = raceOptions.find((r) => r.toLowerCase() === race) ?? race;
 
   return (
-    <div className="min-h-screen bg-background pb-36">
+    <div className="min-h-screen bg-background pb-36 md:pb-16">
+      <div className="max-w-3xl mx-auto">
       <SubscriptionBanner />
 
       {/* Header */}
@@ -356,6 +357,7 @@ const SteroidPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };

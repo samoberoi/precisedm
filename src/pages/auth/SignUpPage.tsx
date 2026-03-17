@@ -53,6 +53,7 @@ const SignUpPage = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen flex flex-col px-8 pt-12 pb-12 bg-background">
+      <div className="w-full max-w-md mx-auto">
       <div className="flex justify-center mb-6"><PreciseLogo size={56} /></div>
       <h1 className="text-2xl font-extrabold text-foreground text-center tracking-tight">Create your account</h1>
 
@@ -112,6 +113,7 @@ const SignUpPage = () => {
         </Button>
       </form>
       <p className="mt-6 text-center text-sm text-muted-foreground">Already have an account? <Link to="/login" className="text-primary font-semibold">Login</Link></p>
+      </div>
     </motion.div>
   );
 };

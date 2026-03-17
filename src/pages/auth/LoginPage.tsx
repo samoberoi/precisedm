@@ -50,6 +50,7 @@ const LoginPage = () => {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       className="min-h-screen flex flex-col px-8 pt-16 bg-background">
+      <div className="w-full max-w-md mx-auto">
       <div className="flex justify-center mb-10">
         <PreciseLogo size={64} />
       </div>
@@ -93,6 +94,7 @@ const LoginPage = () => {
       <p className="mt-8 text-center text-sm text-muted-foreground">
         Don't have an account? <Link to="/signup" className="text-primary font-semibold">Sign Up</Link>
       </p>
+      </div>
     </motion.div>
   );
 };
