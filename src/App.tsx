@@ -78,6 +78,7 @@ const AnimatedRoutes = () => {
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="terms" element={<TermsPage />} />
             <Route path="disclaimer" element={<WebsiteDisclaimerPage />} />
+            <Route path="profile" element={<WebsiteProfilePage />} />
           </Route>
 
           {/* Root redirects to website */}

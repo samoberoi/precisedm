@@ -167,7 +167,7 @@ const WebsiteHeader = () => {
                               <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
                             </Button>
                           )}
-                          <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/profile"); }} className="rounded-xl font-semibold justify-start gap-2">
+                          <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/w/profile"); }} className="rounded-xl font-semibold justify-start gap-2">
                             <User className="h-4 w-4" /> My Profile
                           </Button>
                           <Button variant="ghost" onClick={() => { setMobileOpen(false); handleLogout(); }} className="rounded-xl font-semibold justify-start gap-2 text-destructive">
