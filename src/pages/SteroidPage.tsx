@@ -169,7 +169,7 @@ const SteroidPage = () => {
       {!result && (
         <>
           {/* Progress Steps */}
-          <div className="px-6 mt-5">
+          <div className={`${isWebsite ? cx + " mt-5" : "px-6 mt-5"}`}>
             <div className="flex items-center justify-between relative">
               <div className="absolute top-[18px] left-0 right-0 flex px-6">
                 {STEPS.slice(0, -1).map((_, i) => (
