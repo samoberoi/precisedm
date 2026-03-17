@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Calculator, BookOpen, CreditCard, Users, MessageSquare, HelpCircle } from "lucide-react";
+import { Menu, X, Calculator, BookOpen, CreditCard, Users, MessageSquare, HelpCircle, User, LogIn, LayoutDashboard, Settings, LogOut } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/use-profile";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import logoIcon from "@/assets/logo-icon.png";
 import AuthSlidePanel from "./AuthSlidePanel";
 
@@ -30,23 +33,71 @@ const WebsiteHeader = () => {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { firstName } = useProfile();
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolledPastHero(latest > 400);
   });
 
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return; }
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      setIsAdmin(!!data);
+    });
+  }, [user]);
+
   const openAuth = (mode: "login" | "signup") => {
     setAuthMode(mode);
     setAuthOpen(true);
   };
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/w");
+  };
+
+  const initials = firstName && firstName !== "There" ? firstName.charAt(0).toUpperCase() : "U";
+
+  const ProfileDropdown = ({ size = "default" }: { size?: "default" | "sm" }) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className={`flex items-center justify-center rounded-full gradient-primary text-primary-foreground font-bold ${size === "sm" ? "h-7 w-7 text-xs" : "h-9 w-9 text-sm"}`}>
+          {initials}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-52 rounded-xl">
+        <div className="px-3 py-2">
+          <p className="text-sm font-bold text-foreground">{firstName}</p>
+          <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+        </div>
+        <DropdownMenuSeparator />
+        {isAdmin && (
+          <DropdownMenuItem onClick={() => navigate("/admin")} className="cursor-pointer">
+            <LayoutDashboard className="mr-2 h-4 w-4" /> Admin Dashboard
+          </DropdownMenuItem>
+        )}
+        <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+          <User className="mr-2 h-4 w-4" /> My Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate("/home")} className="cursor-pointer">
+          <Settings className="mr-2 h-4 w-4" /> Go to App
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
+          <LogOut className="mr-2 h-4 w-4" /> Sign Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   return (
     <>
-      {/* ─── Top Header: visible when NOT scrolled ─── */}
+      {/* ─── Top Header ─── */}
       <AnimatePresence>
         {!scrolledPastHero && (
           <motion.header
@@ -77,13 +128,11 @@ const WebsiteHeader = () => {
 
               <div className="hidden items-center gap-2.5 md:flex">
                 {user ? (
-                  <Button onClick={() => navigate("/home")} className="rounded-xl gradient-primary glow-primary font-semibold">
-                    Go to App
-                  </Button>
+                  <ProfileDropdown />
                 ) : (
                   <>
-                    <Button variant="ghost" onClick={() => openAuth("login")} className="rounded-xl font-semibold">
-                      Log In
+                    <Button variant="ghost" onClick={() => openAuth("login")} className="rounded-xl font-semibold gap-2">
+                      <LogIn className="h-4 w-4" /> Log In
                     </Button>
                     <Button onClick={() => openAuth("signup")} className="rounded-xl gradient-primary glow-primary font-semibold">
                       Get Started
@@ -97,7 +146,6 @@ const WebsiteHeader = () => {
               </button>
             </div>
 
-            {/* Mobile menu */}
             <AnimatePresence>
               {mobileOpen && (
                 <motion.div
@@ -121,9 +169,19 @@ const WebsiteHeader = () => {
                     ))}
                     <div className="mt-3 flex flex-col gap-2">
                       {user ? (
-                        <Button onClick={() => { setMobileOpen(false); navigate("/home"); }} className="rounded-xl gradient-primary glow-primary font-semibold">
-                          Go to App
-                        </Button>
+                        <>
+                          {isAdmin && (
+                            <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/admin"); }} className="rounded-xl font-semibold justify-start gap-2">
+                              <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
+                            </Button>
+                          )}
+                          <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/profile"); }} className="rounded-xl font-semibold justify-start gap-2">
+                            <User className="h-4 w-4" /> My Profile
+                          </Button>
+                          <Button variant="ghost" onClick={() => { setMobileOpen(false); handleLogout(); }} className="rounded-xl font-semibold justify-start gap-2 text-destructive">
+                            <LogOut className="h-4 w-4" /> Sign Out
+                          </Button>
+                        </>
                       ) : (
                         <>
                           <Button variant="outline" onClick={() => { setMobileOpen(false); openAuth("login"); }} className="rounded-xl font-semibold">
@@ -143,7 +201,7 @@ const WebsiteHeader = () => {
         )}
       </AnimatePresence>
 
-      {/* ─── Floating Bottom Nav: visible when scrolled past hero ─── */}
+      {/* ─── Floating Bottom Nav ─── */}
       <AnimatePresence>
         {scrolledPastHero && (
           <motion.div
@@ -171,9 +229,7 @@ const WebsiteHeader = () => {
               ))}
               <div className="w-px h-6 bg-border mx-1" />
               {user ? (
-                <Button size="sm" onClick={() => navigate("/home")} className="rounded-xl gradient-primary glow-primary font-semibold text-xs h-8 px-4">
-                  App
-                </Button>
+                <ProfileDropdown size="sm" />
               ) : (
                 <>
                   <Button size="sm" variant="ghost" onClick={() => openAuth("login")} className="rounded-xl font-semibold text-xs h-8">
@@ -189,7 +245,7 @@ const WebsiteHeader = () => {
         )}
       </AnimatePresence>
 
-      {/* ─── Mobile floating bottom bar when scrolled ─── */}
+      {/* ─── Mobile floating bottom bar ─── */}
       <AnimatePresence>
         {scrolledPastHero && (
           <motion.div
@@ -205,9 +261,7 @@ const WebsiteHeader = () => {
                 <span className="text-sm font-bold text-foreground">Precise DM</span>
               </Link>
               {user ? (
-                <Button size="sm" onClick={() => navigate("/home")} className="rounded-xl gradient-primary glow-primary font-semibold text-xs h-8 px-4">
-                  Go to App
-                </Button>
+                <ProfileDropdown size="sm" />
               ) : (
                 <Button size="sm" onClick={() => openAuth("signup")} className="rounded-xl gradient-primary glow-primary font-semibold text-xs h-8 px-4">
                   Get Started
@@ -218,7 +272,6 @@ const WebsiteHeader = () => {
         )}
       </AnimatePresence>
 
-      {/* Auth Slide Panel */}
       <AuthSlidePanel open={authOpen} onOpenChange={setAuthOpen} mode={authMode} />
     </>
   );

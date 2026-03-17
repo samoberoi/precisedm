@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Check, Shield, Zap, BookOpen, Calculator, ChevronRight, Play, Star } from "lucide-react";
+import { ArrowRight, Check, Shield, Zap, BookOpen, Calculator, ChevronRight, Star, TrendingUp, Lock, History } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/website/ScrollReveal";
 import AuthSlidePanel from "@/components/website/AuthSlidePanel";
@@ -15,10 +15,12 @@ import drMelanieProctor from "@/assets/dr-melanie-proctor.jpg";
 import drSuzanneChung from "@/assets/dr-suzanne-chung.jpg";
 
 const features = [
-  { icon: Calculator, title: "Advanced Calculators", desc: "4 precision insulin dosing calculators for different clinical scenarios." },
-  { icon: Zap, title: "Instant Results", desc: "Calculate recommended dosages in seconds with evidence-based algorithms." },
-  { icon: BookOpen, title: "Educational Videos", desc: "Learn insulin dosing techniques through guided video tutorials." },
-  { icon: Shield, title: "Secure & Reliable", desc: "HIPAA-aware design with saved history and secure data handling." },
+  { icon: Calculator, title: "Advanced Calculators", desc: "4 precision insulin dosing calculators for different clinical scenarios.", accent: "hsl(210, 80%, 50%)" },
+  { icon: Zap, title: "Instant Results", desc: "Calculate recommended dosages in seconds with evidence-based algorithms.", accent: "hsl(45, 85%, 50%)" },
+  { icon: BookOpen, title: "Educational Videos", desc: "Learn insulin dosing techniques through guided video tutorials.", accent: "hsl(15, 80%, 55%)" },
+  { icon: Shield, title: "Secure & Reliable", desc: "HIPAA-aware design with saved history and secure data handling.", accent: "hsl(160, 60%, 45%)" },
+  { icon: TrendingUp, title: "Smart Analytics", desc: "Track dosing patterns and outcomes with built-in insights.", accent: "hsl(270, 60%, 55%)" },
+  { icon: History, title: "Saved History", desc: "Review past calculations and track your usage over time.", accent: "hsl(197, 100%, 55%)" },
 ];
 
 const calculators = [
@@ -144,22 +146,31 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ═══ Features ═══ */}
+      {/* ═══ Features – Modern Bento Grid ═══ */}
       <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
           <ScrollReveal className="text-center mb-16">
             <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Why Choose Precise DM?</h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">Built by pharmacists and clinical experts to transform diabetes care delivery.</p>
           </ScrollReveal>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {features.map((f, i) => (
-              <ScrollReveal key={f.title} delay={i * 0.08}>
-                <div className="rounded-2xl bg-card border border-border p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
-                  <div className="h-13 w-13 rounded-xl gradient-primary flex items-center justify-center mb-5">
-                    <f.icon className="h-6 w-6 text-primary-foreground" />
+              <ScrollReveal key={f.title} delay={i * 0.06}>
+                <div className={`group relative overflow-hidden rounded-2xl border border-border bg-card p-8 hover:shadow-xl transition-all duration-300 ${i === 0 ? "md:col-span-2 lg:col-span-1 lg:row-span-2" : ""} h-full`}>
+                  {/* Accent glow */}
+                  <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-3xl" style={{ background: f.accent }} />
+
+                  <div className="relative">
+                    <div className="h-12 w-12 rounded-2xl flex items-center justify-center mb-5" style={{ background: `${f.accent}15` }}>
+                      <f.icon className="h-6 w-6" style={{ color: f.accent }} />
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground mb-2">{f.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
                   </div>
-                  <h3 className="text-base font-bold text-foreground mb-2">{f.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+
+                  {/* Bottom accent line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: f.accent }} />
                 </div>
               </ScrollReveal>
             ))}
