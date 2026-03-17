@@ -131,7 +131,7 @@ const SubscriptionPage = () => {
   const cx = websiteMode ? "max-w-3xl mx-auto px-6 lg:px-10" : "px-5";
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`min-h-screen bg-background ${isWebsite ? "py-10" : "pb-36"}`}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`min-h-screen bg-background ${websiteMode ? "py-10" : "pb-36"}`}>
       {/* Header — only in app mode */}
       {!isWebsite && (
         <div className="flex items-center justify-between px-5 pt-12 pb-3">
