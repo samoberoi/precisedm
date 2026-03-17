@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, ArrowRight, ArrowLeft, Check, User, Mail, Lock, Sparkles } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, ArrowLeft, Check, User, Mail, Lock, Sparkles, CreditCard, Crown, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -14,22 +13,52 @@ interface AuthSlidePanelProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   mode?: "login" | "signup";
-  redirectTo?: string;
 }
 
-type Step = "login" | "signup-name" | "signup-email" | "signup-password" | "success";
+type Step = "login" | "signup-name" | "signup-email" | "signup-password" | "signup-plan" | "success";
 
-const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redirectTo }: AuthSlidePanelProps) => {
+const plans = [
+  {
+    id: "trial",
+    name: "Free Trial",
+    price: "Free",
+    period: "7 days",
+    icon: Zap,
+    desc: "Try all features for 7 days",
+    gradient: "from-emerald-500 to-teal-600",
+  },
+  {
+    id: "monthly",
+    name: "Monthly",
+    price: "$1",
+    period: "/month",
+    icon: CreditCard,
+    desc: "Full access, billed monthly",
+    gradient: "from-primary to-blue-600",
+  },
+  {
+    id: "yearly",
+    name: "Yearly",
+    price: "$12",
+    period: "/year",
+    icon: Crown,
+    desc: "Best value — save 2 months",
+    gradient: "from-amber-500 to-orange-600",
+    badge: "Best Value",
+  },
+];
+
+const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: AuthSlidePanelProps) => {
   const [step, setStep] = useState<Step>(initialMode === "signup" ? "signup-name" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [selectedPlan, setSelectedPlan] = useState("trial");
   const { toast } = useToast();
+  const [direction, setDirection] = useState(1);
 
-  // Reset when panel opens
   useEffect(() => {
     if (open) {
       setStep(initialMode === "signup" ? "signup-name" : "login");
@@ -38,6 +67,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
       setFullName("");
       setShowPassword(false);
       setLoading(false);
+      setSelectedPlan("trial");
     }
   }, [open, initialMode]);
 
@@ -49,13 +79,11 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
     }
     setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (error) throw error;
-      // Check admin
-      const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: data.user.id, _role: "admin" });
-      toast({ title: "Welcome back!" });
+      toast({ title: "Welcome back! You're now logged in." });
       onOpenChange(false);
-      navigate(isAdmin ? "/admin" : (redirectTo || "/home"));
+      // Stay on current page — no redirect
     } catch (err: any) {
       toast({ title: err.message || "Login failed", variant: "destructive" });
     } finally {
@@ -77,7 +105,9 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
         options: { data: { full_name: fullName.trim() } },
       });
       if (error) throw error;
-      setStep("success");
+      // Move to plan selection step
+      goNext();
+      setStep("signup-plan");
     } catch (err: any) {
       toast({ title: err.message || "Signup failed", variant: "destructive" });
     } finally {
@@ -85,10 +115,57 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
     }
   };
 
-  const signupSteps: { key: Step; num: number; label: string }[] = [
-    { key: "signup-name", num: 1, label: "Name" },
-    { key: "signup-email", num: 2, label: "Email" },
-    { key: "signup-password", num: 3, label: "Password" },
+  const handlePlanSelect = async () => {
+    setLoading(true);
+    try {
+      if (selectedPlan === "trial") {
+        // Get current user
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          await supabase.from("subscriptions").insert({
+            user_id: session.user.id,
+            plan_type: "trial",
+            status: "active",
+            start_date: new Date().toISOString(),
+            next_billing_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          });
+        }
+        goNext();
+        setStep("success");
+      } else {
+        // For paid plans, redirect to PayPal
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) throw new Error("Not authenticated");
+        const res = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${session.access_token}`,
+            },
+            body: JSON.stringify({ plan_type: selectedPlan }),
+          }
+        );
+        const data = await res.json();
+        if (data.approve_url) {
+          window.location.href = data.approve_url;
+          return;
+        }
+        throw new Error("Could not create subscription");
+      }
+    } catch (err: any) {
+      toast({ title: err.message || "Something went wrong", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signupSteps = [
+    { key: "signup-name" as Step, num: 1, label: "Name" },
+    { key: "signup-email" as Step, num: 2, label: "Email" },
+    { key: "signup-password" as Step, num: 3, label: "Password" },
+    { key: "signup-plan" as Step, num: 4, label: "Plan" },
   ];
 
   const currentStepIndex = signupSteps.findIndex(s => s.key === step);
@@ -100,10 +177,8 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
     exit: (dir: number) => ({ x: dir > 0 ? -80 : 80, opacity: 0 }),
   };
 
-  const [direction, setDirection] = useState(1);
-
-  const goNext = () => { setDirection(1); };
-  const goBack = () => { setDirection(-1); };
+  const goNext = () => setDirection(1);
+  const goBack = () => setDirection(-1);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -120,20 +195,20 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
           {/* Step indicator for signup */}
           {isSignupFlow && step !== "success" && (
             <div className="px-6 pb-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 {signupSteps.map((s, i) => (
-                  <div key={s.key} className="flex items-center gap-2">
-                    <div className={`flex items-center justify-center h-7 w-7 rounded-full text-xs font-bold transition-all ${
+                  <div key={s.key} className="flex items-center gap-1.5">
+                    <div className={`flex items-center justify-center h-6 w-6 rounded-full text-[10px] font-bold transition-all ${
                       i < currentStepIndex ? "gradient-primary text-primary-foreground" :
                       i === currentStepIndex ? "bg-primary/15 text-primary ring-2 ring-primary/30" :
                       "bg-muted text-muted-foreground"
                     }`}>
-                      {i < currentStepIndex ? <Check className="h-3.5 w-3.5" /> : s.num}
+                      {i < currentStepIndex ? <Check className="h-3 w-3" /> : s.num}
                     </div>
-                    <span className={`text-xs font-medium hidden sm:inline ${
+                    <span className={`text-[10px] font-medium hidden sm:inline ${
                       i === currentStepIndex ? "text-foreground" : "text-muted-foreground"
                     }`}>{s.label}</span>
-                    {i < signupSteps.length - 1 && <div className={`h-px w-6 ${i < currentStepIndex ? "bg-primary" : "bg-border"}`} />}
+                    {i < signupSteps.length - 1 && <div className={`h-px w-4 ${i < currentStepIndex ? "bg-primary" : "bg-border"}`} />}
                   </div>
                 ))}
               </div>
@@ -170,9 +245,6 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
                         </button>
                       </div>
                     </div>
-                    <button type="button" onClick={() => { onOpenChange(false); navigate("/forgot-password"); }} className="text-xs text-primary hover:underline">
-                      Forgot password?
-                    </button>
                     <Button type="submit" disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
                       {loading ? "Signing in..." : "Sign In"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
                     </Button>
@@ -269,12 +341,64 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
                       )}
                     </div>
                     <Button type="submit" disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
-                      {loading ? "Creating account..." : "Create Account"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
+                      {loading ? "Creating account..." : "Continue"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
                     </Button>
                     <button type="button" onClick={() => { goBack(); setStep("signup-email"); }} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mx-auto">
                       <ArrowLeft className="h-3 w-3" /> Back
                     </button>
                   </form>
+                </motion.div>
+              )}
+
+              {/* ─── SIGNUP STEP 4: Choose Plan ─── */}
+              {step === "signup-plan" && (
+                <motion.div key="signup-plan" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
+                  <h2 className="text-2xl font-extrabold text-foreground mb-1">Choose your plan</h2>
+                  <p className="text-sm text-muted-foreground mb-5">Start with a free trial or pick a plan that suits you.</p>
+
+                  <div className="space-y-3 mb-5">
+                    {plans.map((plan) => (
+                      <button
+                        key={plan.id}
+                        onClick={() => setSelectedPlan(plan.id)}
+                        className={`w-full flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all ${
+                          selectedPlan === plan.id
+                            ? "border-primary bg-primary/5 shadow-md"
+                            : "border-border bg-card hover:border-primary/30"
+                        }`}
+                      >
+                        <div className={`flex items-center justify-center h-10 w-10 rounded-lg bg-gradient-to-br ${plan.gradient} text-white shrink-0`}>
+                          <plan.icon className="h-5 w-5" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-sm text-foreground">{plan.name}</span>
+                            {plan.badge && (
+                              <span className="text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 rounded-full">{plan.badge}</span>
+                            )}
+                          </div>
+                          <p className="text-xs text-muted-foreground">{plan.desc}</p>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <span className="text-lg font-extrabold text-foreground">{plan.price}</span>
+                          <span className="text-xs text-muted-foreground">{plan.period}</span>
+                        </div>
+                        <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                          selectedPlan === plan.id ? "border-primary bg-primary" : "border-muted-foreground/30"
+                        }`}>
+                          {selectedPlan === plan.id && <Check className="h-3 w-3 text-primary-foreground" />}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  <Button
+                    onClick={handlePlanSelect}
+                    disabled={loading}
+                    className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base"
+                  >
+                    {loading ? "Processing..." : selectedPlan === "trial" ? "Start Free Trial" : "Continue to Payment"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
+                  </Button>
                 </motion.div>
               )}
 
@@ -287,13 +411,16 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
                     </div>
                     <h2 className="text-2xl font-extrabold text-foreground mb-2">You're all set!</h2>
                     <p className="text-sm text-muted-foreground mb-8 max-w-xs">
-                      Your account has been created. You can now log in and start using Precise DM's precision calculators.
+                      Your account is ready. Enjoy full access to Precise DM's precision calculators.
                     </p>
                     <Button
-                      onClick={() => { setStep("login"); setPassword(""); }}
+                      onClick={() => {
+                        toast({ title: "Welcome to Precise DM!" });
+                        onOpenChange(false);
+                      }}
                       className="rounded-xl h-12 font-bold gradient-primary glow-primary text-base px-8"
                     >
-                      Log In Now <ArrowRight className="ml-2 h-4 w-4" />
+                      Start Exploring <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
                 </motion.div>
@@ -302,7 +429,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login", redir
           </div>
 
           {/* Bottom toggle */}
-          {step !== "success" && (
+          {(step === "login" || step.startsWith("signup-")) && step !== "signup-plan" && (
             <div className="px-6 pb-8 pt-4 text-center">
               <p className="text-sm text-muted-foreground">
                 {step === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
