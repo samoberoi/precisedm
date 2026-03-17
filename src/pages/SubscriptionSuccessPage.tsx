@@ -8,8 +8,12 @@ import { Button } from "@/components/ui/button";
 const SubscriptionSuccessPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [activating, setActivating] = useState(true);
   const [success, setSuccess] = useState(false);
+  const websiteMode = location.pathname.startsWith("/w");
+  const homeRoute = websiteMode ? "/w" : "/home";
+  const subscriptionRoute = websiteMode ? "/w/subscription" : "/subscription";
 
   useEffect(() => {
     const subscriptionId = searchParams.get("subscription_id");
