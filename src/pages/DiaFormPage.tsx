@@ -210,8 +210,7 @@ const DiaFormPage = () => {
   return (
     <div className="min-h-screen bg-background pb-36 md:pb-16">
       <div className="max-w-3xl mx-auto">
-
-      {/* Header */}
+      <SubscriptionBanner />
       <div className="px-5 pt-12 pb-3">
         <div className="flex items-center justify-between">
           <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
