@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,8 +8,12 @@ import { Button } from "@/components/ui/button";
 const SubscriptionSuccessPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [activating, setActivating] = useState(true);
   const [success, setSuccess] = useState(false);
+  const websiteMode = location.pathname.startsWith("/w");
+  const homeRoute = websiteMode ? "/w" : "/home";
+  const subscriptionRoute = websiteMode ? "/w/subscription" : "/subscription";
 
   useEffect(() => {
     const subscriptionId = searchParams.get("subscription_id");
@@ -47,15 +51,15 @@ const SubscriptionSuccessPage = () => {
             </div>
             <h2 className="text-xl font-extrabold text-foreground mb-2">Subscription Activated!</h2>
             <p className="text-sm text-muted-foreground mb-6">You now have full access to all tools.</p>
-            <Button className="w-full h-12 rounded-2xl font-bold gradient-primary glow-primary" onClick={() => navigate("/home")}>Go to Home</Button>
+            <Button className="w-full h-12 rounded-2xl font-bold gradient-primary glow-primary" onClick={() => navigate(homeRoute)}>Go to Home</Button>
           </>
         ) : (
           <>
             <h2 className="text-xl font-extrabold text-foreground mb-2">Activation Pending</h2>
             <p className="text-sm text-muted-foreground mb-6">Your subscription is being processed.</p>
             <div className="flex gap-3">
-              <Button variant="outline" className="flex-1 h-12 rounded-2xl font-bold border-border" onClick={() => navigate("/subscription")}>Back to Plans</Button>
-              <Button className="flex-1 h-12 rounded-2xl font-bold gradient-primary glow-primary" onClick={() => navigate("/home")}>Go Home</Button>
+              <Button variant="outline" className="flex-1 h-12 rounded-2xl font-bold border-border" onClick={() => navigate(subscriptionRoute)}>Back to Plans</Button>
+              <Button className="flex-1 h-12 rounded-2xl font-bold gradient-primary glow-primary" onClick={() => navigate(homeRoute)}>Go Home</Button>
             </div>
           </>
         )}

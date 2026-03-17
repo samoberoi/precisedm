@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useSubscription } from "@/hooks/use-subscription";
 import { Loader2 } from "lucide-react";
 
-interface SubscriptionGateProps { children: React.ReactNode; }
+interface SubscriptionGateProps {
+  children: React.ReactNode;
+  redirectTo?: string;
+}
 
-const SubscriptionGate = ({ children }: SubscriptionGateProps) => {
+const SubscriptionGate = ({ children, redirectTo = "/subscription" }: SubscriptionGateProps) => {
   const navigate = useNavigate();
   const { isActive, loading } = useSubscription();
 
   useEffect(() => {
-    if (!loading && !isActive) navigate("/subscription", { replace: true });
-  }, [loading, isActive, navigate]);
+    if (!loading && !isActive) navigate(redirectTo, { replace: true });
+  }, [loading, isActive, navigate, redirectTo]);
 
   if (loading) {
     return (

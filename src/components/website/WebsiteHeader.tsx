@@ -77,7 +77,7 @@ const WebsiteHeader = () => {
         </div>
         <DropdownMenuSeparator />
         {isAdmin && (
-          <DropdownMenuItem onClick={() => navigate("/admin")} className="cursor-pointer">
+          <DropdownMenuItem onClick={() => navigate("/w/admin")} className="cursor-pointer">
             <LayoutDashboard className="mr-2 h-4 w-4" /> Admin Dashboard
           </DropdownMenuItem>
         )}
@@ -163,7 +163,7 @@ const WebsiteHeader = () => {
                       {user ? (
                         <>
                           {isAdmin && (
-                            <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/admin"); }} className="rounded-xl font-semibold justify-start gap-2">
+                            <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/w/admin"); }} className="rounded-xl font-semibold justify-start gap-2">
                               <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
                             </Button>
                           )}

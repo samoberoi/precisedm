@@ -136,6 +136,11 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
         // For paid plans, redirect to PayPal
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) throw new Error("Not authenticated");
+        const websiteMode = window.location.pathname.startsWith("/w");
+        const baseUrl = window.location.origin;
+        const returnPath = websiteMode ? "/w/subscription/success" : "/subscription/success";
+        const cancelPath = websiteMode ? "/w/subscription" : "/subscription";
+
         const res = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
           {
@@ -144,7 +149,11 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
               "Content-Type": "application/json",
               Authorization: `Bearer ${session.access_token}`,
             },
-            body: JSON.stringify({ plan_type: selectedPlan }),
+            body: JSON.stringify({
+              plan_type: selectedPlan,
+              return_url: `${baseUrl}${returnPath}`,
+              cancel_url: `${baseUrl}${cancelPath}`,
+            }),
           }
         );
         const data = await res.json();

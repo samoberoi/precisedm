@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Info, RotateCcw, Printer, Pencil, Check } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
@@ -70,7 +70,9 @@ const STEPS = [
 
 const SteroidPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { firstName } = useProfile();
+  const disclaimerRoute = location.pathname.startsWith("/w") ? "/w/disclaimer" : "/disclaimer";
   const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -142,7 +144,7 @@ const SteroidPage = () => {
             <ChevronLeft className="h-5 w-5 text-foreground" />
           </button>
           <h1 className="text-lg font-bold text-foreground">Steroid</h1>
-          <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+          <button onClick={() => navigate(disclaimerRoute)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
             <Info className="h-5 w-5 text-foreground" />
           </button>
         </div>

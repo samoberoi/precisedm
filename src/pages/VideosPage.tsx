@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronLeft, Info, Play } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
@@ -76,7 +76,9 @@ const VideoCard = ({ video, index }: { video: typeof videos[0]; index: number })
 
 const VideosPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { firstName } = useProfile();
+  const disclaimerRoute = location.pathname.startsWith("/w") ? "/w/disclaimer" : "/disclaimer";
 
   return (
     <div className="min-h-screen bg-background pb-36">
@@ -88,7 +90,7 @@ const VideosPage = () => {
           <ChevronLeft className="h-5 w-5 text-foreground" />
         </button>
         <h1 className="text-lg font-bold text-foreground">Videos</h1>
-        <button onClick={() => navigate("/disclaimer")} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+        <button onClick={() => navigate(disclaimerRoute)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
           <Info className="h-5 w-5 text-foreground" />
         </button>
       </div>

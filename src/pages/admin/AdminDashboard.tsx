@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { UserGrowthChart, RevenueChart, type ChartDateRange } from "@/components/admin/AdminCharts";
@@ -128,6 +128,7 @@ const FORM_ICONS: Record<string, string> = {
 const AdminDashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [users, setUsers] = useState<UserRow[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -372,7 +373,7 @@ const AdminDashboard = () => {
             Admin
           </span>
           <button
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate(location.pathname.startsWith("/w") ? "/w/profile" : "/profile")}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 border border-primary/20 overflow-hidden"
           >
             <span className="text-sm font-bold text-primary">{firstName.charAt(0)}</span>

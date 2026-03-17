@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronLeft, Check, Crown, Zap, Shield, Gift } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,6 +24,7 @@ const plans = [
 
 const SubscriptionPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, session, loading: authLoading } = useAuth();
   const { subscription, isActive, daysRemaining, refresh } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -32,10 +33,14 @@ const SubscriptionPage = () => {
 
   const hasUsedTrial = !!subscription && subscription.plan_type === "trial";
   const isTrialActive = isActive && subscription?.plan_type === "trial";
+  const websiteMode = location.pathname.startsWith("/w");
+  const loginRoute = websiteMode ? "/w" : "/login";
+  const subscriptionRoute = websiteMode ? "/w/subscription" : "/subscription";
+  const successRoute = websiteMode ? "/w/subscription/success" : "/subscription/success";
 
   const handleStartTrial = async () => {
     if (authLoading) return;
-    if (!user) { navigate("/login"); return; }
+    if (!user) { navigate(loginRoute); return; }
 
     setTrialProcessing(true);
     try {
@@ -68,7 +73,7 @@ const SubscriptionPage = () => {
   const handleSubscribe = async (planType: string) => {
     if (authLoading) return;
     if (!user) {
-      navigate("/login");
+      navigate(loginRoute);
       return;
     }
 
@@ -96,8 +101,8 @@ const SubscriptionPage = () => {
         },
         body: JSON.stringify({
           plan_type: planType,
-          return_url: `${baseUrl}/subscription/success`,
-          cancel_url: `${baseUrl}/subscription`,
+          return_url: `${baseUrl}${successRoute}`,
+          cancel_url: `${baseUrl}${subscriptionRoute}`,
         }),
       });
 
