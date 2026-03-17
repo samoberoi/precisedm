@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { UserGrowthChart, RevenueChart } from "@/components/admin/AdminCharts";
+import { UserGrowthChart, RevenueChart, type ChartDateRange } from "@/components/admin/AdminCharts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
   const [allSubscriptions, setAllSubscriptions] = useState<SubscriptionRecord[]>([]);
   const [subscriptionsLoading, setSubscriptionsLoading] = useState(false);
   const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionRecord | null>(null);
-  const [subFilter, setSubFilter] = useState<"all" | "active" | "inactive" | "monthly" | "yearly">("all");
+  const [subFilter, setSubFilter] = useState<"all" | "active" | "inactive" | "monthly" | "yearly" | "trial">("all");
   const [submissionFormFilter, setSubmissionFormFilter] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -159,6 +159,14 @@ const AdminDashboard = () => {
   const [userDateFilter, setUserDateFilter] = useState<"all_time" | "today" | "yesterday" | "this_week" | "this_month" | "custom">("all_time");
   const [userCustomStartDate, setUserCustomStartDate] = useState("");
   const [userCustomEndDate, setUserCustomEndDate] = useState("");
+
+  // Chart date range states
+  const [userChartRange, setUserChartRange] = useState<ChartDateRange>("7d");
+  const [userChartCustomStart, setUserChartCustomStart] = useState("");
+  const [userChartCustomEnd, setUserChartCustomEnd] = useState("");
+  const [revenueChartRange, setRevenueChartRange] = useState<ChartDateRange>("7d");
+  const [revenueChartCustomStart, setRevenueChartCustomStart] = useState("");
+  const [revenueChartCustomEnd, setRevenueChartCustomEnd] = useState("");
 
   const [form, setForm] = useState({
     email: "",
@@ -252,7 +260,7 @@ const AdminDashboard = () => {
 
   const handleViewUsers = () => setViewMode("users");
   const handleViewSubmissions = (formType?: string) => { fetchSubmissions(); setSubmissionFormFilter(formType || null); setViewMode("submissions"); };
-  const handleViewSubscriptions = (filter?: "all" | "active" | "inactive" | "monthly" | "yearly") => {
+  const handleViewSubscriptions = (filter?: "all" | "active" | "inactive" | "monthly" | "yearly" | "trial") => {
     fetchSubscriptions();
     if (filter) setSubFilter(filter);
     else setSubFilter("all");
@@ -298,6 +306,7 @@ const AdminDashboard = () => {
       if (subFilter === "inactive") return s.status !== "active";
       if (subFilter === "monthly") return s.plan_type === "monthly" && s.status === "active";
       if (subFilter === "yearly") return s.plan_type === "yearly" && s.status === "active";
+      if (subFilter === "trial") return s.plan_type === "trial";
       return true;
     });
     return filterByDateAndSearch(result, subDateFilter, subSearchQuery, subCustomStartDate, subCustomEndDate, (s) => `${s.user_name} ${s.user_email} ${s.plan_type}`);
@@ -443,8 +452,24 @@ const AdminDashboard = () => {
 
               {/* Charts */}
               <div className="mt-5 space-y-4">
-                <UserGrowthChart users={users} />
-                <RevenueChart subscriptions={allSubscriptions} />
+                <UserGrowthChart
+                  users={users}
+                  dateRange={userChartRange}
+                  onDateRangeChange={setUserChartRange}
+                  customStart={userChartCustomStart}
+                  customEnd={userChartCustomEnd}
+                  onCustomStartChange={setUserChartCustomStart}
+                  onCustomEndChange={setUserChartCustomEnd}
+                />
+                <RevenueChart
+                  subscriptions={allSubscriptions}
+                  dateRange={revenueChartRange}
+                  onDateRangeChange={setRevenueChartRange}
+                  customStart={revenueChartCustomStart}
+                  customEnd={revenueChartCustomEnd}
+                  onCustomStartChange={setRevenueChartCustomStart}
+                  onCustomEndChange={setRevenueChartCustomEnd}
+                />
               </div>
 
               {/* Form Breakdown - 2x2 grid matching toolkit style */}
@@ -490,15 +515,15 @@ const AdminDashboard = () => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   <motion.button
                     initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
                     onClick={() => handleViewSubscriptions("active")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <CheckCircle2 className="h-4 w-4 text-primary" />
-                      <p className="text-xs font-semibold text-muted-foreground">Subscribed</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Subscribed</p>
                     </div>
                     <p className="text-2xl font-black text-primary">{subStats.totalSubscribed}</p>
                   </motion.button>
@@ -508,11 +533,23 @@ const AdminDashboard = () => {
                     onClick={() => handleViewSubscriptions("inactive")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <XCircle className="h-4 w-4 text-destructive" />
-                      <p className="text-xs font-semibold text-muted-foreground">Unsubscribed</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Unsubscribed</p>
                     </div>
                     <p className="text-2xl font-black text-foreground">{subStats.totalUnsubscribed}</p>
+                  </motion.button>
+
+                  <motion.button
+                    initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.39 }}
+                    onClick={() => handleViewSubscriptions("trial")}
+                    className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
+                  >
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <Clock className="h-4 w-4 text-accent-foreground" />
+                      <p className="text-[10px] font-semibold text-muted-foreground">Trials</p>
+                    </div>
+                    <p className="text-2xl font-black text-foreground">{allSubscriptions.filter(s => s.plan_type === "trial").length}</p>
                   </motion.button>
 
                   <motion.button
@@ -520,9 +557,9 @@ const AdminDashboard = () => {
                     onClick={() => handleViewSubscriptions("monthly")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <CreditCard className="h-4 w-4 text-muted-foreground" />
-                      <p className="text-xs font-semibold text-muted-foreground">Monthly</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Monthly</p>
                     </div>
                     <p className="text-2xl font-black text-foreground">{subStats.monthly}</p>
                   </motion.button>
@@ -532,11 +569,23 @@ const AdminDashboard = () => {
                     onClick={() => handleViewSubscriptions("yearly")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <p className="text-xs font-semibold text-muted-foreground">Yearly</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Yearly</p>
                     </div>
                     <p className="text-2xl font-black text-foreground">{subStats.yearly}</p>
+                  </motion.button>
+
+                  <motion.button
+                    initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.46 }}
+                    onClick={handleViewUsers}
+                    className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
+                  >
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <Users className="h-4 w-4 text-muted-foreground" />
+                      <p className="text-[10px] font-semibold text-muted-foreground">Accounts</p>
+                    </div>
+                    <p className="text-2xl font-black text-foreground">{loading ? "—" : String(total)}</p>
                   </motion.button>
                 </div>
 
@@ -654,7 +703,7 @@ const AdminDashboard = () => {
               </div>
 
               <div className="flex gap-2 mb-4 overflow-x-auto pb-1 -mx-1 px-1">
-                {(["all", "active", "inactive", "monthly", "yearly"] as const).map((f) => (
+                {(["all", "active", "inactive", "trial", "monthly", "yearly"] as const).map((f) => (
                   <button key={f} onClick={() => setSubFilter(f)}
                     className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all whitespace-nowrap ${
                       subFilter === f
