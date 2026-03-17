@@ -140,7 +140,8 @@ const MaintenancePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { firstName } = useProfile();
-  const disclaimerRoute = location.pathname.startsWith("/w") ? "/w/disclaimer" : "/disclaimer";
+  const isWebsite = location.pathname.startsWith("/w");
+  const disclaimerRoute = isWebsite ? "/w/disclaimer" : "/disclaimer";
   const { saveSubmission } = useSaveSubmission();
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -184,34 +185,36 @@ const MaintenancePage = () => {
     exit: (dir: number) => ({ x: dir > 0 ? -80 : 80, opacity: 0 }),
   };
 
+  const cx = isWebsite ? "max-w-4xl mx-auto px-6 lg:px-10" : "px-5";
+
   return (
-    <div className="min-h-screen bg-background pb-36">
-      <SubscriptionBanner />
+    <div className={`min-h-screen bg-background ${isWebsite ? "py-10" : "pb-36"}`}>
+      {!isWebsite && <SubscriptionBanner />}
 
-      {/* Header */}
-      <div className="px-5 pt-12 pb-3">
-        <div className="flex items-center justify-between">
-          <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-            <ChevronLeft className="h-5 w-5 text-foreground" />
-          </button>
-          <h1 className="text-lg font-bold text-foreground">Maintenance</h1>
-          <button onClick={() => navigate(disclaimerRoute)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-            <Info className="h-5 w-5 text-foreground" />
-          </button>
+      {!isWebsite && (
+        <div className="px-5 pt-12 pb-3">
+          <div className="flex items-center justify-between">
+            <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+              <ChevronLeft className="h-5 w-5 text-foreground" />
+            </button>
+            <h1 className="text-lg font-bold text-foreground">Maintenance</h1>
+            <button onClick={() => navigate(disclaimerRoute)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+              <Info className="h-5 w-5 text-foreground" />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Hero Card */}
-      <div className="px-5 pt-2">
+      <div className={isWebsite ? cx : "px-5 pt-2"}>
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-2xl p-5"
+          className={`relative overflow-hidden rounded-2xl ${isWebsite ? "p-8 lg:p-10" : "p-5"}`}
           style={{ background: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))" }}>
           <div className="relative z-10">
-            <p className="text-[10px] font-semibold text-white/60 uppercase tracking-widest">Ongoing Doses</p>
-            <h2 className="text-lg font-extrabold text-white mt-1">Maintenance Calculator</h2>
-            <p className="text-[11px] text-white/70 mt-1 max-w-[200px] leading-snug">Calculate adjustments to Basal and Prandial insulin doses</p>
+            <p className={`font-semibold text-white/60 uppercase tracking-widest ${isWebsite ? "text-xs" : "text-[10px]"}`}>Ongoing Doses</p>
+            <h2 className={`font-extrabold text-white mt-1 ${isWebsite ? "text-2xl lg:text-3xl" : "text-lg"}`}>Maintenance Calculator</h2>
+            <p className={`text-white/70 mt-2 leading-snug ${isWebsite ? "text-sm max-w-md" : "text-[11px] max-w-[200px]"}`}>Calculate adjustments to Basal and Prandial insulin doses</p>
           </div>
-          <img src={maintenanceIcon} alt="" className="absolute -bottom-2 -right-2 h-24 w-24 opacity-15 object-contain" />
+          <img src={maintenanceIcon} alt="" className={`absolute -bottom-2 -right-2 opacity-15 object-contain ${isWebsite ? "h-32 w-32" : "h-24 w-24"}`} />
         </motion.div>
       </div>
 
