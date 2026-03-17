@@ -194,7 +194,7 @@ const SteroidPage = () => {
           </div>
 
           {/* Step Content */}
-          <div className="px-5 mt-5 overflow-hidden">
+          <div className={`${isWebsite ? cx + " mt-5" : "px-5 mt-5"} overflow-hidden`}>
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div key={step} custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit"
                 transition={{ duration: 0.25, ease: "easeInOut" }}
