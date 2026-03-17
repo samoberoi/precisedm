@@ -363,23 +363,27 @@ const AdminDashboard = () => {
     </form>
   );
 
+  const isWebsiteMode = location.pathname.startsWith("/w");
+
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-background pb-36">
-      {/* Top Bar — matching HomePage style */}
-      <div className="flex items-center justify-between px-5 pt-12 pb-3">
-        <PreciseLogo size={36} variant="icon" />
-        <div className="flex items-center gap-2.5">
-          <span className="text-[10px] font-bold uppercase tracking-widest gradient-primary text-primary-foreground px-3 py-1 rounded-full">
-            Admin
-          </span>
-          <button
-            onClick={() => navigate(location.pathname.startsWith("/w") ? "/w/profile" : "/profile")}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 border border-primary/20 overflow-hidden"
-          >
-            <span className="text-sm font-bold text-primary">{firstName.charAt(0)}</span>
-          </button>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`min-h-screen bg-background ${isWebsiteMode ? "pb-12" : "pb-36"}`}>
+      {/* Top Bar — only show in app mode; website mode uses WebsiteHeader */}
+      {!isWebsiteMode && (
+        <div className="flex items-center justify-between px-5 pt-12 pb-3">
+          <PreciseLogo size={36} variant="icon" />
+          <div className="flex items-center gap-2.5">
+            <span className="text-[10px] font-bold uppercase tracking-widest gradient-primary text-primary-foreground px-3 py-1 rounded-full">
+              Admin
+            </span>
+            <button
+              onClick={() => navigate("/profile")}
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 border border-primary/20 overflow-hidden"
+            >
+              <span className="text-sm font-bold text-primary">{firstName.charAt(0)}</span>
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="px-5">
         <AnimatePresence mode="wait">
