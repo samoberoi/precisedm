@@ -49,6 +49,12 @@ const WebsiteFooter = () => (
       </div>
       <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
         <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()} PreciseDM, LLC. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">
+          Designed & Developed by{" "}
+          <a href="https://hyperrevamp.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground hover:text-primary transition-colors">
+            Hyper Revamp
+          </a>
+        </p>
         <a href="mailto:precise.diabetes@gmail.com" className="text-xs text-muted-foreground hover:text-primary transition-colors">
           precise.diabetes@gmail.com
         </a>
