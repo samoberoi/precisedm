@@ -515,15 +515,15 @@ const AdminDashboard = () => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   <motion.button
                     initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
                     onClick={() => handleViewSubscriptions("active")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <CheckCircle2 className="h-4 w-4 text-primary" />
-                      <p className="text-xs font-semibold text-muted-foreground">Subscribed</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Subscribed</p>
                     </div>
                     <p className="text-2xl font-black text-primary">{subStats.totalSubscribed}</p>
                   </motion.button>
@@ -533,11 +533,23 @@ const AdminDashboard = () => {
                     onClick={() => handleViewSubscriptions("inactive")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <XCircle className="h-4 w-4 text-destructive" />
-                      <p className="text-xs font-semibold text-muted-foreground">Unsubscribed</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Unsubscribed</p>
                     </div>
                     <p className="text-2xl font-black text-foreground">{subStats.totalUnsubscribed}</p>
+                  </motion.button>
+
+                  <motion.button
+                    initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.39 }}
+                    onClick={() => handleViewSubscriptions("trial")}
+                    className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
+                  >
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <Clock className="h-4 w-4 text-accent-foreground" />
+                      <p className="text-[10px] font-semibold text-muted-foreground">Trials</p>
+                    </div>
+                    <p className="text-2xl font-black text-foreground">{allSubscriptions.filter(s => s.plan_type === "trial").length}</p>
                   </motion.button>
 
                   <motion.button
@@ -545,9 +557,9 @@ const AdminDashboard = () => {
                     onClick={() => handleViewSubscriptions("monthly")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <CreditCard className="h-4 w-4 text-muted-foreground" />
-                      <p className="text-xs font-semibold text-muted-foreground">Monthly</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Monthly</p>
                     </div>
                     <p className="text-2xl font-black text-foreground">{subStats.monthly}</p>
                   </motion.button>
@@ -557,11 +569,23 @@ const AdminDashboard = () => {
                     onClick={() => handleViewSubscriptions("yearly")}
                     className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
                   >
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <p className="text-xs font-semibold text-muted-foreground">Yearly</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground">Yearly</p>
                     </div>
                     <p className="text-2xl font-black text-foreground">{subStats.yearly}</p>
+                  </motion.button>
+
+                  <motion.button
+                    initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.46 }}
+                    onClick={handleViewUsers}
+                    className="rounded-2xl bg-card border border-border shadow-sm p-4 text-left active:scale-[0.97] transition-transform"
+                  >
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <Users className="h-4 w-4 text-muted-foreground" />
+                      <p className="text-[10px] font-semibold text-muted-foreground">Accounts</p>
+                    </div>
+                    <p className="text-2xl font-black text-foreground">{loading ? "—" : String(total)}</p>
                   </motion.button>
                 </div>
 
