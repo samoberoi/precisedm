@@ -357,6 +357,7 @@ const SteroidPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };

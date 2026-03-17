@@ -420,6 +420,7 @@ const MaintenancePage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };

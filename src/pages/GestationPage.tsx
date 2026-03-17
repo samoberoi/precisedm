@@ -454,6 +454,7 @@ const GestationPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };
