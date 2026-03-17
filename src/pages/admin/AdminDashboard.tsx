@@ -385,7 +385,7 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      <div className={isWebsiteMode ? "max-w-5xl mx-auto px-6 py-8" : "px-5"}>
+      <div className={isWebsiteMode ? "max-w-6xl mx-auto px-6 lg:px-10 py-4" : "px-5"}>
         <AnimatePresence mode="wait">
           {/* ─── Dashboard View ─── */}
           {viewMode === "dashboard" && (

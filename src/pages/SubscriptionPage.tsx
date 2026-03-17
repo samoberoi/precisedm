@@ -128,18 +128,22 @@ const SubscriptionPage = () => {
     }
   };
 
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-background pb-36">
-      {/* Header */}
-      <div className="flex items-center justify-between px-5 pt-12 pb-3">
-        <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-          <ChevronLeft className="h-5 w-5 text-foreground" />
-        </button>
-        <h1 className="text-lg font-bold text-foreground">Subscription</h1>
-        <div className="w-10" />
-      </div>
+  const cx = websiteMode ? "max-w-3xl mx-auto px-6 lg:px-10" : "px-5";
 
-      <div className="px-5 pt-3">
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`min-h-screen bg-background ${websiteMode ? "py-10" : "pb-36"}`}>
+      {/* Header — only in app mode */}
+      {!websiteMode && (
+        <div className="flex items-center justify-between px-5 pt-12 pb-3">
+          <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
+            <ChevronLeft className="h-5 w-5 text-foreground" />
+          </button>
+          <h1 className="text-lg font-bold text-foreground">Subscription</h1>
+          <div className="w-10" />
+        </div>
+      )}
+
+      <div className={cx + " pt-3"}>
         {/* Active Banner */}
         {isActive && subscription && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
