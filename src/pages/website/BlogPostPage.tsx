@@ -8,6 +8,10 @@ const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = blogPosts.find((p) => p.slug === slug);
 
+  useEffect(() => {
+    if (post) document.title = `${post.title} | Precise DM Blog`;
+  }, [post]);
+
   if (!post) {
     return (
       <div className="py-32 text-center">
@@ -17,10 +21,6 @@ const BlogPostPage = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    document.title = `${post.title} | Precise DM Blog`;
-  }, [post]);
 
   return (
     <>
