@@ -80,7 +80,7 @@ function calculateMaintenance(form: FormData): CalcResult {
       const delta = (fbg - 100) / isf;
       const lower = Math.round(delta - 1);
       const upper = Math.round(delta + 1);
-      basalRecommendation = lower < 1 ? "No change to basal insulin dose." : `Increase current basal dose by ${lower} to ${upper} units`;
+      basalRecommendation = lower < 1 ? "No change to basal insulin dose." : `Increase current basal dose by ${lower} - ${upper} units`;
     } else if (fbg >= 71) { basalRecommendation = "No change to basal insulin dose."; }
     else { basalRecommendation = "You had hypoglycemia. Please go back and select YES."; isBasalError = true; }
   }
