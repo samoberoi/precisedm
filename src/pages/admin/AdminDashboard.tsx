@@ -818,7 +818,7 @@ const AdminDashboard = () => {
               <FilterBar
                 dateFilter={dateFilter} onDateFilterChange={(v) => setDateFilter(v)}
                 searchQuery={searchQuery} onSearchChange={setSearchQuery}
-                searchPlaceholder="Search by name or email..."
+                searchPlaceholder="Search by name..."
                 customStartDate={customStartDate} customEndDate={customEndDate}
                 onCustomStartChange={setCustomStartDate} onCustomEndChange={setCustomEndDate}
               />
