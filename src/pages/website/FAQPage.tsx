@@ -9,7 +9,7 @@ const faqs = [
   ]},
   { category: "Calculators", items: [
     { q: "What calculators are available?", a: "We offer four calculators: DiaForm (initial insulin dosing), Gestation (pregnancy care dosing), Maintenance (ongoing dose adjustments), and Steroid (steroid-induced hyperglycemia dosing)." },
-    { q: "How accurate are the calculations?", a: "Our calculators use evidence-based algorithms developed by clinical pharmacy experts. The DiaForm calculator uses the MDRD eGFR formula, BMI categorization, and the 50/50 Basal-Prandial TDD split methodology." },
+    
     { q: "Can I save my calculations?", a: "Yes, all calculations are automatically saved to your account. You can review past calculations in your form history on the profile page." },
   ]},
   { category: "Subscription", items: [
