@@ -32,7 +32,7 @@ const WebsiteAboutPage = () => (
             <h2 className="text-2xl lg:text-3xl font-extrabold mb-8">Our Story</h2>
             <div className="space-y-5 text-sm text-white/80 leading-relaxed lg:text-base">
               <p>PreciseDM is an innovative med-health company with a vision to improve the diabetes care of our community members. Being aware of the growing epidemiology of diabetes, where it is projected that 1 in 3 Americans will have Type 2 diabetes by the year 2050, it became imperative that something be done to help improve the care of diabetes patients.</p>
-              <p>In response, we worked together to develop our first product called "diaForm" intended to be used by health care providers with credentials to confidently individualize and determine the starting and maintenance insulin doses for new or existing diabetes patients new to insulin.</p>
+              <p>In response, we worked together to develop our first product called "DiaForm" intended to be used by health care providers with credentials to confidently individualize and determine the starting and maintenance insulin doses for new or existing diabetes patients new to insulin.</p>
               <p>PreciseDM will continue to work on more insulin dosing tools to help improve the delivery of diabetes care.</p>
             </div>
           </div>
