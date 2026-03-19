@@ -96,8 +96,8 @@ function calculateMaintenance(form: FormData): CalcResult {
 
     if (prandialHypo) {
       if (prandialBGAvg === null) { prandialRecommendation = "Please enter at least one prandial BG value."; isPrandialError = true; }
-      else if (prandialBGAvg < 40) { prandialRecommendation = `Decrease current prandial dose per meal by ${Math.round(pd * 0.2)} to ${Math.round(pd * 0.3)} units`; }
-      else if (prandialBGAvg <= 70) { prandialRecommendation = `Decrease current prandial dose per meal by ${Math.round(pd * 0.1)} to ${Math.round(pd * 0.15)} units`; }
+      else if (prandialBGAvg < 40) { prandialRecommendation = `Decrease current prandial dose per meal by ${Math.round(pd * 0.2)} - ${Math.round(pd * 0.3)} units`; }
+      else if (prandialBGAvg <= 70) { prandialRecommendation = `Decrease current prandial dose per meal by ${Math.round(pd * 0.1)} - ${Math.round(pd * 0.15)} units`; }
       else { prandialRecommendation = "ERROR: Your average BG is above 70 meaning no hypoglycemia occurred."; isPrandialError = true; }
     } else {
       if (pbg >= 140) {
