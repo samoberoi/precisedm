@@ -113,7 +113,7 @@ const AnimatedRoutes = () => {
           <Route path="/disclaimer" element={<PageTransition><DisclaimerPage /></PageTransition>} />
           <Route path="/subscription" element={<PageTransition><SubscriptionPage /></PageTransition>} />
           <Route path="/subscription/success" element={<PageTransition><SubscriptionSuccessPage /></PageTransition>} />
-          <Route path="/videos" element={<SubscriptionGate><PageTransition><VideosPage /></PageTransition></SubscriptionGate>} />
+          
           <Route path="/steroid" element={<SubscriptionGate><PageTransition><SteroidPage /></PageTransition></SubscriptionGate>} />
           <Route path="/maintenance" element={<SubscriptionGate><PageTransition><MaintenancePage /></PageTransition></SubscriptionGate>} />
           <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
