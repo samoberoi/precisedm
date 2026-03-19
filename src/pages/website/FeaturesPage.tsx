@@ -14,7 +14,7 @@ const highlights = [
   { icon: Shield, title: "Secure Data", desc: "Your patient data is handled with care and stored securely.", accent: "hsl(160, 60%, 45%)" },
   { icon: History, title: "Saved History", desc: "Review past calculations and track your usage over time.", accent: "hsl(197, 100%, 55%)" },
   { icon: UserCheck, title: "Professional Grade", desc: "Built by PharmD experts for licensed healthcare professionals.", accent: "hsl(270, 60%, 55%)" },
-  { icon: Printer, title: "Print Results", desc: "Generate printable reports for patient records and documentation.", accent: "hsl(340, 65%, 50%)" },
+  
   { icon: BarChart3, title: "Smart Analytics", desc: "Understand dosing patterns and outcomes with built-in insights.", accent: "hsl(120, 50%, 45%)" },
 ];
 
