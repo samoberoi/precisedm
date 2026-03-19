@@ -41,7 +41,7 @@ const steps = [
 const team = [
   { img: drColleenCook, name: "Dr. Colleen Cook", title: "PharmD, BC-ADM, CDCES", role: "CEO" },
   { img: drMelanieProctor, name: "Dr. Melanie Proctor", title: "PharmD, BCGP", role: "COO" },
-  { img: drSuzanneChung, name: "Dr. Suzanne Chung", title: "PhD Analytical Chemistry", role: "COO" },
+  { img: drSuzanneChung, name: "Dr. Suzanne Chung", title: "PhD Analytical Chemistry", role: "CFO" },
 ];
 
 const stats = [

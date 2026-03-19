@@ -9,7 +9,7 @@ import missionImage from "@/assets/mission-image.jpg";
 const team = [
   { img: drColleenCook, name: "Dr. Colleen Cook", creds: "PharmD, BC-ADM, CDCES", role: "CEO" },
   { img: drMelanieProctor, name: "Dr. Melanie Proctor", creds: "PharmD, BCGP", role: "COO" },
-  { img: drSuzanneChung, name: "Dr. Suzanne Chung", creds: "PhD Analytical Chemistry", role: "COO" },
+  { img: drSuzanneChung, name: "Dr. Suzanne Chung", creds: "PhD Analytical Chemistry", role: "CFO" },
 ];
 
 const WebsiteAboutPage = () => (

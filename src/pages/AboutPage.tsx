@@ -65,7 +65,7 @@ const AboutPage = () => {
           {[
             { img: drColleenCook, name: "Dr. Colleen Cook", credentials: "PharmD, BC-ADM, CDCES", role: "CEO", hasPhoto: true },
             { img: drMelanieProctor, name: "Dr. Melanie Proctor", credentials: "PharmD, BCGP", role: "COO", hasPhoto: true },
-            { img: drSuzanneChung, name: "Dr. Suzanne Chung", credentials: "PhD Analytical Chemistry", role: "COO", hasPhoto: false },
+            { img: drSuzanneChung, name: "Dr. Suzanne Chung", credentials: "PhD Analytical Chemistry", role: "CFO", hasPhoto: false },
           ].map((doc, i) => (
             <motion.div
               key={i}
