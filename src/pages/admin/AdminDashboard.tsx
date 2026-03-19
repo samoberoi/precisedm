@@ -826,19 +826,17 @@ const AdminDashboard = () => {
               {submissionsLoading ? <LoadingSpinner /> : (
                 <div className="space-y-2">
                   {filteredSubmissions.map((s, i) => (
-                    <motion.button key={s.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }}
-                      onClick={() => handleViewSubmissionDetail(s)}
-                      className="w-full text-left rounded-2xl bg-card border border-border shadow-sm p-3 flex items-center gap-3 active:scale-[0.98] transition-transform"
+                    <motion.div key={s.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }}
+                      className="w-full text-left rounded-2xl bg-card border border-border shadow-sm p-3 flex items-center gap-3"
                     >
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl text-xs font-bold shrink-0 gradient-primary text-primary-foreground">
                         {(FORM_LABELS[s.form_type] || s.form_type).slice(0, 2).toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-foreground">{FORM_LABELS[s.form_type] || s.form_type}</p>
-                        <p className="text-xs text-muted-foreground truncate">{s.user_name} • {new Date(s.created_at).toLocaleDateString()}</p>
+                        <p className="text-sm font-semibold text-foreground">{s.user_name}</p>
+                        <p className="text-xs text-muted-foreground">{FORM_LABELS[s.form_type] || s.form_type} • {new Date(s.created_at).toLocaleDateString()}</p>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                    </motion.button>
+                    </motion.div>
                   ))}
                   {filteredSubmissions.length === 0 && <EmptyState message="No submissions found" />}
                 </div>
