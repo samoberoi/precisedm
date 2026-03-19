@@ -168,25 +168,6 @@ const HomePage = () => {
         </div>
       )}
 
-      <div className="px-5 pt-4">
-        <motion.button
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45 }}
-          onClick={() => navigate("/videos")}
-          className="w-full flex items-center gap-4 rounded-2xl p-4 text-left active:scale-[0.98] transition-transform shadow-lg"
-          style={{ background: "linear-gradient(135deg, hsl(150,50%,40%), hsl(160,45%,30%))" }}
-        >
-          <img src={videosIcon} alt="Videos" className="h-10 w-10 object-contain opacity-50" />
-          <div className="flex-1">
-            <p className="text-sm font-bold text-white">Educational Videos</p>
-            <p className="text-xs text-white/60">Learn insulin dosing techniques</p>
-          </div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white">
-            <ArrowUpRight className="h-4 w-4" />
-          </div>
-        </motion.button>
-      </div>
 
       {/* DiaForm Feature Card */}
       <div className="px-5 pt-4 pb-4">
