@@ -102,7 +102,7 @@ function calculateGestation(form: FormData): CalcResult {
       if (delta < 0.5) { basalRecommendation = "No change to basal insulin dose."; }
       else { let lower = Math.round(delta); const upper = Math.round(delta + 1); if (lower < 1) lower = 1; basalRecommendation = `Increase current basal dose by ${lower} - ${upper} units`; }
     } else if (fbg >= 78) { basalRecommendation = "No change to basal insulin dose."; }
-    else if (fbg >= 70) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} to ${Math.round(bd * 0.15)} units`; }
+    else if (fbg >= 70) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} - ${Math.round(bd * 0.15)} units`; }
     else { basalRecommendation = "You had hypoglycemia. Please go back and select YES."; isBasalError = true; }
   }
 
