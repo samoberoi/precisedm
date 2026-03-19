@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Calculator, BookOpen, CreditCard, Users, MessageSquare, HelpCircle, User, LogIn, LayoutDashboard, LogOut } from "lucide-react";
+import { Menu, X, Calculator, CreditCard, Users, MessageSquare, HelpCircle, User, LogIn, LayoutDashboard, LogOut } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/use-profile";
@@ -14,7 +14,6 @@ const navLinks = [
   { label: "Features", to: "/w/features" },
   { label: "Pricing", to: "/w/pricing" },
   { label: "About", to: "/w/about" },
-  { label: "Blog", to: "/w/blog" },
   { label: "Contact", to: "/w/contact" },
 ];
 
@@ -22,7 +21,6 @@ const floatingLinks = [
   { label: "Features", to: "/w/features", icon: Calculator },
   { label: "Pricing", to: "/w/pricing", icon: CreditCard },
   { label: "About", to: "/w/about", icon: Users },
-  { label: "Blog", to: "/w/blog", icon: BookOpen },
   { label: "Contact", to: "/w/contact", icon: MessageSquare },
   { label: "FAQ", to: "/w/faq", icon: HelpCircle },
 ];
