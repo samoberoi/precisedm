@@ -105,7 +105,7 @@ const WebsiteHeader = () => {
             <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 xl:px-10">
               <Link to="/w" className="flex items-center gap-2.5">
                 <img src={logoIcon} alt="PreciseDM" className="h-8 w-8 rounded-full" />
-                <span className="text-lg font-extrabold tracking-tight text-foreground">Precise DM</span>
+                <span className="text-lg font-extrabold tracking-tight text-foreground">PreciseDM</span>
               </Link>
 
               <nav className="hidden items-center gap-0.5 md:flex">
@@ -239,7 +239,7 @@ const WebsiteHeader = () => {
             <div className="flex items-center justify-between rounded-2xl bg-card/90 backdrop-blur-2xl border border-border/60 shadow-2xl px-4 py-3">
               <Link to="/w" className="flex items-center gap-2">
                 <img src={logoIcon} alt="PreciseDM" className="h-7 w-7 rounded-full" />
-                <span className="text-sm font-bold text-foreground">Precise DM</span>
+                <span className="text-sm font-bold text-foreground">PreciseDM</span>
               </Link>
               {user ? (
                 <ProfileDropdown size="sm" />

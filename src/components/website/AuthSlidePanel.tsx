@@ -197,7 +197,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
           <div className="px-6 pt-8 pb-4">
             <div className="flex items-center gap-3">
               <img src={logoIcon} alt="PreciseDM" className="h-10 w-10 rounded-full" />
-              <span className="text-lg font-extrabold text-foreground tracking-tight">Precise DM</span>
+              <span className="text-lg font-extrabold text-foreground tracking-tight">PreciseDM</span>
             </div>
           </div>
 
@@ -420,11 +420,11 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                     </div>
                     <h2 className="text-2xl font-extrabold text-foreground mb-2">You're all set!</h2>
                     <p className="text-sm text-muted-foreground mb-8 max-w-xs">
-                      Your account is ready. Enjoy full access to Precise DM's precision calculators.
+                      Your account is ready. Enjoy full access to PreciseDM's precision calculators.
                     </p>
                     <Button
                       onClick={() => {
-                        toast({ title: "Welcome to Precise DM!" });
+                        toast({ title: "Welcome to PreciseDM!" });
                         onOpenChange(false);
                       }}
                       className="rounded-xl h-12 font-bold gradient-primary glow-primary text-base px-8"

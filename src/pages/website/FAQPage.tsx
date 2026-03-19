@@ -3,9 +3,9 @@ import ScrollReveal from "@/components/website/ScrollReveal";
 
 const faqs = [
   { category: "General", items: [
-    { q: "What is Precise DM?", a: "Precise DM is an innovative med-health product that provides insulin dosing calculators for trained healthcare providers. Our tools help individualize starting and maintenance insulin doses across various clinical scenarios." },
-    { q: "Who can use Precise DM?", a: "Precise DM is designed for trained medical professionals including physicians, pharmacists, nurse practitioners, and other licensed healthcare providers with credentials to prescribe or manage insulin therapy." },
-    { q: "Is Precise DM a replacement for clinical judgment?", a: "No. Precise DM provides recommended dosage ranges based on evidence-based algorithms. Users should always consult closely with appropriate medical professionals to confirm any recommended dosage is appropriate for a particular patient." },
+    { q: "What is PreciseDM?", a: "PreciseDM is an innovative med-health product that provides insulin dosing calculators for trained healthcare providers. Our tools help individualize starting and maintenance insulin doses across various clinical scenarios." },
+    { q: "Who can use PreciseDM?", a: "PreciseDM is designed for trained medical professionals including physicians, pharmacists, nurse practitioners, and other licensed healthcare providers with credentials to prescribe or manage insulin therapy." },
+    { q: "Is PreciseDM a replacement for clinical judgment?", a: "No. PreciseDM provides recommended dosage ranges based on evidence-based algorithms. Users should always consult closely with appropriate medical professionals to confirm any recommended dosage is appropriate for a particular patient." },
   ]},
   { category: "Calculators", items: [
     { q: "What calculators are available?", a: "We offer four calculators: DiaForm (Starting insulin dosing), Gestation (pregnancy care dosing), Maintenance (ongoing dose adjustments), and Steroid (steroid-induced hyperglycemia dosing)." },
@@ -20,7 +20,7 @@ const faqs = [
   ]},
   { category: "Account", items: [
     { q: "How do I reset my password?", a: "Click 'Forgot Password' on the login page, enter your email address, and you'll receive a password reset link." },
-    { q: "Can I use Precise DM on multiple devices?", a: "Yes, your account works across all devices. Simply log in with your credentials on any web browser." },
+    { q: "Can I use PreciseDM on multiple devices?", a: "Yes, your account works across all devices. Simply log in with your credentials on any web browser." },
   ]},
 ];
 
@@ -30,7 +30,7 @@ const FAQPage = () => (
       <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
         <ScrollReveal>
           <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl lg:text-6xl tracking-tight">Frequently Asked <span className="text-gradient">Questions</span></h1>
-          <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">Everything you need to know about Precise DM.</p>
+          <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">Everything you need to know about PreciseDM.</p>
         </ScrollReveal>
       </div>
     </section>

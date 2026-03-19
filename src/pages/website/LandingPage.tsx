@@ -185,7 +185,7 @@ const LandingPage = () => {
       <section className="py-20 lg:py-28">
         <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
           <ScrollReveal className="text-center mb-14">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Why Choose Precise DM?</h2>
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Why Choose PreciseDM?</h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">Built by pharmacists and clinical experts to transform diabetes care delivery.</p>
           </ScrollReveal>
 

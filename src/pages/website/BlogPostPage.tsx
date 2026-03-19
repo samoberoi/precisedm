@@ -9,7 +9,7 @@ const BlogPostPage = () => {
   const post = blogPosts.find((p) => p.slug === slug);
 
   useEffect(() => {
-    if (post) document.title = `${post.title} | Precise DM Blog`;
+    if (post) document.title = `${post.title} | PreciseDM Blog`;
   }, [post]);
 
   if (!post) {

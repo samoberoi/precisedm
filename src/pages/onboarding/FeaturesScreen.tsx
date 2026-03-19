@@ -14,7 +14,7 @@ const FeaturesScreen = () => {
         <img src={onboardingImg} alt="Healthcare professional" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background" />
         <div className="absolute top-12 left-5 z-10">
-          <img src={logoIcon} alt="Precise DM" className="h-10 w-10 rounded-full object-cover shadow-md" />
+          <img src={logoIcon} alt="PreciseDM" className="h-10 w-10 rounded-full object-cover shadow-md" />
         </div>
       </div>
       <div className="relative px-8 -mt-8 pb-32">

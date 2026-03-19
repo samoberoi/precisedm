@@ -65,7 +65,7 @@ After initiation, frequent blood glucose monitoring is essential. Fasting blood 
 - Adjust basal by 2–4 units every 3–4 days based on fasting glucose
 - Adjust prandial doses based on carbohydrate counting or pattern management
 
-### When to Use Precise DM
+### When to Use PreciseDM
 
 Our DiaForm calculator automates this entire process. Simply enter the patient's weight, BMI category, and clinical context — and receive an evidence-based starting regimen in seconds.
 
@@ -119,7 +119,7 @@ This matches what an experienced endocrinologist would calculate — but deliver
 
 ---
 
-*Try DiaForm today in the Precise DM toolkit. Available to all subscribers.*
+*Try DiaForm today in the PreciseDM toolkit. Available to all subscribers.*
     `,
   },
   {
@@ -164,7 +164,7 @@ Different corticosteroids have different pharmacokinetic profiles:
 
 ### Our Steroid Calculator
 
-The Precise DM Steroid calculator accounts for the type and dose of corticosteroid, patient weight, and existing insulin regimen to provide tailored recommendations.
+The PreciseDM Steroid calculator accounts for the type and dose of corticosteroid, patient weight, and existing insulin regimen to provide tailored recommendations.
 
 ### Monitoring
 
@@ -180,7 +180,7 @@ The Precise DM Steroid calculator accounts for the type and dose of corticostero
     slug: "future-of-diabetes-care-technology",
     img: visionImage,
     title: "The Future of Diabetes Care Technology",
-    excerpt: "How digital health tools like Precise DM are transforming the way healthcare providers manage diabetes treatment.",
+    excerpt: "How digital health tools like PreciseDM are transforming the way healthcare providers manage diabetes treatment.",
     date: "Feb 28, 2026",
     read: "4 min read",
     category: "Industry",
@@ -198,12 +198,12 @@ Manual insulin dose calculations are:
 
 ### How Technology Bridges the Gap
 
-Digital tools like Precise DM standardize the dosing process while preserving clinical flexibility. They serve as a decision-support layer — not a replacement for clinical judgment.
+Digital tools like PreciseDM standardize the dosing process while preserving clinical flexibility. They serve as a decision-support layer — not a replacement for clinical judgment.
 
 ### Key Trends Shaping the Future
 
 **1. Point-of-Care Calculators**
-Bedside and mobile tools that give instant, evidence-based recommendations. Precise DM leads this category for insulin-specific calculations.
+Bedside and mobile tools that give instant, evidence-based recommendations. PreciseDM leads this category for insulin-specific calculations.
 
 **2. AI-Assisted Pattern Recognition**
 Machine learning algorithms that analyze glucose trends and recommend dose adjustments proactively.
@@ -214,9 +214,9 @@ The ability for dosing tools, EHRs, and glucose monitors to share data seamlessl
 **4. Education at Scale**
 Digital platforms enable pharmacy students and new practitioners to learn dosing principles through interactive calculators rather than static textbooks.
 
-### Where Precise DM Fits
+### Where PreciseDM Fits
 
-Precise DM focuses on the foundational layer: getting the initial dose right. Our calculators cover four critical scenarios — initial dosing (DiaForm), gestational diabetes, steroid-induced hyperglycemia, and maintenance adjustments.
+PreciseDM focuses on the foundational layer: getting the initial dose right. Our calculators cover four critical scenarios — initial dosing (DiaForm), gestational diabetes, steroid-induced hyperglycemia, and maintenance adjustments.
 
 ### Looking Ahead
 
@@ -286,7 +286,7 @@ Our Maintenance calculator uses the ISF as a core component. It takes the patien
 
 ---
 
-*Understanding ISF is fundamental to safe insulin management. Let Precise DM do the math so you can focus on the patient.*
+*Understanding ISF is fundamental to safe insulin management. Let PreciseDM do the math so you can focus on the patient.*
     `,
   },
   {
@@ -355,7 +355,7 @@ But overly aggressive dosing increases maternal hypoglycemia risk. Balance is ke
 
 ---
 
-*Gestational diabetes management requires precision and vigilance. Precise DM's Gestation calculator helps you find the right starting point for every trimester.*
+*Gestational diabetes management requires precision and vigilance. PreciseDM's Gestation calculator helps you find the right starting point for every trimester.*
     `,
   },
 ];

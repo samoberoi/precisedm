@@ -26,7 +26,7 @@ const WebsiteFooter = () => (
         <div>
           <div className="flex items-center gap-2.5 mb-4">
             <img src={logoIcon} alt="PreciseDM" className="h-7 w-7 rounded-full" />
-            <span className="text-base font-extrabold text-foreground">Precise DM</span>
+            <span className="text-base font-extrabold text-foreground">PreciseDM</span>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
             An innovative insulin dosing toolkit designed for trained healthcare providers across a range of clinical scenarios.

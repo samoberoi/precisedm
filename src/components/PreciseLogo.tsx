@@ -27,7 +27,7 @@ const PreciseLogo = forwardRef<HTMLDivElement, PreciseLogoProps>(
           style={{ height: size, width: size }}
           className="rounded-full object-cover"
         />
-        <span className="text-sm font-bold text-foreground tracking-tight">Precise DM</span>
+        <span className="text-sm font-bold text-foreground tracking-tight">PreciseDM</span>
       </div>
     );
   }
