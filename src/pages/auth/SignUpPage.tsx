@@ -104,7 +104,7 @@ const SignUpPage = () => {
         </div>
         <div className="flex items-start gap-3 pt-1">
           <Checkbox id="terms" checked={form.acceptedTerms} onCheckedChange={(checked) => update("acceptedTerms", !!checked)} className="mt-0.5" />
-          <label htmlFor="terms" className="text-sm text-muted-foreground leading-snug">I accept the Terms and Privacy Policy</label>
+          <label htmlFor="terms" className="text-sm text-muted-foreground leading-snug">I accept the <Link to="/w/terms" className="text-primary font-semibold hover:underline">Terms and Conditions</Link> and <Link to="/w/privacy" className="text-primary font-semibold hover:underline">Privacy Policy</Link></label>
         </div>
         {errors.acceptedTerms && <p className="text-sm text-destructive">{errors.acceptedTerms}</p>}
         <Button type="submit" disabled={loading} className="w-full h-12 rounded-2xl text-base font-bold gradient-primary glow-primary">
