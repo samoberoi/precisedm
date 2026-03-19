@@ -47,8 +47,6 @@ import PricingPage from "./pages/website/PricingPage";
 import WebsiteAboutPage from "./pages/website/WebsiteAboutPage";
 import WebsiteContactPage from "./pages/website/WebsiteContactPage";
 import FAQPage from "./pages/website/FAQPage";
-import BlogPage from "./pages/website/BlogPage";
-import BlogPostPage from "./pages/website/BlogPostPage";
 import PrivacyPolicyPage from "./pages/website/PrivacyPolicyPage";
 import TermsPage from "./pages/website/TermsPage";
 import WebsiteDisclaimerPage from "./pages/website/WebsiteDisclaimerPage";
