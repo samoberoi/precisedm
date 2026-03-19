@@ -119,7 +119,7 @@ This matches what an experienced endocrinologist would calculate — but deliver
 
 ---
 
-*Try DiaForm today in the Precise DM toolkit. Available to all subscribers.*
+*Try DiaForm today in the PreciseDM toolkit. Available to all subscribers.*
     `,
   },
   {
