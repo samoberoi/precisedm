@@ -63,11 +63,8 @@ interface SubmissionRow {
   id: string;
   user_id: string;
   form_type: string;
-  inputs: Record<string, unknown>;
-  results: Record<string, unknown>;
   created_at: string;
   user_name: string;
-  user_email: string;
 }
 
 interface UpcomingRenewal {
