@@ -72,8 +72,8 @@ function calculateMaintenance(form: FormData): CalcResult {
 
   if (basalHypo) {
     if (basalBGAvg === null) { basalRecommendation = "Please enter at least one BG value."; isBasalError = true; }
-    else if (basalBGAvg < 40) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.2)} to ${Math.round(bd * 0.3)} units`; }
-    else if (basalBGAvg <= 70) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} to ${Math.round(bd * 0.15)} units`; }
+    else if (basalBGAvg < 40) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.2)} - ${Math.round(bd * 0.3)} units`; }
+    else if (basalBGAvg <= 70) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} - ${Math.round(bd * 0.15)} units`; }
     else { basalRecommendation = "ERROR: Your average BG is above 70 meaning no hypoglycemia occurred."; isBasalError = true; }
   } else {
     if (fbg >= 140) {
