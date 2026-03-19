@@ -101,7 +101,7 @@ const AboutPage = () => {
         >
           <div className="space-y-3 text-sm text-white/80 leading-relaxed">
             <p>
-              Precise DM is an innovative med-health company with a vision to improve the diabetes
+              PreciseDM is an innovative med-health company with a vision to improve the diabetes
               care of our community members. Being aware of the growing epidemiology of diabetes, where
               it is projected that 1 in 3 Americans will have Type 2 diabetes by the year 2050, it became
               imperative that something be done to help improve the care of diabetes patients.
