@@ -11,7 +11,7 @@ import diaformCard from "@/assets/diaform-card.jpg";
 import diaformIcon from "@/assets/diaform-card-icon.png";
 import gestationIcon from "@/assets/gestation-card-icon.png";
 import maintenanceIcon from "@/assets/maintenance-icon.png";
-import videosIcon from "@/assets/videos-icon.png";
+
 import steroidIcon from "@/assets/steroid-icon.png";
 import PreciseLogo from "@/components/PreciseLogo";
 
