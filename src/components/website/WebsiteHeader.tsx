@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Calculator, BookOpen, CreditCard, Users, MessageSquare, HelpCircle, User, LogIn, LayoutDashboard, LogOut } from "lucide-react";
+import { Menu, X, Calculator, CreditCard, Users, MessageSquare, HelpCircle, User, LogIn, LayoutDashboard, LogOut } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/use-profile";
