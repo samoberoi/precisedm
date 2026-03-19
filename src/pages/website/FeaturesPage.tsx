@@ -63,38 +63,6 @@ const FeaturesPage = () => {
         </div>
       </section>
 
-      {/* ═══ Calculator Deep Dive — Large horizontal cards ═══ */}
-      <section className="py-24 lg:py-32 bg-accent/30">
-        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
-          <ScrollReveal className="text-center mb-16">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">Calculator Deep Dive</h2>
-            <p className="mt-4 text-lg text-muted-foreground">Each tool is purpose-built for a specific clinical scenario.</p>
-          </ScrollReveal>
-          <div className="space-y-6">
-            {calculatorDetails.map((c, i) => (
-              <ScrollReveal key={c.name} delay={i * 0.08} direction={i % 2 === 0 ? "left" : "right"}>
-                <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300" style={{ background: c.gradient }}>
-                  <div className="flex flex-col md:flex-row md:items-center gap-6 p-8 lg:p-10 text-white">
-                    <div className="flex-1">
-                      <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">{c.subtitle}</p>
-                      <h3 className="text-2xl lg:text-3xl font-extrabold mb-3">{c.name}</h3>
-                      <p className="text-sm text-white/70 leading-relaxed max-w-lg mb-5">{c.desc}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {c.features.map((feat) => (
-                          <span key={feat} className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
-                            <ChevronRight className="h-3 w-3" /> {feat}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <img src={c.icon} alt={c.name} className="h-24 w-24 lg:h-32 lg:w-32 object-contain opacity-20 md:opacity-30 shrink-0" />
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-24 lg:py-32">
