@@ -57,8 +57,8 @@ const WebsiteFooter = () => (
         <div className="mt-4 flex justify-end">
           <p className="text-xs text-muted-foreground">
             Designed & Developed by{" "}
-            <a href="https://hyperrevamp.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground hover:text-primary transition-colors">
-              Hyper Revamp
+            <a href="https://www.hyperrevamp.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground hover:text-primary transition-colors">
+              HyperRevamp
             </a>
           </p>
         </div>
