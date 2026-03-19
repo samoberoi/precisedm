@@ -90,8 +90,8 @@ function calculateGestation(form: FormData): CalcResult {
 
   if (basalHypo) {
     if (basalBGAvg === null) { basalRecommendation = "ERROR: No values for hypoglycemia episodes were given."; isBasalError = true; }
-    else if (basalBGAvg <= 40) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.2)} to ${Math.round(bd * 0.3)} units`; }
-    else if (basalBGAvg <= 69) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} to ${Math.round(bd * 0.15)} units`; }
+    else if (basalBGAvg <= 40) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.2)} - ${Math.round(bd * 0.3)} units`; }
+    else if (basalBGAvg <= 69) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} - ${Math.round(bd * 0.15)} units`; }
     else { basalRecommendation = "ERROR: Your average BG is above 69 meaning no hypoglycemia occurred."; isBasalError = true; }
   } else {
     if (fbg >= 96) {
@@ -100,9 +100,9 @@ function calculateGestation(form: FormData): CalcResult {
       else if (isf >= 51) delta = (fbg - 75) / 30;
       else delta = (fbg - 70) / 30;
       if (delta < 0.5) { basalRecommendation = "No change to basal insulin dose."; }
-      else { let lower = Math.round(delta); const upper = Math.round(delta + 1); if (lower < 1) lower = 1; basalRecommendation = `Increase current basal dose by ${lower} to ${upper} units`; }
+      else { let lower = Math.round(delta); const upper = Math.round(delta + 1); if (lower < 1) lower = 1; basalRecommendation = `Increase current basal dose by ${lower} - ${upper} units`; }
     } else if (fbg >= 78) { basalRecommendation = "No change to basal insulin dose."; }
-    else if (fbg >= 70) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} to ${Math.round(bd * 0.15)} units`; }
+    else if (fbg >= 70) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} - ${Math.round(bd * 0.15)} units`; }
     else { basalRecommendation = "You had hypoglycemia. Please go back and select YES."; isBasalError = true; }
   }
 
@@ -120,11 +120,11 @@ function calculateGestation(form: FormData): CalcResult {
       else if (prandialBGAvg <= 40) {
         const perMealLow = Math.round(Math.round(pdt * 0.4) / npd);
         const perMealHigh = Math.round(Math.round(pdt * 0.6) / npd);
-        prandialRecommendation = `Decrease meal dose by ${perMealLow} to ${perMealHigh} units per meal`;
+        prandialRecommendation = `Decrease meal dose by ${perMealLow} - ${perMealHigh} units per meal`;
       } else if (prandialBGAvg <= 69) {
         const perMealLow = Math.round(Math.round(pdt * 0.15) / npd);
         const perMealHigh = Math.round(Math.round(pdt * 0.3) / npd);
-        prandialRecommendation = `Decrease meal dose by ${perMealLow} to ${perMealHigh} units per meal`;
+        prandialRecommendation = `Decrease meal dose by ${perMealLow} - ${perMealHigh} units per meal`;
       } else { prandialRecommendation = "ERROR: Your average BG is above 69 meaning no hypoglycemia occurred."; isPrandialError = true; }
     } else {
       if (pbg >= 120) {
@@ -133,12 +133,12 @@ function calculateGestation(form: FormData): CalcResult {
         const deltaMeal = delta / npd;
         let lower = Math.round(deltaMeal); if (lower < 1) lower = 1;
         const upper = lower + 1;
-        prandialRecommendation = `Increase current prandial dose per meal by ${lower} to ${upper} units`;
+        prandialRecommendation = `Increase current prandial dose per meal by ${lower} - ${upper} units`;
       } else if (pbg >= 96) { prandialRecommendation = "No change to prandial insulin dose."; }
       else if (pbg >= 70) {
         const perMealLow = Math.round(Math.round(pdt * 0.1) / npd);
         const perMealHigh = Math.round(Math.round(pdt * 0.3) / npd);
-        prandialRecommendation = `Decrease meal dose by ${perMealLow} to ${perMealHigh} units per meal`;
+        prandialRecommendation = `Decrease meal dose by ${perMealLow} - ${perMealHigh} units per meal`;
       } else { prandialRecommendation = "You had hypoglycemia. Please go back and select YES."; isPrandialError = true; }
     }
   }

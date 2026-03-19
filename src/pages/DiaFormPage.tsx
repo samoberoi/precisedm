@@ -481,7 +481,7 @@ const DiaFormPage = () => {
               <div className="p-6 text-center">
                 <p className="text-xs font-semibold text-white/60 uppercase tracking-wider">Recommended Dosage Range</p>
                 <p className="text-5xl font-extrabold text-white mt-2">
-                  {result.doseLow}–{result.doseHigh}
+                  {result.doseLow} - {result.doseHigh}
                 </p>
                 <p className="text-sm font-bold text-white/80 mt-1">units</p>
               </div>

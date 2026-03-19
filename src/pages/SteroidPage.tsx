@@ -325,7 +325,7 @@ const SteroidPage = () => {
               <h3 className="text-lg font-extrabold text-foreground mb-4">Recommended Steroid Dosage</h3>
               <div className="mt-2 rounded-xl bg-primary/10 p-4 text-center">
                 <p className="text-sm font-semibold text-muted-foreground mb-1">Recommended Total Daily Dose</p>
-                <p className="text-3xl font-extrabold text-primary">{result.doseLowUnits} to {result.doseHighUnits}</p>
+                <p className="text-3xl font-extrabold text-primary">{result.doseLowUnits} - {result.doseHighUnits}</p>
                 <p className="text-sm font-bold text-primary/80">units/day</p>
               </div>
             </div>
