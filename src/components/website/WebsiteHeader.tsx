@@ -14,7 +14,6 @@ const navLinks = [
   { label: "Features", to: "/w/features" },
   { label: "Pricing", to: "/w/pricing" },
   { label: "About", to: "/w/about" },
-  { label: "Blog", to: "/w/blog" },
   { label: "Contact", to: "/w/contact" },
 ];
 
