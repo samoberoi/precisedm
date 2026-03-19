@@ -30,7 +30,7 @@ import ConnectPage from "./pages/ConnectPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import DisclaimerPage from "./pages/DisclaimerPage";
-import VideosPage from "./pages/VideosPage";
+
 import SteroidPage from "./pages/SteroidPage";
 import MaintenancePage from "./pages/MaintenancePage";
 import GestationPage from "./pages/GestationPage";
@@ -56,7 +56,7 @@ import WebsiteProfilePage from "./pages/website/WebsiteProfilePage";
 
 const queryClient = new QueryClient();
 
-const PAGES_WITH_NAV = ["/home", "/about", "/connect", "/profile", "/disclaimer", "/subscription", "/videos", "/steroid", "/maintenance", "/gestation", "/diaform", "/admin"];
+const PAGES_WITH_NAV = ["/home", "/about", "/connect", "/profile", "/disclaimer", "/subscription", "/steroid", "/maintenance", "/gestation", "/diaform", "/admin"];
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -83,7 +83,7 @@ const AnimatedRoutes = () => {
             <Route path="profile" element={<WebsiteProfilePage />} />
             <Route path="subscription" element={<SubscriptionPage />} />
             <Route path="subscription/success" element={<SubscriptionSuccessPage />} />
-            <Route path="videos" element={<SubscriptionGate redirectTo="/w/subscription"><VideosPage /></SubscriptionGate>} />
+            
             <Route path="steroid" element={<SubscriptionGate redirectTo="/w/subscription"><SteroidPage /></SubscriptionGate>} />
             <Route path="maintenance" element={<SubscriptionGate redirectTo="/w/subscription"><MaintenancePage /></SubscriptionGate>} />
             <Route path="gestation" element={<SubscriptionGate redirectTo="/w/subscription"><GestationPage /></SubscriptionGate>} />
@@ -113,7 +113,7 @@ const AnimatedRoutes = () => {
           <Route path="/disclaimer" element={<PageTransition><DisclaimerPage /></PageTransition>} />
           <Route path="/subscription" element={<PageTransition><SubscriptionPage /></PageTransition>} />
           <Route path="/subscription/success" element={<PageTransition><SubscriptionSuccessPage /></PageTransition>} />
-          <Route path="/videos" element={<SubscriptionGate><PageTransition><VideosPage /></PageTransition></SubscriptionGate>} />
+          
           <Route path="/steroid" element={<SubscriptionGate><PageTransition><SteroidPage /></PageTransition></SubscriptionGate>} />
           <Route path="/maintenance" element={<SubscriptionGate><PageTransition><MaintenancePage /></PageTransition></SubscriptionGate>} />
           <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
