@@ -308,7 +308,7 @@ const MaintenancePage = () => {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                    <FieldGroup label="Correction insulin dose per day (CTD), units">
+                    <FieldGroup label="<FieldGroup label="Additional correction insulin dose per day (CTD), units">">
                       <Input type="number" placeholder="ex: 19" value={form.correctionDose} onChange={(e) => update("correctionDose", e.target.value)} className="rounded-xl h-12 bg-background" />
                     </FieldGroup>
                   </div>
