@@ -164,7 +164,7 @@ Different corticosteroids have different pharmacokinetic profiles:
 
 ### Our Steroid Calculator
 
-The Precise DM Steroid calculator accounts for the type and dose of corticosteroid, patient weight, and existing insulin regimen to provide tailored recommendations.
+The PreciseDM Steroid calculator accounts for the type and dose of corticosteroid, patient weight, and existing insulin regimen to provide tailored recommendations.
 
 ### Monitoring
 
