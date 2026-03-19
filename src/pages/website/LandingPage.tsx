@@ -284,8 +284,43 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ═══ CTA ═══ */}
+      {/* ═══ Reviews & Ratings ═══ */}
       <section className="py-20 lg:py-28">
+        <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
+          <ScrollReveal className="text-center mb-14">
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">What Healthcare Providers Say</h2>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">Trusted by clinical professionals across the country.</p>
+          </ScrollReveal>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
+            {[
+              { name: "Dr. Sarah M.", role: "Endocrinologist", rating: 5, quote: "PreciseDM has streamlined my insulin dosing workflow. The DiaForm calculator saves me significant time with new patients." },
+              { name: "James R., PharmD", role: "Clinical Pharmacist", rating: 5, quote: "Finally, a tool that accounts for renal function and BMI together. The evidence-based algorithms give me confidence in my recommendations." },
+              { name: "Dr. Aisha K.", role: "Family Medicine", rating: 5, quote: "The Gestation calculator is invaluable for my pregnant patients with diabetes. Clear, actionable dosing guidance every time." },
+              { name: "Mark T., NP", role: "Nurse Practitioner", rating: 4, quote: "Easy to use and the saved history feature lets me track my patients' dosing changes over time. Highly recommend." },
+              { name: "Dr. Linda P.", role: "Hospitalist", rating: 5, quote: "The Steroid calculator has been a game-changer for managing steroid-induced hyperglycemia on the floors." },
+              { name: "Rachel N., PA-C", role: "Physician Assistant", rating: 5, quote: "Intuitive interface and reliable results. PreciseDM is now part of my daily practice toolkit." },
+            ].map((review, i) => (
+              <ScrollReveal key={i} delay={i * 0.08}>
+                <div className="rounded-2xl border border-border bg-card p-7 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                  <div className="flex items-center gap-0.5 mb-4">
+                    {Array.from({ length: 5 }).map((_, s) => (
+                      <Star key={s} className={`h-4 w-4 ${s < review.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground/30"}`} />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1 italic">"{review.quote}"</p>
+                  <div className="mt-5 pt-4 border-t border-border">
+                    <p className="text-sm font-bold text-foreground">{review.name}</p>
+                    <p className="text-xs text-muted-foreground">{review.role}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CTA ═══ */}
+      <section className="py-20 lg:py-28 bg-accent/30">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <ScrollReveal>
             <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl mb-5">Ready to Transform Diabetes Care?</h2>

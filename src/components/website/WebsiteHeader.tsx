@@ -21,7 +21,6 @@ const floatingLinks = [
   { label: "Features", to: "/w/features", icon: Calculator },
   { label: "Pricing", to: "/w/pricing", icon: CreditCard },
   { label: "About", to: "/w/about", icon: Users },
-  { label: "Blog", to: "/w/blog", icon: BookOpen },
   { label: "Contact", to: "/w/contact", icon: MessageSquare },
   { label: "FAQ", to: "/w/faq", icon: HelpCircle },
 ];
