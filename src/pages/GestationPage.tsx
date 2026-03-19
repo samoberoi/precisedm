@@ -90,8 +90,8 @@ function calculateGestation(form: FormData): CalcResult {
 
   if (basalHypo) {
     if (basalBGAvg === null) { basalRecommendation = "ERROR: No values for hypoglycemia episodes were given."; isBasalError = true; }
-    else if (basalBGAvg <= 40) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.2)} to ${Math.round(bd * 0.3)} units`; }
-    else if (basalBGAvg <= 69) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} to ${Math.round(bd * 0.15)} units`; }
+    else if (basalBGAvg <= 40) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.2)} - ${Math.round(bd * 0.3)} units`; }
+    else if (basalBGAvg <= 69) { basalRecommendation = `Decrease current basal dose by ${Math.round(bd * 0.1)} - ${Math.round(bd * 0.15)} units`; }
     else { basalRecommendation = "ERROR: Your average BG is above 69 meaning no hypoglycemia occurred."; isBasalError = true; }
   } else {
     if (fbg >= 96) {
