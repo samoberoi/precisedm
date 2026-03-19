@@ -8,7 +8,7 @@ const faqs = [
     { q: "Is Precise DM a replacement for clinical judgment?", a: "No. Precise DM provides recommended dosage ranges based on evidence-based algorithms. Users should always consult closely with appropriate medical professionals to confirm any recommended dosage is appropriate for a particular patient." },
   ]},
   { category: "Calculators", items: [
-    { q: "What calculators are available?", a: "We offer four calculators: DiaForm (initial insulin dosing), Gestation (pregnancy care dosing), Maintenance (ongoing dose adjustments), and Steroid (steroid-induced hyperglycemia dosing)." },
+    { q: "What calculators are available?", a: "We offer four calculators: DiaForm (Starting insulin dosing), Gestation (pregnancy care dosing), Maintenance (ongoing dose adjustments), and Steroid (steroid-induced hyperglycemia dosing)." },
     
     { q: "Can I save my calculations?", a: "Yes, all calculations are automatically saved to your account. You can review past calculations in your form history on the profile page." },
   ]},
