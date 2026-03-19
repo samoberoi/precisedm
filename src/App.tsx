@@ -56,7 +56,7 @@ import WebsiteProfilePage from "./pages/website/WebsiteProfilePage";
 
 const queryClient = new QueryClient();
 
-const PAGES_WITH_NAV = ["/home", "/about", "/connect", "/profile", "/disclaimer", "/subscription", "/videos", "/steroid", "/maintenance", "/gestation", "/diaform", "/admin"];
+const PAGES_WITH_NAV = ["/home", "/about", "/connect", "/profile", "/disclaimer", "/subscription", "/steroid", "/maintenance", "/gestation", "/diaform", "/admin"];
 
 const AnimatedRoutes = () => {
   const location = useLocation();
