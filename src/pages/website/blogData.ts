@@ -286,7 +286,7 @@ Our Maintenance calculator uses the ISF as a core component. It takes the patien
 
 ---
 
-*Understanding ISF is fundamental to safe insulin management. Let Precise DM do the math so you can focus on the patient.*
+*Understanding ISF is fundamental to safe insulin management. Let PreciseDM do the math so you can focus on the patient.*
     `,
   },
   {
