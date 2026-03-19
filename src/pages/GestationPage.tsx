@@ -133,7 +133,7 @@ function calculateGestation(form: FormData): CalcResult {
         const deltaMeal = delta / npd;
         let lower = Math.round(deltaMeal); if (lower < 1) lower = 1;
         const upper = lower + 1;
-        prandialRecommendation = `Increase current prandial dose per meal by ${lower} to ${upper} units`;
+        prandialRecommendation = `Increase current prandial dose per meal by ${lower} - ${upper} units`;
       } else if (pbg >= 96) { prandialRecommendation = "No change to prandial insulin dose."; }
       else if (pbg >= 70) {
         const perMealLow = Math.round(Math.round(pdt * 0.1) / npd);
