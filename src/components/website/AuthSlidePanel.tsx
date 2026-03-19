@@ -420,7 +420,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                     </div>
                     <h2 className="text-2xl font-extrabold text-foreground mb-2">You're all set!</h2>
                     <p className="text-sm text-muted-foreground mb-8 max-w-xs">
-                      Your account is ready. Enjoy full access to Precise DM's precision calculators.
+                      Your account is ready. Enjoy full access to PreciseDM's precision calculators.
                     </p>
                     <Button
                       onClick={() => {
