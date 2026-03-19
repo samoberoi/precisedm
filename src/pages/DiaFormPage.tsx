@@ -492,17 +492,6 @@ const DiaFormPage = () => {
               </div>
             </div>
 
-            {/* Computed Values */}
-            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-foreground mb-3">Computed Values</h3>
-              <div className="grid grid-cols-2 gap-3">
-                <StatCard label="BMI" value={String(result.bmi)} />
-                <StatCard label="eGFR" value={String(result.egfr)} />
-                <StatCard label="Weight (kg)" value={String(result.weightKg)} />
-                <StatCard label="Dose Category" value={result.doseCategory} />
-              </div>
-            </div>
-
             {/* Submitted Inputs */}
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
               <h3 className="text-sm font-bold text-foreground mb-3">Submitted Inputs</h3>
