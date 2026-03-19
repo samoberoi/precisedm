@@ -844,46 +844,6 @@ const AdminDashboard = () => {
             </motion.div>
           )}
 
-          {/* ─── Submission Detail ─── */}
-          {viewMode === "submission-detail" && selectedSubmission && (
-            <motion.div key="detail" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-              <div className="flex items-center gap-3 mb-5">
-                <button onClick={handleBack} className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border shadow-sm">
-                  <ChevronLeft className="h-5 w-5 text-foreground" />
-                </button>
-                <div>
-                  <h1 className="text-xl font-extrabold text-foreground">Submission Detail</h1>
-                  <p className="text-xs text-muted-foreground">{selectedSubmission.user_name} • {new Date(selectedSubmission.created_at).toLocaleString()}</p>
-                </div>
-              </div>
-
-              <div className="rounded-2xl bg-card border border-border shadow-sm p-5 mb-3">
-                <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-                  <Users className="h-4 w-4 text-primary" /> User Info
-                </h3>
-                <DetailRow label="Name" value={selectedSubmission.user_name} />
-                <DetailRow label="Email" value={selectedSubmission.user_email} />
-              </div>
-
-              <div className="rounded-2xl bg-card border border-primary/20 shadow-sm p-5 mb-3">
-                <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-primary" /> Results
-                </h3>
-                {Object.entries(selectedSubmission.results).map(([key, value]) => (
-                  <DetailRow key={key} label={formatLabel(key)} value={String(value ?? "—")} />
-                ))}
-              </div>
-
-              <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
-                <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-muted-foreground" /> Inputs
-                </h3>
-                {Object.entries(selectedSubmission.inputs).map(([key, value]) => (
-                  <DetailRow key={key} label={formatLabel(key)} value={String(value ?? "—")} />
-                ))}
-              </div>
-            </motion.div>
-          )}
         </AnimatePresence>
       </div>
     </motion.div>
