@@ -264,7 +264,7 @@ const AdminDashboard = () => {
     else setSubFilter("all");
     setViewMode("subscriptions");
   };
-  const handleViewSubmissionDetail = (sub: SubmissionRow) => { setSelectedSubmission(sub); setViewMode("submission-detail"); };
+  
   const handleViewSubscriptionDetail = (sub: SubscriptionRecord) => { setSelectedSubscription(sub); setViewMode("subscription-detail"); };
   const handleBack = () => {
     if (viewMode === "submission-detail") setViewMode("submissions");
