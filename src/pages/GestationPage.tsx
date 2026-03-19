@@ -120,7 +120,7 @@ function calculateGestation(form: FormData): CalcResult {
       else if (prandialBGAvg <= 40) {
         const perMealLow = Math.round(Math.round(pdt * 0.4) / npd);
         const perMealHigh = Math.round(Math.round(pdt * 0.6) / npd);
-        prandialRecommendation = `Decrease meal dose by ${perMealLow} to ${perMealHigh} units per meal`;
+        prandialRecommendation = `Decrease meal dose by ${perMealLow} - ${perMealHigh} units per meal`;
       } else if (prandialBGAvg <= 69) {
         const perMealLow = Math.round(Math.round(pdt * 0.15) / npd);
         const perMealHigh = Math.round(Math.round(pdt * 0.3) / npd);
