@@ -99,7 +99,7 @@ interface SubscriptionStats {
   upcomingRenewals: UpcomingRenewal[];
 }
 
-type ViewMode = "dashboard" | "users" | "submissions" | "submission-detail" | "subscriptions" | "subscription-detail";
+type ViewMode = "dashboard" | "users" | "submissions" | "subscriptions" | "subscription-detail";
 
 const FORM_LABELS: Record<string, string> = {
   diaform: "DiaForm Initial",
