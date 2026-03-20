@@ -7,7 +7,7 @@ const plans = [
   {
     id: "trial", name: "Free Trial", price: "$0", period: "7 days", icon: Gift,
     desc: "Try everything free for 7 days",
-    features: ["All 4 calculators", "Educational videos", "No credit card required", "Expires after 7 days"],
+    features: ["All 4 calculators", "Saved calculation history", "No credit card required", "Expires after 7 days"],
     gradient: "linear-gradient(135deg, hsl(270,60%,50%), hsl(290,55%,40%))",
     cta: "Start Free Trial",
   },
