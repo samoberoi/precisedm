@@ -175,7 +175,7 @@ const SubscriptionPage = () => {
               <Crown className="h-8 w-8 text-primary-foreground" />
             </div>
             <h2 className="text-2xl font-extrabold text-foreground mb-2">Unlock All Tools</h2>
-            <p className="text-sm text-muted-foreground max-w-xs mx-auto">Full access to all calculators and educational videos.</p>
+            <p className="text-sm text-muted-foreground max-w-xs mx-auto">Full access to all calculators and tools.</p>
           </div>
         )}
 

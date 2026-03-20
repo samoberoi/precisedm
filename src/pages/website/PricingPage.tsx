@@ -29,7 +29,7 @@ const plans = [
 
 const faqs = [
   { q: "Can I cancel anytime?", a: "Yes, you can cancel your subscription at any time through PayPal. Your access will continue until the end of your billing period." },
-  { q: "What happens after the free trial?", a: "After your 7-day free trial, you'll need to subscribe to a monthly or yearly plan to continue accessing the calculators and videos." },
+  { q: "What happens after the free trial?", a: "After your 7-day free trial, you'll need to subscribe to a monthly or yearly plan to continue accessing the calculators." },
   { q: "Is there a refund policy?", a: "Since our plans start at just $1/month, we don't offer refunds, but you can cancel at any time." },
   { q: "What payment methods do you accept?", a: "We accept payments through PayPal, which supports credit cards, debit cards, and PayPal balance." },
 ];
