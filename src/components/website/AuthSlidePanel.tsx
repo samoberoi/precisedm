@@ -3,7 +3,8 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, ArrowRight, ArrowLeft, Check, User, Mail, Lock, Sparkles, CreditCard, Crown, Zap } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, User, Mail, Sparkles, CreditCard, Crown, Zap, Loader2 } from "lucide-react";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -15,45 +16,19 @@ interface AuthSlidePanelProps {
   mode?: "login" | "signup";
 }
 
-type Step = "login" | "signup-name" | "signup-email" | "signup-password" | "signup-plan" | "success";
+type Step = "login" | "login-otp" | "signup-name" | "signup-email" | "signup-otp" | "signup-plan" | "success";
 
 const plans = [
-  {
-    id: "trial",
-    name: "Free Trial",
-    price: "Free",
-    period: "7 days",
-    icon: Zap,
-    desc: "Try all features for 7 days",
-    gradient: "from-emerald-500 to-teal-600",
-  },
-  {
-    id: "monthly",
-    name: "Monthly",
-    price: "$1",
-    period: "/month",
-    icon: CreditCard,
-    desc: "Full access, billed monthly",
-    gradient: "from-primary to-blue-600",
-  },
-  {
-    id: "yearly",
-    name: "Yearly",
-    price: "$12",
-    period: "/year",
-    icon: Crown,
-    desc: "Best value — save 2 months",
-    gradient: "from-amber-500 to-orange-600",
-    badge: "Best Value",
-  },
+  { id: "trial", name: "Free Trial", price: "Free", period: "7 days", icon: Zap, desc: "Try all features for 7 days", gradient: "from-emerald-500 to-teal-600" },
+  { id: "monthly", name: "Monthly", price: "$1", period: "/month", icon: CreditCard, desc: "Full access, billed monthly", gradient: "from-primary to-blue-600" },
+  { id: "yearly", name: "Yearly", price: "$12", period: "/year", icon: Crown, desc: "Best value — save 2 months", gradient: "from-amber-500 to-orange-600", badge: "Best Value" },
 ];
 
 const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: AuthSlidePanelProps) => {
   const [step, setStep] = useState<Step>(initialMode === "signup" ? "signup-name" : "login");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("trial");
   const { toast } = useToast();
@@ -62,56 +37,100 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
   useEffect(() => {
     if (open) {
       setStep(initialMode === "signup" ? "signup-name" : "login");
-      setEmail("");
-      setPassword("");
-      setFullName("");
-      setShowPassword(false);
-      setLoading(false);
-      setSelectedPlan("trial");
+      setEmail(""); setFullName(""); setOtp("");
+      setLoading(false); setSelectedPlan("trial");
     }
   }, [open, initialMode]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      toast({ title: "Please fill in all fields", variant: "destructive" });
-      return;
-    }
+  const sendOtp = async (extraData?: Record<string, any>) => {
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-      if (error) throw error;
-      toast({ title: "Welcome back! You're now logged in." });
-      onOpenChange(false);
-      // Stay on current page — no redirect
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+          body: JSON.stringify({ email: email.trim(), full_name: fullName.trim(), ...extraData }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send code");
+      toast({ title: "Code sent!", description: "Check your email for the verification code." });
+      return true;
     } catch (err: any) {
-      toast({ title: err.message || "Login failed", variant: "destructive" });
+      toast({ title: err.message || "Failed to send code", variant: "destructive" });
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password.length < 6) {
-      toast({ title: "Password must be at least 6 characters", variant: "destructive" });
-      return;
-    }
+  const verifyOtp = async () => {
+    if (otp.length !== 6) return;
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: { data: { full_name: fullName.trim() } },
-      });
-      if (error) throw error;
-      // Move to plan selection step
-      goNext();
-      setStep("signup-plan");
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+          body: JSON.stringify({ email: email.trim(), code: otp }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Invalid code");
+
+      if (data.action_link) {
+        const url = new URL(data.action_link);
+        const token_hash = url.searchParams.get("token_hash") || url.searchParams.get("token");
+        if (token_hash) {
+          const { error } = await supabase.auth.verifyOtp({ token_hash, type: "magiclink" });
+          if (error) throw error;
+        }
+      }
+      return data;
     } catch (err: any) {
-      toast({ title: err.message || "Signup failed", variant: "destructive" });
+      toast({ title: err.message || "Verification failed", variant: "destructive" });
+      setOtp("");
+      return null;
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLoginOtp = async () => {
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast({ title: "Please enter a valid email", variant: "destructive" }); return;
+    }
+    const ok = await sendOtp();
+    if (ok) { goNext(); setStep("login-otp"); }
+  };
+
+  const handleLoginVerify = async () => {
+    const data = await verifyOtp();
+    if (data) {
+      toast({ title: "Welcome back! You're now logged in." });
+      onOpenChange(false);
+    }
+  };
+
+  const handleSignupSendOtp = async () => {
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast({ title: "Please enter a valid email", variant: "destructive" }); return;
+    }
+    const ok = await sendOtp();
+    if (ok) { goNext(); setStep("signup-otp"); }
+  };
+
+  const handleSignupVerify = async () => {
+    const data = await verifyOtp();
+    if (data) {
+      if (data.is_new_user) {
+        goNext(); setStep("signup-plan");
+      } else {
+        toast({ title: "Welcome back!" });
+        onOpenChange(false);
+      }
     }
   };
 
@@ -119,48 +138,32 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
     setLoading(true);
     try {
       if (selectedPlan === "trial") {
-        // Get current user
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
           await supabase.from("subscriptions").insert({
-            user_id: session.user.id,
-            plan_type: "trial",
-            status: "active",
+            user_id: session.user.id, plan_type: "trial", status: "active",
             start_date: new Date().toISOString(),
             next_billing_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
           });
         }
-        goNext();
-        setStep("success");
+        goNext(); setStep("success");
       } else {
-        // For paid plans, redirect to PayPal
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) throw new Error("Not authenticated");
         const websiteMode = window.location.pathname.startsWith("/w");
         const baseUrl = window.location.origin;
         const returnPath = websiteMode ? "/w/subscription/success" : "/subscription/success";
         const cancelPath = websiteMode ? "/w/subscription" : "/subscription";
-
         const res = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${session.access_token}`,
-            },
-            body: JSON.stringify({
-              plan_type: selectedPlan,
-              return_url: `${baseUrl}${returnPath}`,
-              cancel_url: `${baseUrl}${cancelPath}`,
-            }),
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
+            body: JSON.stringify({ plan_type: selectedPlan, return_url: `${baseUrl}${returnPath}`, cancel_url: `${baseUrl}${cancelPath}` }),
           }
         );
         const data = await res.json();
-        if (data.approve_url) {
-          window.location.href = data.approve_url;
-          return;
-        }
+        if (data.approve_url) { window.location.href = data.approve_url; return; }
         throw new Error("Could not create subscription");
       }
     } catch (err: any) {
@@ -173,7 +176,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
   const signupSteps = [
     { key: "signup-name" as Step, num: 1, label: "Name" },
     { key: "signup-email" as Step, num: 2, label: "Email" },
-    { key: "signup-password" as Step, num: 3, label: "Password" },
+    { key: "signup-otp" as Step, num: 3, label: "Verify" },
     { key: "signup-plan" as Step, num: 4, label: "Plan" },
   ];
 
@@ -193,7 +196,6 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto bg-background border-l border-border p-0 [&>button]:hidden">
         <div className="flex flex-col h-full min-h-[500px]">
-          {/* Logo header */}
           <div className="px-6 pt-8 pb-4">
             <div className="flex items-center gap-3">
               <img src={logoIcon} alt="PreciseDM" className="h-10 w-10 rounded-full" />
@@ -201,7 +203,6 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
             </div>
           </div>
 
-          {/* Step indicator for signup */}
           {isSignupFlow && step !== "success" && (
             <div className="px-6 pb-4">
               <div className="flex items-center gap-1.5">
@@ -214,9 +215,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                     }`}>
                       {i < currentStepIndex ? <Check className="h-3 w-3" /> : s.num}
                     </div>
-                    <span className={`text-[10px] font-medium hidden sm:inline ${
-                      i === currentStepIndex ? "text-foreground" : "text-muted-foreground"
-                    }`}>{s.label}</span>
+                    <span className={`text-[10px] font-medium hidden sm:inline ${i === currentStepIndex ? "text-foreground" : "text-muted-foreground"}`}>{s.label}</span>
                     {i < signupSteps.length - 1 && <div className={`h-px w-4 ${i < currentStepIndex ? "bg-primary" : "bg-border"}`} />}
                   </div>
                 ))}
@@ -224,49 +223,66 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
             </div>
           )}
 
-          {/* Content area */}
           <div className="flex-1 px-6 overflow-hidden">
             <AnimatePresence mode="wait" custom={direction}>
-              {/* ─── LOGIN ─── */}
+              {/* LOGIN - Email */}
               {step === "login" && (
                 <motion.div key="login" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
                   <h2 className="text-2xl font-extrabold text-foreground mb-1">Welcome Back</h2>
-                  <p className="text-sm text-muted-foreground mb-6">Sign in to access your calculators and saved results.</p>
-
-                  <form onSubmit={handleLogin} className="space-y-4">
+                  <p className="text-sm text-muted-foreground mb-6">Enter your email and we'll send you a verification code.</p>
+                  <div className="space-y-4">
                     <div className="space-y-1.5">
                       <Label className="text-xs font-medium text-muted-foreground">Email</Label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
-                          className="rounded-xl h-11 border-border bg-card pl-10" />
+                          className="rounded-xl h-11 border-border bg-card pl-10"
+                          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleLoginOtp(); } }} autoFocus />
                       </div>
                     </div>
-                    <div className="space-y-1.5">
-                      <Label className="text-xs font-medium text-muted-foreground">Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input type={showPassword ? "text" : "password"} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)}
-                          className="rounded-xl h-11 border-border bg-card pl-10 pr-10" />
-                        <button type="button" onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </button>
-                      </div>
-                    </div>
-                    <Button type="submit" disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
-                      {loading ? "Signing in..." : "Sign In"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
+                    <Button onClick={handleLoginOtp} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
+                      {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending...</> : <>Send Code <ArrowRight className="ml-2 h-4 w-4" /></>}
                     </Button>
-                  </form>
+                  </div>
                 </motion.div>
               )}
 
-              {/* ─── SIGNUP STEP 1: Name ─── */}
+              {/* LOGIN - OTP */}
+              {step === "login-otp" && (
+                <motion.div key="login-otp" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
+                  <h2 className="text-2xl font-extrabold text-foreground mb-1">Enter Code</h2>
+                  <p className="text-sm text-muted-foreground mb-6">We sent a 6-digit code to <span className="font-semibold text-foreground">{email}</span></p>
+                  <div className="space-y-4">
+                    <div className="flex justify-center">
+                      <InputOTP maxLength={6} value={otp} onChange={setOtp} onComplete={handleLoginVerify}>
+                        <InputOTPGroup>
+                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={1} />
+                          <InputOTPSlot index={2} />
+                          <InputOTPSlot index={3} />
+                          <InputOTPSlot index={4} />
+                          <InputOTPSlot index={5} />
+                        </InputOTPGroup>
+                      </InputOTP>
+                    </div>
+                    <Button onClick={handleLoginVerify} disabled={loading || otp.length !== 6} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
+                      {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Verifying...</> : <>Verify & Sign In <ArrowRight className="ml-2 h-4 w-4" /></>}
+                    </Button>
+                    <div className="flex justify-between items-center">
+                      <button onClick={() => { goBack(); setStep("login"); setOtp(""); }} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                        <ArrowLeft className="h-3 w-3" /> Change email
+                      </button>
+                      <button onClick={handleLoginOtp} disabled={loading} className="text-xs text-primary font-medium hover:underline">Resend code</button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* SIGNUP Step 1: Name */}
               {step === "signup-name" && (
                 <motion.div key="signup-name" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
                   <h2 className="text-2xl font-extrabold text-foreground mb-1">What's your name?</h2>
                   <p className="text-sm text-muted-foreground mb-6">Let's get started with the basics.</p>
-
                   <div className="space-y-4">
                     <div className="space-y-1.5">
                       <Label className="text-xs font-medium text-muted-foreground">Full Name</Label>
@@ -290,12 +306,11 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                 </motion.div>
               )}
 
-              {/* ─── SIGNUP STEP 2: Email ─── */}
+              {/* SIGNUP Step 2: Email */}
               {step === "signup-email" && (
                 <motion.div key="signup-email" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
                   <h2 className="text-2xl font-extrabold text-foreground mb-1">Your email address</h2>
-                  <p className="text-sm text-muted-foreground mb-6">We'll use this for your account login.</p>
-
+                  <p className="text-sm text-muted-foreground mb-6">We'll send a verification code to confirm your email.</p>
                   <div className="space-y-4">
                     <div className="space-y-1.5">
                       <Label className="text-xs font-medium text-muted-foreground">Email</Label>
@@ -303,17 +318,11 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
                           className="rounded-xl h-12 border-border bg-card pl-10 text-base"
-                          onKeyDown={(e) => { if (e.key === "Enter" && email.trim()) { goNext(); setStep("signup-password"); } }} autoFocus />
+                          onKeyDown={(e) => { if (e.key === "Enter" && email.trim()) handleSignupSendOtp(); }} autoFocus />
                       </div>
                     </div>
-                    <Button
-                      onClick={() => {
-                        if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast({ title: "Please enter a valid email", variant: "destructive" }); return; }
-                        goNext(); setStep("signup-password");
-                      }}
-                      className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base"
-                    >
-                      Continue <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button onClick={handleSignupSendOtp} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
+                      {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending...</> : <>Send Code <ArrowRight className="ml-2 h-4 w-4" /></>}
                     </Button>
                     <button onClick={() => { goBack(); setStep("signup-name"); }} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mx-auto">
                       <ArrowLeft className="h-3 w-3" /> Back
@@ -322,69 +331,55 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                 </motion.div>
               )}
 
-              {/* ─── SIGNUP STEP 3: Password ─── */}
-              {step === "signup-password" && (
-                <motion.div key="signup-password" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
-                  <h2 className="text-2xl font-extrabold text-foreground mb-1">Set a password</h2>
-                  <p className="text-sm text-muted-foreground mb-6">Choose a strong password (min 6 characters).</p>
-
-                  <form onSubmit={handleSignup} className="space-y-4">
-                    <div className="space-y-1.5">
-                      <Label className="text-xs font-medium text-muted-foreground">Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input type={showPassword ? "text" : "password"} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)}
-                          className="rounded-xl h-12 border-border bg-card pl-10 pr-10 text-base" autoFocus />
-                        <button type="button" onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </button>
-                      </div>
-                      {password.length > 0 && (
-                        <div className="flex items-center gap-2 mt-2">
-                          <div className={`h-1 flex-1 rounded-full ${password.length >= 6 ? "bg-primary" : "bg-border"}`} />
-                          <div className={`h-1 flex-1 rounded-full ${password.length >= 8 ? "bg-primary" : "bg-border"}`} />
-                          <div className={`h-1 flex-1 rounded-full ${password.length >= 10 ? "bg-primary" : "bg-border"}`} />
-                          <span className="text-xs text-muted-foreground ml-1">{password.length >= 10 ? "Strong" : password.length >= 8 ? "Good" : password.length >= 6 ? "OK" : "Weak"}</span>
-                        </div>
-                      )}
+              {/* SIGNUP Step 3: OTP Verify */}
+              {step === "signup-otp" && (
+                <motion.div key="signup-otp" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
+                  <h2 className="text-2xl font-extrabold text-foreground mb-1">Verify your email</h2>
+                  <p className="text-sm text-muted-foreground mb-6">Enter the 6-digit code sent to <span className="font-semibold text-foreground">{email}</span></p>
+                  <div className="space-y-4">
+                    <div className="flex justify-center">
+                      <InputOTP maxLength={6} value={otp} onChange={setOtp} onComplete={handleSignupVerify}>
+                        <InputOTPGroup>
+                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={1} />
+                          <InputOTPSlot index={2} />
+                          <InputOTPSlot index={3} />
+                          <InputOTPSlot index={4} />
+                          <InputOTPSlot index={5} />
+                        </InputOTPGroup>
+                      </InputOTP>
                     </div>
-                    <Button type="submit" disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
-                      {loading ? "Creating account..." : "Continue"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
+                    <Button onClick={handleSignupVerify} disabled={loading || otp.length !== 6} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
+                      {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Verifying...</> : <>Verify <ArrowRight className="ml-2 h-4 w-4" /></>}
                     </Button>
-                    <button type="button" onClick={() => { goBack(); setStep("signup-email"); }} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mx-auto">
-                      <ArrowLeft className="h-3 w-3" /> Back
-                    </button>
-                  </form>
+                    <div className="flex justify-between items-center">
+                      <button onClick={() => { goBack(); setStep("signup-email"); setOtp(""); }} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                        <ArrowLeft className="h-3 w-3" /> Back
+                      </button>
+                      <button onClick={handleSignupSendOtp} disabled={loading} className="text-xs text-primary font-medium hover:underline">Resend code</button>
+                    </div>
+                  </div>
                 </motion.div>
               )}
 
-              {/* ─── SIGNUP STEP 4: Choose Plan ─── */}
+              {/* SIGNUP Step 4: Plan */}
               {step === "signup-plan" && (
                 <motion.div key="signup-plan" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
                   <h2 className="text-2xl font-extrabold text-foreground mb-1">Choose your plan</h2>
                   <p className="text-sm text-muted-foreground mb-5">Start with a free trial or pick a plan that suits you.</p>
-
                   <div className="space-y-3 mb-5">
                     {plans.map((plan) => (
-                      <button
-                        key={plan.id}
-                        onClick={() => setSelectedPlan(plan.id)}
+                      <button key={plan.id} onClick={() => setSelectedPlan(plan.id)}
                         className={`w-full flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all ${
-                          selectedPlan === plan.id
-                            ? "border-primary bg-primary/5 shadow-md"
-                            : "border-border bg-card hover:border-primary/30"
-                        }`}
-                      >
+                          selectedPlan === plan.id ? "border-primary bg-primary/5 shadow-md" : "border-border bg-card hover:border-primary/30"
+                        }`}>
                         <div className={`flex items-center justify-center h-10 w-10 rounded-lg bg-gradient-to-br ${plan.gradient} text-white shrink-0`}>
                           <plan.icon className="h-5 w-5" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-sm text-foreground">{plan.name}</span>
-                            {plan.badge && (
-                              <span className="text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 rounded-full">{plan.badge}</span>
-                            )}
+                            {plan.badge && <span className="text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 rounded-full">{plan.badge}</span>}
                           </div>
                           <p className="text-xs text-muted-foreground">{plan.desc}</p>
                         </div>
@@ -400,18 +395,13 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                       </button>
                     ))}
                   </div>
-
-                  <Button
-                    onClick={handlePlanSelect}
-                    disabled={loading}
-                    className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base"
-                  >
+                  <Button onClick={handlePlanSelect} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
                     {loading ? "Processing..." : selectedPlan === "trial" ? "Start Free Trial" : "Continue to Payment"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
                   </Button>
                 </motion.div>
               )}
 
-              {/* ─── SUCCESS ─── */}
+              {/* SUCCESS */}
               {step === "success" && (
                 <motion.div key="success" custom={1} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
                   <div className="flex flex-col items-center text-center py-8">
@@ -419,16 +409,9 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                       <Sparkles className="h-8 w-8 text-primary-foreground" />
                     </div>
                     <h2 className="text-2xl font-extrabold text-foreground mb-2">You're all set!</h2>
-                    <p className="text-sm text-muted-foreground mb-8 max-w-xs">
-                      Your account is ready. Enjoy full access to PreciseDM's precision calculators.
-                    </p>
-                    <Button
-                      onClick={() => {
-                        toast({ title: "Welcome to PreciseDM!" });
-                        onOpenChange(false);
-                      }}
-                      className="rounded-xl h-12 font-bold gradient-primary glow-primary text-base px-8"
-                    >
+                    <p className="text-sm text-muted-foreground mb-8 max-w-xs">Your account is ready. Enjoy full access to PreciseDM's precision calculators.</p>
+                    <Button onClick={() => { toast({ title: "Welcome to PreciseDM!" }); onOpenChange(false); }}
+                      className="rounded-xl h-12 font-bold gradient-primary glow-primary text-base px-8">
                       Start Exploring <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
@@ -438,18 +421,19 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
           </div>
 
           {/* Bottom toggle */}
-          {(step === "login" || step.startsWith("signup-")) && step !== "signup-plan" && (
+          {(step === "login" || step === "login-otp" || step === "signup-name" || step === "signup-email") && (
             <div className="px-6 pb-8 pt-4 text-center">
               <p className="text-sm text-muted-foreground">
-                {step === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+                {step.startsWith("login") ? "Don't have an account?" : "Already have an account?"}{" "}
                 <button
                   onClick={() => {
-                    if (step === "login") { goNext(); setStep("signup-name"); }
+                    setOtp("");
+                    if (step.startsWith("login")) { goNext(); setStep("signup-name"); }
                     else { goBack(); setStep("login"); }
                   }}
                   className="text-primary font-semibold hover:underline"
                 >
-                  {step === "login" ? "Sign Up" : "Sign In"}
+                  {step.startsWith("login") ? "Sign Up" : "Sign In"}
                 </button>
               </p>
             </div>
