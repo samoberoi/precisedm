@@ -67,7 +67,7 @@ const HomePage = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="relative overflow-hidden rounded-3xl h-[220px]"
+          className="relative overflow-hidden rounded-3xl h-[260px]"
           style={{
             background: "linear-gradient(135deg, hsl(197 50% 85%), hsl(197 40% 75%), hsl(200 30% 65%))",
           }}
@@ -76,7 +76,7 @@ const HomePage = () => {
           <img
             src={heroDoctor}
             alt="Healthcare"
-            className="absolute right-0 top-0 h-full w-3/5 object-cover object-top"
+            className="absolute right-0 top-0 h-full w-3/5 object-cover object-[center_15%]"
             style={{ maskImage: "linear-gradient(to left, black 50%, transparent 100%)", WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)" }}
           />
           {/* Text overlay */}

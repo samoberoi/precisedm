@@ -142,7 +142,7 @@ const LandingPage = () => {
             <ScrollReveal delay={0.15}>
               <div className="relative">
                 <div className="relative overflow-hidden rounded-3xl shadow-2xl" style={{ background: "linear-gradient(135deg, hsl(197 50% 85%), hsl(197 40% 75%))" }}>
-                  <img src={heroDoctor} alt="Healthcare professional using PreciseDM" className="h-[380px] w-full object-cover object-top lg:h-[480px] xl:h-[520px]" />
+                  <img src={heroDoctor} alt="Healthcare professional using PreciseDM" className="h-[380px] w-full object-cover object-[center_20%] lg:h-[480px] xl:h-[520px]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </div>
                 <div className="absolute -bottom-5 -left-5 rounded-2xl bg-card border border-border shadow-xl p-4 hidden lg:block">
