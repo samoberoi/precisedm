@@ -220,6 +220,9 @@ Deno.serve(async (req) => {
         );
       }
 
+      const isAdmin = user_type === "admin";
+      const actualUserType = isAdmin ? "practitioner" : (user_type || "student");
+
       const { data: newUser, error: createError } =
         await supabaseAdmin.auth.admin.createUser({
           email,
@@ -227,7 +230,7 @@ Deno.serve(async (req) => {
           email_confirm: true,
           user_metadata: {
             full_name,
-            user_type: user_type || "student",
+            user_type: actualUserType,
             custom_user_id: custom_user_id || null,
             accepted_terms: true,
           },
@@ -235,8 +238,15 @@ Deno.serve(async (req) => {
 
       if (createError) throw createError;
 
+      const newUserId = newUser.user.id;
+
+      // If admin type selected, add admin role
+      if (isAdmin) {
+        await supabaseAdmin.from("user_roles").insert({ user_id: newUserId, role: "admin" });
+      }
+
       return new Response(
-        JSON.stringify({ message: "User created", user_id: newUser.user.id }),
+        JSON.stringify({ message: "User created", user_id: newUserId }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
