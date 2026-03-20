@@ -19,7 +19,7 @@ const plans = [
     cta: "Subscribe Monthly",
   },
   {
-    id: "yearly", name: "Yearly", price: "$12", period: "year", icon: Crown, badge: "Best Value",
+    id: "yearly", name: "Yearly", price: "$120", period: "year", icon: Crown, badge: "Best Value",
     desc: "Best value — save with annual billing",
     features: ["Everything in Monthly", "12 months access", "Priority access to new tools", "Cancel anytime"],
     gradient: "linear-gradient(135deg, hsl(200,30%,18%), hsl(200,25%,12%))",
