@@ -221,7 +221,7 @@ Deno.serve(async (req) => {
       }
 
       const isAdmin = user_type === "admin";
-      const actualUserType = isAdmin ? "practitioner" : (user_type || "student");
+      const actualUserType = isAdmin ? "student" : (user_type || "student");
 
       const { data: newUser, error: createError } =
         await supabaseAdmin.auth.admin.createUser({
