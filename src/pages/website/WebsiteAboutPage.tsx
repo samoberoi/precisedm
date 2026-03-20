@@ -7,7 +7,7 @@ import visionImage from "@/assets/vision-image.jpg";
 import missionImage from "@/assets/mission-image.jpg";
 
 const team = [
-  { img: drColleenCook, name: "Dr. Colleen Cook", creds: "PharmD, BC-ADM, CDCES", role: "CEO" },
+  { img: drColleenCook, name: "Dr. Colleen Cook", creds: "PharmD, BC-ADM, CDCES", role: "CEO", desc: "Colleen Cook is the co-owner of PreciseDM and inventor of the product called diaForm. She has 25+ years' experience working as a hospital pharmacist and has dedicated the last decade of her career to specializing in diabetes care and education. Her passion, energy and drive to enhance diabetes management, inspired her to develop an individualized insulin dosing calculator intended to be used by trained health care professionals, such as physicians, nurses, nurse practitioners, pharmacists and physician assistants. Her mission is to improve diabetes care in her community and to further impact the development of tools to enhance the efficiency of diabetes care to patients." },
   { img: drMelanieProctor, name: "Dr. Melanie Proctor", creds: "PharmD, BCGP", role: "COO" },
   { img: drSuzanneChung, name: "Dr. Suzanne Chung", creds: "PhD Analytical Chemistry", role: "CFO" },
 ];
@@ -73,9 +73,10 @@ const WebsiteAboutPage = () => (
               <div className="rounded-2xl overflow-hidden bg-card border border-border shadow-sm hover:shadow-xl transition-shadow duration-300">
                 <img src={t.img} alt={t.name} className="h-80 w-full object-cover" />
                 <div className="p-6">
-                  <h3 className="text-base font-bold text-foreground">{t.name}</h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">{t.creds}</p>
-                  <p className="text-xs text-primary font-semibold mt-1">{t.role}</p>
+                   <h3 className="text-base font-bold text-foreground">{t.name}</h3>
+                   <p className="text-xs text-muted-foreground mt-0.5">{t.creds}</p>
+                   <p className="text-xs text-primary font-semibold mt-1">{t.role}</p>
+                   {"desc" in t && t.desc && <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{t.desc}</p>}
                 </div>
               </div>
             </ScrollReveal>
