@@ -20,8 +20,6 @@ import GetStartedScreen from "./pages/onboarding/GetStartedScreen";
 // Auth
 import LoginPage from "./pages/auth/LoginPage";
 import SignUpPage from "./pages/auth/SignUpPage";
-import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 
 // App pages
 import HomePage from "./pages/HomePage";
