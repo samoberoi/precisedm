@@ -485,9 +485,42 @@ const DiaFormPage = () => {
                 </p>
                 <p className="text-sm font-bold text-white/80 mt-1">units</p>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm px-6 py-4 mx-4 mb-4 rounded-2xl">
-                <p className="text-xs text-white/90 leading-relaxed">
-                  This represents <span className="font-bold">50% of TDD</span>. Basal = 50% TDD, Prandial = 50% TDD ÷ 3 meals.
+            </div>
+
+            {/* Clinical Guidance */}
+            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm space-y-4">
+              <h3 className="text-sm font-bold text-foreground">How to Use This Range</h3>
+
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                This represents <span className="font-semibold text-foreground">50% of total daily dose (TDD)</span> of insulin.
+              </p>
+
+              <div className="grid gap-3">
+                <div className="rounded-xl bg-primary/5 border border-primary/10 p-4">
+                  <p className="text-xs font-bold text-primary uppercase tracking-wide mb-1">Basal Insulin</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Estimated at <span className="font-semibold text-foreground">50% of TDD</span>. Add to the current diabetes regimen.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-2">
+                    <span className="font-medium text-foreground">Example:</span> If the range is {result.doseLow}-{result.doseHigh} units, provider can select Lantus {Math.round((result.doseLow + result.doseHigh) / 2)} units SQ in the morning (qam) or the evening (qhs).
+                  </p>
+                </div>
+
+                <div className="rounded-xl bg-accent/50 border border-accent p-4">
+                  <p className="text-xs font-bold text-primary uppercase tracking-wide mb-1">Prandial (Mealtime) Insulin</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Estimated at <span className="font-semibold text-foreground">50% of TDD</span>. Divided equally over 3 meals with the current diabetes regimen.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-2">
+                    <span className="font-medium text-foreground">Example:</span> If TDD is {result.doseLow}-{result.doseHigh} units, provider can select {Math.round(result.doseLow / 3)}-{Math.round(result.doseHigh / 3)} units of Novolog or Humalog SQ with each meal.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-xl bg-muted/50 border border-border p-4">
+                <p className="text-xs font-bold text-foreground uppercase tracking-wide mb-1">Basal + Prandial Combined</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Use {result.doseLow}-{result.doseHigh} units for basal <span className="font-semibold text-foreground">AND</span> {result.doseLow}-{result.doseHigh} units for prandial (divided over 3 meals) with the current diabetes regimen.
                 </p>
               </div>
             </div>
