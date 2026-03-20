@@ -66,7 +66,7 @@ Deno.serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "PreciseDM <noreply@hypereven.com>",
+        from: "PreciseDM <noreply@hyperrevamp.com>",
         to: [email.trim()],
         subject: `Your PreciseDM verification code: ${code}`,
         html: `
