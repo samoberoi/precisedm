@@ -25,7 +25,7 @@ const features = [
 ];
 
 const calculators = [
-  { name: "DiaForm", desc: "Initial Insulin Dosing", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", route: "/w/diaform" },
+  { name: "Starting", desc: "Initial Insulin Dosing", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", route: "/w/diaform" },
   { name: "Gestation", desc: "Pregnancy Care Dosing", icon: gestationIcon, gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))", route: "/w/gestation" },
   { name: "Maintenance", desc: "Ongoing Dose Adjustments", icon: maintenanceIcon, gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))", route: "/w/maintenance" },
   { name: "Steroid", desc: "Steroid-Induced Dosing", icon: steroidIcon, gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))", route: "/w/steroid" },
