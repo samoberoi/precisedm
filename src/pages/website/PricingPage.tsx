@@ -14,7 +14,7 @@ const plans = [
   {
     id: "monthly", name: "Monthly", price: "$1", period: "month", icon: Zap,
     desc: "Perfect for trying out our tools",
-    features: ["All 4 calculators", "Educational videos", "Saved calculation history", "Cancel anytime"],
+    features: ["All 4 calculators", "Saved calculation history", "Priority support", "Cancel anytime"],
     gradient: "",
     cta: "Subscribe Monthly",
   },
