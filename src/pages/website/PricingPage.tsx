@@ -12,7 +12,7 @@ const plans = [
     cta: "Start Free Trial",
   },
   {
-    id: "monthly", name: "Monthly", price: "$1", period: "month", icon: Zap,
+    id: "monthly", name: "Monthly", price: "$12", period: "month", icon: Zap,
     desc: "Perfect for trying out our tools",
     features: ["All 4 calculators", "Saved calculation history", "Priority support", "Cancel anytime"],
     gradient: "",
