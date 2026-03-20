@@ -96,8 +96,6 @@ const AnimatedRoutes = () => {
           {/* Auth */}
           <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
           <Route path="/signup" element={<PageTransition><SignUpPage /></PageTransition>} />
-          <Route path="/forgot-password" element={<PageTransition><ForgotPasswordPage /></PageTransition>} />
-          <Route path="/reset-password" element={<PageTransition><ResetPasswordPage /></PageTransition>} />
 
           {/* App pages */}
           <Route path="/home" element={<PageTransition><HomePage /></PageTransition>} />
