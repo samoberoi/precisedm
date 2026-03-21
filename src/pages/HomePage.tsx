@@ -210,14 +210,16 @@ const HomePage = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.55 + i * 0.08 }}
-              className="shrink-0 w-[260px] overflow-hidden rounded-2xl bg-card border border-border shadow-sm"
+              className="shrink-0 w-[300px] overflow-hidden rounded-2xl bg-card border border-border shadow-sm"
             >
               <img src={t.img} alt={t.name} className="h-48 w-full object-cover" />
               <div className="p-4">
                 <h3 className="text-sm font-bold text-foreground">{t.name}</h3>
                 <p className="text-[11px] text-muted-foreground mt-0.5">{t.creds}</p>
                 <p className="text-[11px] text-primary font-semibold mt-0.5">{t.role}</p>
-                <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">{t.desc}</p>
+                {t.desc && (
+                  <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">{t.desc}</p>
+                )}
               </div>
             </motion.div>
           ))}
