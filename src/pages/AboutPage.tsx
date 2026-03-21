@@ -63,24 +63,23 @@ const AboutPage = () => {
       <div className="pl-5 pr-2 pb-2">
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
           {[
-            { img: drColleenCook, name: "Dr. Colleen Cook", credentials: "PharmD, BC-ADM, CDCES", role: "CEO", hasPhoto: true },
-            { img: drMelanieProctor, name: "Dr. Melanie Proctor", credentials: "PharmD, BCGP", role: "COO", hasPhoto: true },
-            { img: drSuzanneChung, name: "Dr. Suzanne Chung", credentials: "PhD Analytical Chemistry", role: "CFO", hasPhoto: false },
+            { img: drColleenCook, name: "Dr. Colleen Cook", credentials: "PharmD, BC-ADM, CDCES", role: "CEO", desc: "Colleen Cook is the co-owner of PreciseDM and inventor of the product called diaForm. She has 25+ years' experience working as a hospital pharmacist and has dedicated the last decade of her career to specializing in diabetes care and education. Her passion, energy and drive to enhance diabetes management, inspired her to develop an individualized insulin dosing calculator intended to be used by trained health care professionals, such as physicians, nurses, nurse practitioners, pharmacists and physician assistants. Her mission is to improve diabetes care in her community and to further impact the development of tools to enhance the efficiency of diabetes care to patients." },
+            { img: drMelanieProctor, name: "Dr. Melanie Proctor", credentials: "PharmD, BCGP", role: "COO", desc: "Melanie Proctor is a PharmD with a BCGP and has been practicing since 2004. She began as a clinical pharmacist at North Country Regional Hospital in Bemidji, MN. She worked for the Regional Hospital for 5 years before moving into Geriatric Pharmacy Consulting for Pharmerica in 2009. She continued consulting for Pharmerica and for various other pharmacies, eventually co-founding a company of her own called Progressive Care Solutions. She sold that company, along with her antibiotic tracking product abxtracker in 2019. She currently works as an inpatient clinical pharmacist at Ridgeview Hospital." },
+            { img: drSuzanneChung, name: "Dr. Suzanne Chung", credentials: "PhD Analytical Chemistry", role: "CFO", desc: "Suzanne Chung is an analytical chemist with 25+ years' experience in clinical diagnostics systems development and technical support. Her experience extends to medical device development processes and applicable regulatory requirements. She has planned and led feasibility, development verification and validation activities on cross-functional teams to demonstrate product viability design, investigated systemic problem areas to improve quality and customer satisfaction, and delivered results with recommendations to Management." },
           ].map((doc, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 + i * 0.08 }}
-              className="shrink-0 w-[260px] overflow-hidden rounded-2xl shadow-sm relative"
-              style={{ minHeight: 320 }}
+              className="shrink-0 w-[280px] overflow-hidden rounded-2xl bg-card border border-border shadow-sm"
             >
-              <img src={doc.img} alt={doc.name} className="w-full h-full object-cover absolute inset-0" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-lg font-extrabold text-white leading-tight">{doc.name}</h3>
-                <p className="text-xs text-white/70 mt-0.5">{doc.credentials}</p>
-                <p className="text-xs text-white/50 mt-0.5">{doc.role}</p>
+              <img src={doc.img} alt={doc.name} className="h-56 w-full object-cover" />
+              <div className="p-4">
+                <h3 className="text-base font-bold text-foreground">{doc.name}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{doc.credentials}</p>
+                <p className="text-xs text-primary font-semibold mt-1">{doc.role}</p>
+                <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{doc.desc}</p>
               </div>
             </motion.div>
           ))}
