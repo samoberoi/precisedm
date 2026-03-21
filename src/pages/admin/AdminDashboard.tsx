@@ -741,6 +741,10 @@ const AdminDashboard = () => {
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold text-foreground truncate">{s.user_name}</p>
                           <p className="text-xs text-muted-foreground truncate">{s.user_email}</p>
+                          <div className="flex gap-3 mt-0.5">
+                            <span className="text-[10px] text-muted-foreground">Start: {s.start_date ? new Date(s.start_date).toLocaleDateString() : "—"}</span>
+                            <span className="text-[10px] text-muted-foreground">Expires: {s.next_billing_date ? new Date(s.next_billing_date).toLocaleDateString() : "—"}</span>
+                          </div>
                         </div>
                         <div className="flex flex-col items-end gap-1 shrink-0">
                           <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
