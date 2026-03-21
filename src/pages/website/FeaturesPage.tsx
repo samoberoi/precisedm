@@ -8,7 +8,7 @@ import maintenanceIcon from "@/assets/maintenance-icon.png";
 import steroidIcon from "@/assets/steroid-icon.png";
 
 const highlights = [
-  { icon: Calculator, title: "4 Precision Calculators", desc: "DiaForm, Gestation, Maintenance, and Steroid dosing tools covering every clinical scenario.", accent: "hsl(210, 80%, 50%)" },
+  { icon: Calculator, title: "4 Precision Calculators", desc: "Starting, Gestation, Maintenance, and Steroid dosing tools covering every clinical scenario.", accent: "hsl(210, 80%, 50%)" },
   { icon: Zap, title: "Instant Results", desc: "Evidence-based algorithms deliver recommended dosage ranges in seconds.", accent: "hsl(45, 85%, 50%)" },
   
   { icon: Shield, title: "Secure Data", desc: "Your patient data is handled with care and stored securely.", accent: "hsl(160, 60%, 45%)" },
@@ -19,7 +19,7 @@ const highlights = [
 ];
 
 const calculatorDetails = [
-  { name: "DiaForm", subtitle: "Initial Insulin Dosing", desc: "4-step wizard for initial insulin dosing. Dual-unit support, MDRD eGFR calculation, BMI categorization, and 50/50 Basal-Prandial TDD split.", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", features: ["Dual unit support", "MDRD eGFR calculation", "BMI categorization", "50/50 TDD split"] },
+  { name: "Starting", subtitle: "Initial Insulin Dosing", desc: "4-step wizard for initial insulin dosing. Dual-unit support, MDRD eGFR calculation, BMI categorization, and 50/50 Basal-Prandial TDD split.", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", features: ["Dual unit support", "MDRD eGFR calculation", "BMI categorization", "50/50 TDD split"] },
   { name: "Gestation", subtitle: "Pregnancy Care Dosing", desc: "Specialized calculator for insulin dosing during pregnancy, with trimester-specific adjustments and gestational diabetes support.", icon: gestationIcon, gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))", features: ["Trimester-specific", "Gestational diabetes", "Weight adjustments", "Safety guardrails"] },
   { name: "Maintenance", subtitle: "Ongoing Dose Adjustments", desc: "Ongoing dose adjustment using Insulin Sensitivity Factor (ISF = 1800/TDD), hypoglycemia history, and blood glucose levels.", icon: maintenanceIcon, gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))", features: ["ISF calculation", "Hypo history check", "BG level analysis", "Dose fine-tuning"] },
   { name: "Steroid", subtitle: "Steroid-Induced Dosing", desc: "Calculate insulin requirements for steroid-induced hyperglycemia with dosage and steroid type considerations.", icon: steroidIcon, gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))", features: ["Steroid type aware", "Dose-dependent", "Category mapping", "Range output"] },
