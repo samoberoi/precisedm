@@ -312,12 +312,12 @@ const LandingPage = () => {
           </ScrollReveal>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
             {[
-              { name: "Dr. Sarah M.", role: "Endocrinologist", rating: 5, quote: "PreciseDM has streamlined my insulin dosing workflow. The DiaForm calculator saves me significant time with new patients." },
-              { name: "James R., PharmD", role: "Clinical Pharmacist", rating: 5, quote: "Finally, a tool that accounts for renal function and BMI together. The evidence-based algorithms give me confidence in my recommendations." },
-              { name: "Dr. Aisha K.", role: "Family Medicine", rating: 5, quote: "The Gestation calculator is invaluable for my pregnant patients with diabetes. Clear, actionable dosing guidance every time." },
-              { name: "Mark T., NP", role: "Nurse Practitioner", rating: 4, quote: "Easy to use and the saved history feature lets me track my patients' dosing changes over time. Highly recommend." },
-              { name: "Dr. Linda P.", role: "Hospitalist", rating: 5, quote: "The Steroid calculator has been a game-changer for managing steroid-induced hyperglycemia on the floors." },
-              { name: "Rachel N., PA-C", role: "Physician Assistant", rating: 5, quote: "Intuitive interface and reliable results. PreciseDM is now part of my daily practice toolkit." },
+              { name: "A. McWilliams, NP", role: "Nurse Practitioner", rating: 5, quote: "PreciseDM helped me prescribe an updated insulin regimen for my patient at discharge." },
+              { name: "K. Thrift, NP", role: "Nurse Practitioner", rating: 5, quote: "The tool is easily accessible and user friendly. Makes prescribing insulin much simpler and accurate." },
+              { name: "Dr. K. Jacobs, DO", role: "OB/GYN", rating: 5, quote: "The PreciseDM tool is tailored to individualize patient care in the management of gestational diabetes. It is easy to use and makes insulin adjustments easy during a busy clinic day." },
+              { name: "Kim, NP", role: "Nurse Practitioner", rating: 5, quote: "The tool was easy to use and straightforward." },
+              { name: "Hospitalist", role: "Hospitalist", rating: 5, quote: "The tool provided me with an appropriate insulin dose recommendation. The process was quick, easy and reliable." },
+              { name: "Hospitalist", role: "Hospitalist", rating: 5, quote: "The tool is absolutely fantastic. I used it on my last shifts when I was doing rounds." },
             ].map((review, i) => (
               <ScrollReveal key={i} delay={i * 0.08}>
                 <div className="rounded-2xl border border-border bg-card p-7 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col">
