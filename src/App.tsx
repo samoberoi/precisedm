@@ -86,10 +86,11 @@ const AnimatedRoutes = () => {
             <Route path="admin" element={<AdminDashboard />} />
           </Route>
 
-          {/* Root redirects to website */}
-          <Route path="/" element={<Navigate to="/w" replace />} />
+          {/* Root: native app goes to splash, web goes to website */}
+          <Route path="/" element={<Navigate to={Capacitor.isNativePlatform() ? "/onboarding/splash" : "/w"} replace />} />
 
           {/* App onboarding */}
+          <Route path="/onboarding/splash" element={<PageTransition><SplashScreen /></PageTransition>} />
           <Route path="/onboarding/welcome" element={<PageTransition><WelcomeScreen /></PageTransition>} />
           <Route path="/onboarding/features" element={<PageTransition><FeaturesScreen /></PageTransition>} />
           <Route path="/onboarding/get-started" element={<PageTransition><GetStartedScreen /></PageTransition>} />
