@@ -24,6 +24,9 @@ const SplashScreen = () => {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
+    // Hide native splash screen
+    CapSplash.hide().catch(() => {});
+
     const timers = [
       setTimeout(() => setStep(1), 600),
       setTimeout(() => setStep(2), 1400),
