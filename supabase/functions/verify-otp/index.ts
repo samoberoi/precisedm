@@ -25,28 +25,38 @@ Deno.serve(async (req) => {
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
     const normalizedEmail = email.trim().toLowerCase();
+    const trimmedCode = code.trim();
 
-    // Find valid OTP
-    const { data: otpRecord, error: fetchError } = await supabase
-      .from("otp_codes")
-      .select("*")
-      .eq("email", normalizedEmail)
-      .eq("code", code.trim())
-      .eq("used", false)
-      .gt("expires_at", new Date().toISOString())
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
+    // Demo account bypass: allow code 111111 for demo@precisedm.com
+    const isDemoBypass = normalizedEmail === "demo@precisedm.com" && trimmedCode === "111111";
 
-    if (fetchError || !otpRecord) {
-      return new Response(JSON.stringify({ error: "Invalid or expired code" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    let otpRecord: any = null;
+
+    if (!isDemoBypass) {
+      // Find valid OTP
+      const { data, error: fetchError } = await supabase
+        .from("otp_codes")
+        .select("*")
+        .eq("email", normalizedEmail)
+        .eq("code", trimmedCode)
+        .eq("used", false)
+        .gt("expires_at", new Date().toISOString())
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+      if (fetchError || !data) {
+        return new Response(JSON.stringify({ error: "Invalid or expired code" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      otpRecord = data;
+
+      // Mark OTP as used
+      await supabase.from("otp_codes").update({ used: true }).eq("id", otpRecord.id);
     }
-
-    // Mark OTP as used
-    await supabase.from("otp_codes").update({ used: true }).eq("id", otpRecord.id);
 
     // Check if user exists
     const { data: existingUsers } = await supabase.auth.admin.listUsers();
