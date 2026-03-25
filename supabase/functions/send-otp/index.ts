@@ -26,6 +26,14 @@ Deno.serve(async (req) => {
       });
     }
 
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Demo account: skip sending email, just return success
+    if (normalizedEmail === "demo@precisedm.com") {
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     if (!RESEND_API_KEY) {
       throw new Error("RESEND_API_KEY is not configured");
