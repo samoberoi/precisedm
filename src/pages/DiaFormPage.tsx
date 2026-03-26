@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Info, RotateCcw, Printer, Pencil, ChevronRight, Check } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
-import { useSaveSubmission } from "@/hooks/use-save-submission";
+import { useCalculate } from "@/hooks/use-calculate";
 import SubscriptionBanner from "@/components/SubscriptionBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,7 +45,6 @@ interface CalcResult {
   weightLbs: number;
   heightInches: number;
   scrMgDl: number;
-  inputs: FormData;
 }
 
 const initialForm: FormData = {
@@ -63,65 +62,6 @@ const initialForm: FormData = {
   dialysis: "no",
 };
 
-const doseRanges: Record<string, { low: number; high: number; label: string }> = {
-  MB1: { low: 0.15, high: 0.18, label: "MB1 (0.15–0.18 units/kg)" },
-  MB2: { low: 0.18, high: 0.23, label: "MB2 (0.18–0.23 units/kg)" },
-  MB3: { low: 0.23, high: 0.28, label: "MB3 (0.23–0.28 units/kg)" },
-  MB4: { low: 0.28, high: 0.33, label: "MB4 (0.28–0.33 units/kg)" },
-  GC1: { low: 0.10, high: 0.15, label: "GC1 (0.10–0.15 units/kg)" },
-  GC2: { low: 0.15, high: 0.20, label: "GC2 (0.15–0.20 units/kg)" },
-  DLS1: { low: 0.10, high: 0.15, label: "DLS1 (0.10–0.15 units/kg)" },
-};
-
-function calculate(form: FormData): CalcResult {
-  const ageNum = parseFloat(form.age);
-  const isImperial = form.measurementSystem === "imperial";
-  let weightLbs: number;
-  let heightIn: number;
-  if (isImperial) {
-    weightLbs = parseFloat(form.weight);
-    heightIn = parseFloat(form.heightFeet) * 12 + (parseFloat(form.heightInches) || 0);
-  } else {
-    weightLbs = parseFloat(form.weight) * 2.20462;
-    heightIn = parseFloat(form.heightCm) * 0.393701;
-  }
-  const bmi = (weightLbs / (heightIn * heightIn)) * 703;
-  let bmiCategory: string;
-  if (bmi < 24) bmiCategory = "MS11";
-  else if (bmi < 31) bmiCategory = "MS12";
-  else if (bmi < 41) bmiCategory = "MS13";
-  else bmiCategory = "MS14";
-  let scrMgDl = parseFloat(form.serumCreatinine);
-  if (form.creatinineUnits === "µmol/l") scrMgDl = scrMgDl * 0.01131221;
-  const genderFactor = form.gender === "female" ? 0.742 : 1;
-  const raceFactor = form.race === "black" ? 1.212 : 1;
-  const egfrRaw = 175 * Math.pow(ageNum, -0.203) * Math.pow(scrMgDl, -1.154) * genderFactor * raceFactor;
-  const egfr = Math.floor(egfrRaw);
-  let kidneyCategory: string;
-  if (egfr >= 58) kidneyCategory = "MS21";
-  else if (egfr >= 16) kidneyCategory = "MS22";
-  else kidneyCategory = "MS23";
-  let doseCategory: string;
-  if (form.dialysis === "yes" || kidneyCategory === "MS23") {
-    doseCategory = "DLS1";
-  } else if (kidneyCategory === "MS22") {
-    doseCategory = bmi >= 24 ? "GC2" : "GC1";
-  } else {
-    const bmiToDose: Record<string, string> = { MS11: "MB1", MS12: "MB2", MS13: "MB3", MS14: "MB4" };
-    doseCategory = bmiToDose[bmiCategory];
-  }
-  const range = doseRanges[doseCategory];
-  const weightKg = weightLbs / 2.20462;
-  const doseLow = Math.round(range.low * weightKg);
-  const doseHigh = Math.round(range.high * weightKg);
-  return {
-    bmi: Math.round(bmi * 10) / 10, bmiCategory, egfr, kidneyCategory, doseCategory,
-    doseLow, doseHigh, doseLowPerKg: range.low, doseHighPerKg: range.high,
-    weightKg: Math.round(weightKg * 10) / 10, weightLbs: Math.round(weightLbs * 10) / 10,
-    heightInches: Math.round(heightIn * 10) / 10, scrMgDl: Math.round(scrMgDl * 100) / 100, inputs: form,
-  };
-}
-
 /* ── Step definitions ── */
 const STEPS = [
   { title: "Basics", subtitle: "Measurement & body" },
@@ -136,11 +76,11 @@ const DiaFormPage = () => {
   const { firstName } = useProfile();
   const isWebsite = location.pathname.startsWith("/w");
   const disclaimerRoute = isWebsite ? "/w/disclaimer" : "/disclaimer";
-  const { saveSubmission } = useSaveSubmission();
+  const { calculate, loading: calculating } = useCalculate<CalcResult>();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [form, setForm] = useState<FormData>({ ...initialForm });
-  const [result, setResult] = useState<CalcResult | null>(null);
+  const [result, setResult] = useState<(CalcResult & { inputs: FormData }) | null>(null);
   const [step, setStep] = useState(0);
 
   const update = (key: keyof FormData, value: string) =>
@@ -186,14 +126,12 @@ const DiaFormPage = () => {
     if (step > 0) setStep(step - 1);
   };
 
-  const handleCalculate = () => {
-    const res = calculate(form);
-    setResult(res);
-    saveSubmission("diaform", form as any, {
-      doseLow: res.doseLow, doseHigh: res.doseHigh,
-      bmi: res.bmi, egfr: res.egfr, doseCategory: res.doseCategory,
-    });
-    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  const handleCalculate = async () => {
+    const res = await calculate("diaform", form as unknown as Record<string, unknown>);
+    if (res) {
+      setResult({ ...res, inputs: { ...form } });
+      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+    }
   };
 
   const handleEditInputs = () => { setResult(null); setStep(0); window.scrollTo({ top: 0, behavior: "smooth" }); };
@@ -457,8 +395,8 @@ const DiaFormPage = () => {
                 Next <ChevronRight className="h-4 w-4" />
               </Button>
             ) : (
-              <Button onClick={handleCalculate} className="flex-1 h-12 rounded-xl font-bold gradient-primary glow-primary">
-                Calculate Dose
+              <Button onClick={handleCalculate} disabled={calculating} className="flex-1 h-12 rounded-xl font-bold gradient-primary glow-primary">
+                {calculating ? "Calculating…" : "Calculate Dose"}
               </Button>
             )}
           </div>
