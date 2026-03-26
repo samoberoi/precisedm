@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Info, RotateCcw, Printer, Pencil, Check } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
-import { useSaveSubmission } from "@/hooks/use-save-submission";
+import { useCalculate } from "@/hooks/use-calculate";
 import SubscriptionBanner from "@/components/SubscriptionBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,8 +17,6 @@ const raceOptions = [
   "American Indian", "Hawaiian / Pacific Islander", "Other",
 ];
 
-/* ── Calculation helpers ── */
-
 interface CalcResult {
   bmi: number;
   egfr: number;
@@ -28,34 +26,6 @@ interface CalcResult {
   doseLowUnits: number;
   doseHighUnits: number;
   weightKg: number;
-}
-
-function calculate(
-  ageNum: number, weightLbs: number, feet: number, inches: number,
-  a1cNum: number, scr: number, gender: string, dialysis: string
-): CalcResult {
-  const heightIn = feet * 12 + inches;
-  const bmi = (weightLbs / (heightIn * heightIn)) * 703;
-  const isFemale = gender === "female";
-  const K = isFemale ? 0.7 : 0.9;
-  const alpha = isFemale ? -0.241 : -0.302;
-  let egfr = 142 * Math.pow(Math.min(scr / K, 1), alpha) * Math.pow(Math.max(scr / K, 1), -1.2) * Math.pow(0.9938, ageNum);
-  if (isFemale) egfr *= 1.012;
-
-  let categoryCode: string, doseLow: number, doseHigh: number;
-  if (egfr < 30 || dialysis === "yes") { categoryCode = "RGC1"; doseLow = 0.10; doseHigh = 0.14; }
-  else if (bmi < 30) { categoryCode = "RMB1"; doseLow = 0.15; doseHigh = 0.18; }
-  else if (bmi < 35) { categoryCode = "RMB2"; doseLow = 0.18; doseHigh = 0.20; }
-  else if (bmi < 40) { categoryCode = "RMB3"; doseLow = 0.20; doseHigh = 0.22; }
-  else { categoryCode = "RMB4"; doseLow = 0.22; doseHigh = 0.26; }
-
-  const weightKg = weightLbs * 0.453592;
-  return {
-    bmi: Math.round(bmi * 10) / 10, egfr: Math.round(egfr * 10) / 10, categoryCode,
-    doseLowPerKg: doseLow, doseHighPerKg: doseHigh,
-    doseLowUnits: Math.round(doseLow * weightKg), doseHighUnits: Math.round(doseHigh * weightKg),
-    weightKg: Math.round(weightKg * 10) / 10,
-  };
 }
 
 /* ── Step definitions ── */
@@ -74,7 +44,7 @@ const SteroidPage = () => {
   const { firstName } = useProfile();
   const isWebsite = location.pathname.startsWith("/w");
   const disclaimerRoute = isWebsite ? "/w/disclaimer" : "/disclaimer";
-  const { saveSubmission } = useSaveSubmission();
+  const { calculate, loading: calculating } = useCalculate<CalcResult>();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const [age, setAge] = useState("");
@@ -110,13 +80,12 @@ const SteroidPage = () => {
   const goNext = () => { setDirection(1); nextStep(); };
   const goPrev = () => { setDirection(-1); prevStep(); };
 
-  const handleCalculate = () => {
-    const res = calculate(parseFloat(age), parseFloat(weight), parseFloat(heightFeet), parseFloat(heightInches) || 0, parseFloat(a1c), parseFloat(serumCreatinine), gender, dialysis);
-    setResult(res);
-    saveSubmission("steroid", { age, weight, heightFeet, heightInches, a1c, serumCreatinine, gender, race, dialysis }, {
-      doseLowUnits: res.doseLowUnits, doseHighUnits: res.doseHighUnits, bmi: res.bmi, egfr: res.egfr, categoryCode: res.categoryCode,
-    });
-    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  const handleCalculate = async () => {
+    const res = await calculate("steroid", { age, weight, heightFeet, heightInches, a1c, serumCreatinine, gender, race, dialysis });
+    if (res) {
+      setResult(res);
+      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+    }
   };
 
   const handleEditInputs = () => { setResult(null); setStep(0); window.scrollTo({ top: 0, behavior: "smooth" }); };
@@ -307,8 +276,8 @@ const SteroidPage = () => {
                 Next <ChevronRight className="h-4 w-4" />
               </Button>
             ) : (
-              <Button onClick={handleCalculate} className="flex-1 h-12 rounded-xl font-bold gradient-primary glow-primary">
-                Calculate Dose
+              <Button onClick={handleCalculate} disabled={calculating} className="flex-1 h-12 rounded-xl font-bold gradient-primary glow-primary">
+                {calculating ? "Calculating…" : "Calculate Dose"}
               </Button>
             )}
           </div>
