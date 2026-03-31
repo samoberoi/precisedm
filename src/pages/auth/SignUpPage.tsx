@@ -15,6 +15,8 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const { setSkipMode } = useAuth();
+  const handleSkip = () => { setSkipMode(true); navigate("/home"); };
   const [form, setForm] = useState({ fullName: "", email: "", userType: "" as string, customUserId: "", acceptedTerms: false });
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"details" | "otp">("details");
