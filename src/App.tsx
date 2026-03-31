@@ -16,7 +16,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import SplashScreen from "./pages/onboarding/SplashScreen";
 import WelcomeScreen from "./pages/onboarding/WelcomeScreen";
 import FeaturesScreen from "./pages/onboarding/FeaturesScreen";
-import GetStartedScreen from "./pages/onboarding/GetStartedScreen";
+
 
 // Auth
 import LoginPage from "./pages/auth/LoginPage";
