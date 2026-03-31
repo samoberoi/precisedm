@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import onboardingImg from "@/assets/onboarding-welcome.jpg";
-
+import logoIcon from "@/assets/logo-icon.png";
 
 const WelcomeScreen = () => {
   const navigate = useNavigate();
@@ -13,8 +13,9 @@ const WelcomeScreen = () => {
       <div className="relative w-full flex-1 min-h-[55vh]">
         <img src={onboardingImg} alt="Doctor consulting patient" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background" />
-
-
+        <div className="absolute top-12 left-5 z-10">
+          <img src={logoIcon} alt="PreciseDM" className="h-10 w-10 rounded-full object-cover shadow-md" />
+        </div>
       </div>
       <div className="relative px-8 -mt-8 pb-32">
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}
@@ -29,7 +30,6 @@ const WelcomeScreen = () => {
         </motion.p>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex gap-2 mt-6 justify-center">
           <div className="w-6 h-2 rounded-full gradient-primary" />
-          <div className="w-2 h-2 rounded-full bg-muted-foreground/20" />
           <div className="w-2 h-2 rounded-full bg-muted-foreground/20" />
         </motion.div>
       </div>

@@ -16,7 +16,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import SplashScreen from "./pages/onboarding/SplashScreen";
 import WelcomeScreen from "./pages/onboarding/WelcomeScreen";
 import FeaturesScreen from "./pages/onboarding/FeaturesScreen";
-import GetStartedScreen from "./pages/onboarding/GetStartedScreen";
+
 
 // Auth
 import LoginPage from "./pages/auth/LoginPage";
@@ -93,7 +93,7 @@ const AnimatedRoutes = () => {
           <Route path="/onboarding/splash" element={<PageTransition><SplashScreen /></PageTransition>} />
           <Route path="/onboarding/welcome" element={<PageTransition><WelcomeScreen /></PageTransition>} />
           <Route path="/onboarding/features" element={<PageTransition><FeaturesScreen /></PageTransition>} />
-          <Route path="/onboarding/get-started" element={<PageTransition><GetStartedScreen /></PageTransition>} />
+          
 
           {/* Auth */}
           <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
