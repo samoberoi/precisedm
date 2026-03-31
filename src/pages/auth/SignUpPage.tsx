@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +15,8 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const { setSkipMode } = useAuth();
+  const handleSkip = () => { setSkipMode(true); navigate("/home"); };
   const [form, setForm] = useState({ fullName: "", email: "", userType: "" as string, customUserId: "", acceptedTerms: false });
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"details" | "otp">("details");
@@ -164,6 +167,8 @@ const SignUpPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <button onClick={handleSkip} className="mt-4 text-sm text-muted-foreground underline underline-offset-2 mx-auto">Skip</button>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">Already have an account? <Link to="/login" className="text-primary font-semibold">Login</Link></p>
     </motion.div>
