@@ -29,6 +29,23 @@ function formatLabel(key: string): string {
   return key.replace(/([A-Z])/g, " $1").replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase()).trim();
 }
 
+// Only show the actual dosage result fields per form type
+const RESULT_KEYS: Record<string, string[]> = {
+  diaform: ["doseLow", "doseHigh"],
+  steroid: ["doseLowUnits", "doseHighUnits"],
+  maintenance: ["basalRecommendation", "prandialRecommendation"],
+  gestation: ["basalRecommendation", "prandialRecommendation"],
+};
+
+const RESULT_LABELS: Record<string, string> = {
+  doseLow: "Dose Low (units)",
+  doseHigh: "Dose High (units)",
+  doseLowUnits: "Dose Low (units)",
+  doseHighUnits: "Dose High (units)",
+  basalRecommendation: "Basal Recommendation",
+  prandialRecommendation: "Prandial Recommendation",
+};
+
 const ProfileFormHistory = ({ userId }: { userId?: string }) => {
   const [submissions, setSubmissions] = useState<SubmissionRecord[]>([]);
   const [selectedSubmission, setSelectedSubmission] = useState<SubmissionRecord | null>(null);
@@ -83,10 +100,10 @@ const ProfileFormHistory = ({ userId }: { userId?: string }) => {
                     <div className="mt-3 pt-3 border-t border-border space-y-3">
                       <div>
                         <p className="text-xs font-bold text-primary mb-1.5">Results</p>
-                        <div className="space-y-1">{Object.entries(s.results).map(([key, value]) => (
+                        <div className="space-y-1">{(RESULT_KEYS[s.form_type] || Object.keys(s.results)).filter((key) => s.results[key] != null).map((key) => (
                           <div key={key} className="flex justify-between text-xs">
-                            <span className="text-muted-foreground">{formatLabel(key)}</span>
-                            <span className="font-semibold text-foreground">{String(value ?? "—")}</span>
+                            <span className="text-muted-foreground">{RESULT_LABELS[key] || formatLabel(key)}</span>
+                            <span className="font-semibold text-foreground text-right max-w-[60%]">{String(s.results[key] ?? "—")}</span>
                           </div>
                         ))}</div>
                       </div>
