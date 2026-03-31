@@ -168,6 +168,8 @@ const SignUpPage = () => {
         )}
       </AnimatePresence>
 
+      <button onClick={handleSkip} className="mt-4 text-sm text-muted-foreground underline underline-offset-2 mx-auto">Skip</button>
+
       <p className="mt-6 text-center text-sm text-muted-foreground">Already have an account? <Link to="/login" className="text-primary font-semibold">Login</Link></p>
     </motion.div>
   );
