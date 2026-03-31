@@ -119,7 +119,7 @@ const SignUpPage = () => {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="customUserId" className="text-xs text-muted-foreground font-medium">User ID (optional)</Label>
-              <Input id="customUserId" placeholder="e.g. Hospital ID" value={form.customUserId} onChange={(e) => update("customUserId", e.target.value)} className={inputClass} />
+              <Input id="customUserId" placeholder="e.g. NPI Number" value={form.customUserId} onChange={(e) => update("customUserId", e.target.value)} className={inputClass} />
             </div>
             <div className="flex items-start gap-3 pt-1">
               <Checkbox id="terms" checked={form.acceptedTerms} onCheckedChange={(checked) => update("acceptedTerms", !!checked)} className="mt-0.5" />
