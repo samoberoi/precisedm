@@ -29,6 +29,23 @@ function formatLabel(key: string): string {
   return key.replace(/([A-Z])/g, " $1").replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase()).trim();
 }
 
+// Only show the actual dosage result fields per form type
+const RESULT_KEYS: Record<string, string[]> = {
+  diaform: ["doseLow", "doseHigh"],
+  steroid: ["doseLowUnits", "doseHighUnits"],
+  maintenance: ["basalRecommendation", "prandialRecommendation"],
+  gestation: ["basalRecommendation", "prandialRecommendation"],
+};
+
+const RESULT_LABELS: Record<string, string> = {
+  doseLow: "Dose Low (units)",
+  doseHigh: "Dose High (units)",
+  doseLowUnits: "Dose Low (units)",
+  doseHighUnits: "Dose High (units)",
+  basalRecommendation: "Basal Recommendation",
+  prandialRecommendation: "Prandial Recommendation",
+};
+
 const ProfileFormHistory = ({ userId }: { userId?: string }) => {
   const [submissions, setSubmissions] = useState<SubmissionRecord[]>([]);
   const [selectedSubmission, setSelectedSubmission] = useState<SubmissionRecord | null>(null);
