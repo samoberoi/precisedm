@@ -13,7 +13,7 @@ const plans = [
   {
     id: "monthly", name: "Monthly Plan", price: "$12", period: "month",
     description: "Perfect for trying out our tools", icon: Zap,
-    features: ["Access to all calculator tools", "DiaForm, Steroid, Gestation & Maintenance", "Educational video library", "Cancel anytime"],
+    features: ["Access to all calculator tools", "DiaForm, Maintenance, Steroid & Gestation", "Educational video library", "Cancel anytime"],
   },
   {
     id: "yearly", name: "Yearly Plan", price: "$120", period: "year",
