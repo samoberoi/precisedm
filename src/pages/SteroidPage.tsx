@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Info, RotateCcw, Printer, Pencil, Check } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
@@ -106,6 +108,7 @@ const SteroidPage = () => {
 
   return (
     <div className={`min-h-screen bg-background ${isWebsite ? "py-10" : "pb-36"}`}>
+      {isWebsite && <Seo page={getPageSeo("/steroid-tool")!} />}
       {!isWebsite && <SubscriptionBanner />}
 
       {!isWebsite && (
