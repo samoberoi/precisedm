@@ -1,14 +1,24 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# Block app-only / private routes from indexing
+Disallow: /onboarding/
+Disallow: /login
+Disallow: /signup
+Disallow: /admin
+Disallow: /admin-panel
+Disallow: /account
+Disallow: /profile
+Disallow: /home
+Disallow: /connect
+Disallow: /about
+Disallow: /disclaimer
+Disallow: /subscription/
+Disallow: /steroid
+Disallow: /maintenance
+Disallow: /gestation
+Disallow: /diaform
+Disallow: /hyperrevamp-reporting
+
+# Sitemap
+Sitemap: https://precisedm.com/sitemap.xml

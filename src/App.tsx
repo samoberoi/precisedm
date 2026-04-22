@@ -36,6 +36,7 @@ import GestationPage from "./pages/GestationPage";
 import DiaFormPage from "./pages/DiaFormPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import SubscriptionSuccessPage from "./pages/SubscriptionSuccessPage";
+import HyperRevampReportingPage from "./pages/HyperRevampReportingPage";
 import NotFound from "./pages/NotFound";
 
 // Website pages
@@ -133,6 +134,10 @@ const AnimatedRoutes = () => {
           <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
           <Route path="/diaform" element={<SubscriptionGate><PageTransition><DiaFormPage /></PageTransition></SubscriptionGate>} />
           <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+
+          {/* HyperRevamp internal SEO/AEO/GEO live report */}
+          <Route path="/hyperrevamp-reporting" element={<HyperRevampReportingPage />} />
+
           <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
         </Routes>
       </AnimatePresence>

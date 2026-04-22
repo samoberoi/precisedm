@@ -1,4 +1,6 @@
 import ScrollReveal from "@/components/website/ScrollReveal";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 
 const sections = [
   { title: "Information We Collect", content: "We collect personal information you provide during registration (name, email, phone number, user type) and usage data including form submissions, calculation history, and subscription details. We do not collect patient data — all clinical inputs are processed locally and only summary results are stored." },
@@ -14,6 +16,7 @@ const sections = [
 
 const PrivacyPolicyPage = () => (
   <div>
+    <Seo page={getPageSeo("/privacy")!} />
     <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
       <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
         <ScrollReveal>

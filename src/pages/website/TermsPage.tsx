@@ -1,4 +1,6 @@
 import ScrollReveal from "@/components/website/ScrollReveal";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 
 const sections = [
   { title: "Acceptance of Terms", content: "By accessing or using the PreciseDM website and application, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, you should not use our services." },
@@ -17,6 +19,7 @@ const sections = [
 
 const TermsPage = () => (
   <div>
+    <Seo page={getPageSeo("/terms")!} />
     <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
       <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
         <ScrollReveal>

@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Calculator, Zap, BookOpen, Shield, History, UserCheck, Printer, BarChart3, ArrowRight, ChevronRight } from "lucide-react";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/website/ScrollReveal";
 import diaformIcon from "@/assets/diaform-card-icon.png";
@@ -30,6 +32,7 @@ const FeaturesPage = () => {
 
   return (
     <div>
+      <Seo page={getPageSeo("/features")!} />
       {/* Hero */}
       <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
         <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">

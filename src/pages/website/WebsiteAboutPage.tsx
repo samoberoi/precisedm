@@ -1,4 +1,6 @@
 import ScrollReveal from "@/components/website/ScrollReveal";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 import aboutHero from "@/assets/about-hero.jpg";
 import drColleenCook from "@/assets/dr-colleen-cook.jpg";
 import drMelanieProctor from "@/assets/dr-melanie-proctor.jpg";
@@ -14,6 +16,7 @@ const team = [
 
 const WebsiteAboutPage = () => (
   <div>
+    <Seo page={getPageSeo("/about-us")!} />
     <section className="relative overflow-hidden py-24 lg:py-32">
       <img src={aboutHero} alt="About PreciseDM" className="absolute inset-0 w-full h-full object-cover opacity-30" />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />

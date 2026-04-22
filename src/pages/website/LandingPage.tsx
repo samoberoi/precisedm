@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 import { ArrowRight, Check, Shield, Zap, BookOpen, Calculator, ChevronRight, Star, TrendingUp, Lock, History } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/website/ScrollReveal";
@@ -123,6 +125,7 @@ const LandingPage = () => {
 
   return (
     <div>
+      <Seo page={getPageSeo("/")!} />
       {/* ═══ Hero ═══ */}
       <section className="relative overflow-hidden py-16 lg:py-24 xl:py-28">
         <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(197 30% 96%) 40%, hsl(200 20% 98%))" }} />

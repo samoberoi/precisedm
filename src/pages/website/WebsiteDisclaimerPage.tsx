@@ -1,4 +1,6 @@
 import ScrollReveal from "@/components/website/ScrollReveal";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 
 const sections = [
   {
@@ -26,6 +28,7 @@ const sections = [
 
 const WebsiteDisclaimerPage = () => (
   <div>
+    <Seo page={getPageSeo("/disclaimer-info")!} />
     <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
       <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
         <ScrollReveal>
