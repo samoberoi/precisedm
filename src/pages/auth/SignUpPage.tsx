@@ -126,7 +126,7 @@ const SignUpPage = () => {
             </div>
             <div className="flex items-start gap-3 pt-1">
               <Checkbox id="terms" checked={form.acceptedTerms} onCheckedChange={(checked) => update("acceptedTerms", !!checked)} className="mt-0.5" />
-              <label htmlFor="terms" className="text-sm text-muted-foreground leading-snug">I accept the <Link to="/w/terms" className="text-primary font-semibold hover:underline">Terms and Conditions</Link> and <Link to="/w/privacy" className="text-primary font-semibold hover:underline">Privacy Policy</Link></label>
+              <label htmlFor="terms" className="text-sm text-muted-foreground leading-snug">I accept the <Link to="/terms" className="text-primary font-semibold hover:underline">Terms and Conditions</Link> and <Link to="/privacy" className="text-primary font-semibold hover:underline">Privacy Policy</Link></label>
             </div>
             <p className="text-xs text-muted-foreground">We'll send a 6-digit verification code to your email.</p>
             <Button type="submit" disabled={loading} className="w-full h-12 rounded-2xl text-base font-bold gradient-primary glow-primary">

@@ -11,9 +11,9 @@ const SubscriptionSuccessPage = () => {
   const location = useLocation();
   const [activating, setActivating] = useState(true);
   const [success, setSuccess] = useState(false);
-  const websiteMode = location.pathname.startsWith("/w");
-  const homeRoute = websiteMode ? "/w" : "/home";
-  const subscriptionRoute = websiteMode ? "/w/subscription" : "/subscription";
+  const websiteMode = location.pathname.startsWith("/subscription-plans");
+  const homeRoute = websiteMode ? "/" : "/home";
+  const subscriptionRoute = websiteMode ? "/subscription-plans" : "/subscription";
 
   useEffect(() => {
     const subscriptionId = searchParams.get("subscription_id");

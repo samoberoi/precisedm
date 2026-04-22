@@ -37,7 +37,7 @@ const WebsiteProfilePage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
-    if (!user) { navigate("/w"); return; }
+    if (!user) { navigate("/"); return; }
     fetchProfile();
     supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
       if (data) setIsAdmin(true);
@@ -72,7 +72,7 @@ const WebsiteProfilePage = () => {
     setSaving(false);
   };
 
-  const handleLogout = async () => { await signOut(); navigate("/w"); };
+  const handleLogout = async () => { await signOut(); navigate("/"); };
 
   if (loading) {
     return (
@@ -181,7 +181,7 @@ const WebsiteProfilePage = () => {
                   <span className="ml-auto text-xs font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 px-3 py-1 rounded-full">Active</span>
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">No active subscription. <button onClick={() => navigate("/w/pricing")} className="text-primary font-semibold hover:underline">View plans</button></p>
+                <p className="text-sm text-muted-foreground">No active subscription. <button onClick={() => navigate("/pricing")} className="text-primary font-semibold hover:underline">View plans</button></p>
               )}
             </div>
           </ScrollReveal>

@@ -360,7 +360,7 @@ const AdminDashboard = () => {
     </form>
   );
 
-  const isWebsiteMode = location.pathname.startsWith("/w");
+  const isWebsiteMode = location.pathname === "/admin-panel";
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`min-h-screen bg-background ${isWebsiteMode ? "pb-12" : "pb-36"}`}>

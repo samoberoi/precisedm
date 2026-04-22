@@ -74,8 +74,8 @@ const DiaFormPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { firstName } = useProfile();
-  const isWebsite = location.pathname.startsWith("/w");
-  const disclaimerRoute = isWebsite ? "/w/disclaimer" : "/disclaimer";
+  const isWebsite = location.pathname === "/diaform-tool";
+  const disclaimerRoute = isWebsite ? "/disclaimer-info" : "/disclaimer";
   const { calculate, loading: calculating } = useCalculate<CalcResult>();
   const resultsRef = useRef<HTMLDivElement>(null);
 

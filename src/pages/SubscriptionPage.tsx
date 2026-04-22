@@ -33,10 +33,10 @@ const SubscriptionPage = () => {
 
   const hasUsedTrial = !!subscription && subscription.plan_type === "trial";
   const isTrialActive = isActive && subscription?.plan_type === "trial";
-  const websiteMode = location.pathname.startsWith("/w");
-  const loginRoute = websiteMode ? "/w" : "/login";
-  const subscriptionRoute = websiteMode ? "/w/subscription" : "/subscription";
-  const successRoute = websiteMode ? "/w/subscription/success" : "/subscription/success";
+  const websiteMode = location.pathname.startsWith("/subscription-plans");
+  const loginRoute = websiteMode ? "/" : "/login";
+  const subscriptionRoute = websiteMode ? "/subscription-plans" : "/subscription";
+  const successRoute = websiteMode ? "/subscription-plans/success" : "/subscription/success";
 
   const handleStartTrial = async () => {
     if (authLoading) return;
