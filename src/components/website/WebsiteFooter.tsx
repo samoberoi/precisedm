@@ -3,18 +3,18 @@ import logoIcon from "@/assets/logo-icon.png";
 
 const footerLinks = {
   Product: [
-    { label: "Features", to: "/w/features" },
-    { label: "Pricing", to: "/w/pricing" },
-    { label: "FAQs", to: "/w/faq" },
+    { label: "Features", to: "/features" },
+    { label: "Pricing", to: "/pricing" },
+    { label: "FAQs", to: "/faq" },
   ],
   Company: [
-    { label: "About Us", to: "/w/about" },
-    { label: "Contact", to: "/w/contact" },
+    { label: "About Us", to: "/about-us" },
+    { label: "Contact", to: "/contact" },
   ],
   Legal: [
-    { label: "Privacy Policy", to: "/w/privacy" },
-    { label: "Terms & Conditions", to: "/w/terms" },
-    { label: "Disclaimer", to: "/w/disclaimer" },
+    { label: "Privacy Policy", to: "/privacy" },
+    { label: "Terms & Conditions", to: "/terms" },
+    { label: "Disclaimer", to: "/disclaimer-info" },
   ],
 };
 

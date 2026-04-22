@@ -11,18 +11,18 @@ import logoIcon from "@/assets/logo-icon.png";
 import AuthSlidePanel from "./AuthSlidePanel";
 
 const navLinks = [
-  { label: "Features", to: "/w/features" },
-  { label: "Pricing", to: "/w/pricing" },
-  { label: "About", to: "/w/about" },
-  { label: "Contact", to: "/w/contact" },
+  { label: "Features", to: "/features" },
+  { label: "Pricing", to: "/pricing" },
+  { label: "About", to: "/about-us" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const floatingLinks = [
-  { label: "Features", to: "/w/features", icon: Calculator },
-  { label: "Pricing", to: "/w/pricing", icon: CreditCard },
-  { label: "About", to: "/w/about", icon: Users },
-  { label: "Contact", to: "/w/contact", icon: MessageSquare },
-  { label: "FAQ", to: "/w/faq", icon: HelpCircle },
+  { label: "Features", to: "/features", icon: Calculator },
+  { label: "Pricing", to: "/pricing", icon: CreditCard },
+  { label: "About", to: "/about-us", icon: Users },
+  { label: "Contact", to: "/contact", icon: MessageSquare },
+  { label: "FAQ", to: "/faq", icon: HelpCircle },
 ];
 
 const WebsiteHeader = () => {
@@ -55,7 +55,7 @@ const WebsiteHeader = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/w");
+    navigate("/");
   };
 
   const initials = firstName && firstName !== "There" ? firstName.charAt(0).toUpperCase() : "U";
@@ -74,11 +74,11 @@ const WebsiteHeader = () => {
         </div>
         <DropdownMenuSeparator />
         {isAdmin && (
-          <DropdownMenuItem onClick={() => navigate("/w/admin")} className="cursor-pointer">
+          <DropdownMenuItem onClick={() => navigate("/admin-panel")} className="cursor-pointer">
             <LayoutDashboard className="mr-2 h-4 w-4" /> Admin Dashboard
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem onClick={() => navigate("/w/profile")} className="cursor-pointer">
+        <DropdownMenuItem onClick={() => navigate("/account")} className="cursor-pointer">
           <User className="mr-2 h-4 w-4" /> My Profile
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -101,7 +101,7 @@ const WebsiteHeader = () => {
             className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-2xl"
           >
             <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 xl:px-10">
-              <Link to="/w" className="flex items-center gap-2.5">
+              <Link to="/" className="flex items-center gap-2.5">
                 <img src={logoIcon} alt="PreciseDM" className="h-8 w-8 rounded-full" />
                 <span className="text-lg font-extrabold tracking-tight text-foreground">PreciseDM</span>
               </Link>
@@ -160,11 +160,11 @@ const WebsiteHeader = () => {
                       {user ? (
                         <>
                           {isAdmin && (
-                            <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/w/admin"); }} className="rounded-xl font-semibold justify-start gap-2">
+                            <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/admin-panel"); }} className="rounded-xl font-semibold justify-start gap-2">
                               <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
                             </Button>
                           )}
-                          <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/w/profile"); }} className="rounded-xl font-semibold justify-start gap-2">
+                          <Button variant="outline" onClick={() => { setMobileOpen(false); navigate("/account"); }} className="rounded-xl font-semibold justify-start gap-2">
                             <User className="h-4 w-4" /> My Profile
                           </Button>
                           <Button variant="ghost" onClick={() => { setMobileOpen(false); handleLogout(); }} className="rounded-xl font-semibold justify-start gap-2 text-destructive">
@@ -196,7 +196,7 @@ const WebsiteHeader = () => {
             className="fixed bottom-6 left-0 right-0 z-50 hidden md:flex justify-center"
           >
             <div className="flex items-center gap-1 rounded-2xl bg-card/90 backdrop-blur-2xl border border-border/60 shadow-2xl px-2 py-2">
-              <Link to="/w" className="flex items-center gap-2 px-3 py-2 mr-1">
+              <Link to="/" className="flex items-center gap-2 px-3 py-2 mr-1">
                 <img src={logoIcon} alt="PreciseDM" className="h-7 w-7 rounded-full" />
               </Link>
               {floatingLinks.map((l) => (
@@ -235,7 +235,7 @@ const WebsiteHeader = () => {
             className="fixed bottom-4 left-4 right-4 z-50 md:hidden"
           >
             <div className="flex items-center justify-between rounded-2xl bg-card/90 backdrop-blur-2xl border border-border/60 shadow-2xl px-4 py-3">
-              <Link to="/w" className="flex items-center gap-2">
+              <Link to="/" className="flex items-center gap-2">
                 <img src={logoIcon} alt="PreciseDM" className="h-7 w-7 rounded-full" />
                 <span className="text-sm font-bold text-foreground">PreciseDM</span>
               </Link>
