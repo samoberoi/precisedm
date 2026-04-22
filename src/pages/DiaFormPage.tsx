@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Seo from "@/components/Seo";
+import { getPageSeo } from "@/lib/seo-config";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Info, RotateCcw, Printer, Pencil, ChevronRight, Check } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
@@ -152,6 +154,7 @@ const DiaFormPage = () => {
 
   return (
     <div className={`min-h-screen bg-background ${isWebsite ? "py-10" : "pb-36"}`}>
+      {isWebsite && <Seo page={getPageSeo("/diaform-tool")!} />}
       {!isWebsite && <SubscriptionBanner />}
 
       {/* Header — only in app mode */}
