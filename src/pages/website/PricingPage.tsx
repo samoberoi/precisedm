@@ -78,7 +78,7 @@ const PricingPage = () => {
                     </ul>
                     <Button
                       className={`w-full rounded-xl h-14 font-bold text-base ${isDark ? "bg-white text-foreground hover:bg-white/90" : "gradient-primary glow-primary text-primary-foreground"}`}
-                      onClick={() => navigate("/w")}
+                      onClick={() => navigate("/")}
                     >
                       {plan.cta}
                     </Button>

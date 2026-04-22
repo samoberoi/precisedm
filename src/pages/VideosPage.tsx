@@ -78,8 +78,8 @@ const VideosPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { firstName } = useProfile();
-  const isWebsite = location.pathname.startsWith("/w");
-  const disclaimerRoute = isWebsite ? "/w/disclaimer" : "/disclaimer";
+  const isWebsite = location.pathname !== "/videos";
+  const disclaimerRoute = isWebsite ? "/disclaimer-info" : "/disclaimer";
   const cx = isWebsite ? "max-w-5xl mx-auto px-6 lg:px-10" : "px-5";
 
   return (

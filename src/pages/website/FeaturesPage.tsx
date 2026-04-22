@@ -70,7 +70,7 @@ const FeaturesPage = () => {
           <ScrollReveal>
             <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl mb-5">Experience It Yourself</h2>
             <p className="text-lg text-muted-foreground mb-10">Start your free trial and access all features today.</p>
-            <Button size="lg" onClick={() => navigate("/w/pricing")} className="rounded-xl gradient-primary glow-primary font-bold text-base h-14 px-10">
+            <Button size="lg" onClick={() => navigate("/pricing")} className="rounded-xl gradient-primary glow-primary font-bold text-base h-14 px-10">
               Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </ScrollReveal>

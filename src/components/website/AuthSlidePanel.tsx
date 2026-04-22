@@ -150,10 +150,11 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
       } else {
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) throw new Error("Not authenticated");
-        const websiteMode = window.location.pathname.startsWith("/w");
+        // App mode = pathname starts with /subscription (but not /subscription-plans)
+        const appMode = window.location.pathname.startsWith("/subscription") && !window.location.pathname.startsWith("/subscription-plans");
         const baseUrl = window.location.origin;
-        const returnPath = websiteMode ? "/w/subscription/success" : "/subscription/success";
-        const cancelPath = websiteMode ? "/w/subscription" : "/subscription";
+        const returnPath = appMode ? "/subscription/success" : "/subscription-plans/success";
+        const cancelPath = appMode ? "/subscription" : "/subscription-plans";
         const res = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
           {

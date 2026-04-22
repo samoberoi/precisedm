@@ -25,10 +25,10 @@ const features = [
 ];
 
 const calculators = [
-  { name: "Starting", desc: "Initial Insulin Dosing", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", route: "/w/diaform" },
-  { name: "Maintenance", desc: "Ongoing Dose Adjustments", icon: maintenanceIcon, gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))", route: "/w/maintenance" },
-  { name: "Steroid", desc: "Steroid-Induced Dosing", icon: steroidIcon, gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))", route: "/w/steroid" },
-  { name: "Gestation", desc: "Pregnancy Care Dosing", icon: gestationIcon, gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))", route: "/w/gestation" },
+  { name: "Starting", desc: "Initial Insulin Dosing", icon: diaformIcon, gradient: "linear-gradient(135deg, hsl(210,80%,50%), hsl(210,90%,40%))", route: "/diaform-tool" },
+  { name: "Maintenance", desc: "Ongoing Dose Adjustments", icon: maintenanceIcon, gradient: "linear-gradient(135deg, hsl(45,85%,50%), hsl(35,80%,42%))", route: "/maintenance-tool" },
+  { name: "Steroid", desc: "Steroid-Induced Dosing", icon: steroidIcon, gradient: "linear-gradient(135deg, hsl(200,30%,22%), hsl(200,25%,15%))", route: "/steroid-tool" },
+  { name: "Gestation", desc: "Pregnancy Care Dosing", icon: gestationIcon, gradient: "linear-gradient(135deg, hsl(15,80%,55%), hsl(10,75%,45%))", route: "/gestation-tool" },
 ];
 
 const steps = [
@@ -146,7 +146,7 @@ const LandingPage = () => {
                 <Button size="lg" onClick={handleCTA} className="rounded-xl gradient-primary glow-primary font-bold text-base h-14 px-10">
                   Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => navigate("/w/features")} className="rounded-xl font-bold text-base h-14 px-10 border-2">
+                <Button size="lg" variant="outline" onClick={() => navigate("/features")} className="rounded-xl font-bold text-base h-14 px-10 border-2">
                   Explore Features
                 </Button>
               </div>
@@ -348,7 +348,7 @@ const LandingPage = () => {
               <Button size="lg" onClick={handleCTA} className="rounded-xl gradient-primary glow-primary font-bold text-base h-14 px-10">
                 Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" onClick={() => navigate("/w/pricing")} className="rounded-xl font-bold text-base h-14 px-10 border-2">
+              <Button size="lg" variant="outline" onClick={() => navigate("/pricing")} className="rounded-xl font-bold text-base h-14 px-10 border-2">
                 View Pricing
               </Button>
             </div>
