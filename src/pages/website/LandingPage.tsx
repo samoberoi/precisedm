@@ -143,7 +143,7 @@ const LandingPage = () => {
                 <span className="text-gradient">Confidence</span>
               </h1>
               <p className="mt-5 text-lg lg:text-xl text-muted-foreground max-w-xl leading-relaxed">
-                An innovative toolkit for trained healthcare providers to quickly and accurately determine starting and maintenance insulin doses across clinical scenarios.
+                An innovative toolkit for trained healthcare providers to quickly and accurately determine starting and maintenance of insulin doses across clinical scenarios.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button size="lg" onClick={handleCTA} className="rounded-xl gradient-primary glow-primary font-bold text-base h-14 px-10">
