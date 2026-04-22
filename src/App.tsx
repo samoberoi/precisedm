@@ -36,6 +36,7 @@ import GestationPage from "./pages/GestationPage";
 import DiaFormPage from "./pages/DiaFormPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import SubscriptionSuccessPage from "./pages/SubscriptionSuccessPage";
+import HyperRevampReportingPage from "./pages/HyperRevampReportingPage";
 import NotFound from "./pages/NotFound";
 
 // Website pages
