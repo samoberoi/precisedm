@@ -42,7 +42,7 @@ const SteroidPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { firstName } = useProfile();
-  const isWebsite = !location.pathname.startsWith("/steroid") || location.pathname === "/steroid-tool";
+  const isWebsite = location.pathname === "/steroid-tool";
   const disclaimerRoute = isWebsite ? "/disclaimer-info" : "/disclaimer";
   const { calculate, loading: calculating } = useCalculate<CalcResult>();
   const resultsRef = useRef<HTMLDivElement>(null);
