@@ -41,6 +41,7 @@ const PricingPage = () => {
 
   return (
     <div>
+      <Seo page={getPageSeo("/pricing")!} />
       <section className="py-24 lg:py-32" style={{ background: "linear-gradient(160deg, hsl(197 50% 92%), hsl(200 20% 98%))" }}>
         <div className="mx-auto max-w-[1440px] px-6 xl:px-10 text-center">
           <ScrollReveal>
