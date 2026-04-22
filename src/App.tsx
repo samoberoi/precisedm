@@ -64,42 +64,62 @@ const AnimatedRoutes = () => {
       <ScrollToTop />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          {/* Website routes with header + footer layout */}
-          <Route path="/w" element={<WebsiteLayout />}>
-            <Route index element={<LandingPage />} />
-            <Route path="features" element={<WebsiteFeaturesPage />} />
-            <Route path="pricing" element={<PricingPage />} />
-            <Route path="about" element={<WebsiteAboutPage />} />
-            <Route path="contact" element={<WebsiteContactPage />} />
-            <Route path="faq" element={<FAQPage />} />
-            <Route path="privacy" element={<PrivacyPolicyPage />} />
-            <Route path="terms" element={<TermsPage />} />
-            <Route path="disclaimer" element={<WebsiteDisclaimerPage />} />
-            <Route path="profile" element={<WebsiteProfilePage />} />
-            <Route path="subscription" element={<SubscriptionPage />} />
-            <Route path="subscription/success" element={<SubscriptionSuccessPage />} />
-            
-            <Route path="steroid" element={<SubscriptionGate redirectTo="/w/subscription"><SteroidPage /></SubscriptionGate>} />
-            <Route path="maintenance" element={<SubscriptionGate redirectTo="/w/subscription"><MaintenancePage /></SubscriptionGate>} />
-            <Route path="gestation" element={<SubscriptionGate redirectTo="/w/subscription"><GestationPage /></SubscriptionGate>} />
-            <Route path="diaform" element={<SubscriptionGate redirectTo="/w/subscription"><DiaFormPage /></SubscriptionGate>} />
-            <Route path="admin" element={<AdminDashboard />} />
+          {/* Native mobile root → splash */}
+          {Capacitor.isNativePlatform() && (
+            <Route path="/" element={<Navigate to="/onboarding/splash" replace />} />
+          )}
+
+          {/* Website routes with header + footer layout (web only at root) */}
+          <Route element={<WebsiteLayout />}>
+            {!Capacitor.isNativePlatform() && <Route path="/" element={<LandingPage />} />}
+            <Route path="/features" element={<WebsiteFeaturesPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/about-us" element={<WebsiteAboutPage />} />
+            <Route path="/contact" element={<WebsiteContactPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/disclaimer-info" element={<WebsiteDisclaimerPage />} />
+            <Route path="/account" element={<WebsiteProfilePage />} />
+            <Route path="/subscription-plans" element={<SubscriptionPage />} />
+            <Route path="/subscription-plans/success" element={<SubscriptionSuccessPage />} />
+
+            <Route path="/steroid-tool" element={<SubscriptionGate redirectTo="/subscription-plans"><SteroidPage /></SubscriptionGate>} />
+            <Route path="/maintenance-tool" element={<SubscriptionGate redirectTo="/subscription-plans"><MaintenancePage /></SubscriptionGate>} />
+            <Route path="/gestation-tool" element={<SubscriptionGate redirectTo="/subscription-plans"><GestationPage /></SubscriptionGate>} />
+            <Route path="/diaform-tool" element={<SubscriptionGate redirectTo="/subscription-plans"><DiaFormPage /></SubscriptionGate>} />
+            <Route path="/admin-panel" element={<AdminDashboard />} />
           </Route>
 
-          {/* Root: native app goes to splash, web goes to website */}
-          <Route path="/" element={<Navigate to={Capacitor.isNativePlatform() ? "/onboarding/splash" : "/w"} replace />} />
+          {/* Legacy /w/* redirects → keep external links working */}
+          <Route path="/w" element={<Navigate to="/" replace />} />
+          <Route path="/w/features" element={<Navigate to="/features" replace />} />
+          <Route path="/w/pricing" element={<Navigate to="/pricing" replace />} />
+          <Route path="/w/about" element={<Navigate to="/about-us" replace />} />
+          <Route path="/w/contact" element={<Navigate to="/contact" replace />} />
+          <Route path="/w/faq" element={<Navigate to="/faq" replace />} />
+          <Route path="/w/privacy" element={<Navigate to="/privacy" replace />} />
+          <Route path="/w/terms" element={<Navigate to="/terms" replace />} />
+          <Route path="/w/disclaimer" element={<Navigate to="/disclaimer-info" replace />} />
+          <Route path="/w/profile" element={<Navigate to="/account" replace />} />
+          <Route path="/w/subscription" element={<Navigate to="/subscription-plans" replace />} />
+          <Route path="/w/subscription/success" element={<Navigate to="/subscription-plans/success" replace />} />
+          <Route path="/w/steroid" element={<Navigate to="/steroid-tool" replace />} />
+          <Route path="/w/maintenance" element={<Navigate to="/maintenance-tool" replace />} />
+          <Route path="/w/gestation" element={<Navigate to="/gestation-tool" replace />} />
+          <Route path="/w/diaform" element={<Navigate to="/diaform-tool" replace />} />
+          <Route path="/w/admin" element={<Navigate to="/admin-panel" replace />} />
 
           {/* App onboarding */}
           <Route path="/onboarding/splash" element={<PageTransition><SplashScreen /></PageTransition>} />
           <Route path="/onboarding/welcome" element={<PageTransition><WelcomeScreen /></PageTransition>} />
           <Route path="/onboarding/features" element={<PageTransition><FeaturesScreen /></PageTransition>} />
-          
 
           {/* Auth */}
           <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
           <Route path="/signup" element={<PageTransition><SignUpPage /></PageTransition>} />
 
-          {/* App pages */}
+          {/* Mobile app pages (unchanged) */}
           <Route path="/home" element={<PageTransition><HomePage /></PageTransition>} />
           <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
           <Route path="/connect" element={<PageTransition><ConnectPage /></PageTransition>} />
@@ -107,7 +127,7 @@ const AnimatedRoutes = () => {
           <Route path="/disclaimer" element={<PageTransition><DisclaimerPage /></PageTransition>} />
           <Route path="/subscription" element={<PageTransition><SubscriptionPage /></PageTransition>} />
           <Route path="/subscription/success" element={<PageTransition><SubscriptionSuccessPage /></PageTransition>} />
-          
+
           <Route path="/steroid" element={<SubscriptionGate><PageTransition><SteroidPage /></PageTransition></SubscriptionGate>} />
           <Route path="/maintenance" element={<SubscriptionGate><PageTransition><MaintenancePage /></PageTransition></SubscriptionGate>} />
           <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
