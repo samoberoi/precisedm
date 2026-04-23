@@ -356,16 +356,20 @@ const HyperRevampReportingPage = () => {
         <section className="mt-12 rounded-3xl border border-white/10 bg-white/[0.02] p-8">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
             <SectionTitle icon={Search}>Live Keyword Tracker</SectionTitle>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] font-bold text-white/60 ring-1 ring-white/10">
-              GSC <span className="text-white/30">·</span> Awaiting credentials
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ring-1 ${gscErr ? "bg-amber-500/10 text-amber-300 ring-amber-400/30" : "bg-emerald-500/10 text-emerald-300 ring-emerald-400/30"}`}>
+              GSC <span className="opacity-50">·</span> {gscErr ? "Awaiting permission" : "Live"}
             </span>
           </div>
-          <p className="mb-6 text-xs text-white/40">Tracking universe seeded from seo-config — actual rankings will populate once GSC is connected.</p>
+          <p className="mb-6 text-xs text-white/40">
+            {gsc?.queries?.length
+              ? `Showing top ${Math.min(gsc.queries.length, 60)} live queries from Google Search Console.`
+              : "Universe seeded from seo-config — live rankings will populate once Search Console grants permission to the service account."}
+          </p>
 
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            <StatCard icon={Search} label="Total Keywords" value={TRACKED_KEYWORDS.length} sub="Monitored" />
-            <StatCard icon={CheckCircle2} label="Page 1 Targets" value={Math.round(TRACKED_KEYWORDS.length * 0.45)} sub="Top 10" accent="text-emerald-400" />
-            <StatCard icon={TrendingUp} label="Improving" value={20} sub="↑ Last 30 days" accent="text-sky-400" />
+            <StatCard icon={Search} label="Total Keywords" value={gsc?.queries?.length ?? TRACKED_KEYWORDS.length} sub={gsc?.queries?.length ? "Ranking (GSC)" : "Monitored"} />
+            <StatCard icon={CheckCircle2} label="Page 1 Targets" value={gsc?.queries?.filter((q) => q.position <= 10).length ?? Math.round(TRACKED_KEYWORDS.length * 0.45)} sub="Top 10" accent="text-emerald-400" />
+            <StatCard icon={TrendingUp} label="Total Clicks" value={gsc?.totals.clicks ?? 0} sub="Last 28d" accent="text-sky-400" />
             <StatCard icon={Zap} label="Brand Terms" value={TRACKED_KEYWORDS.filter((k) => k.toLowerCase().includes("precisedm") || k.toLowerCase().includes("diaform")).length} sub="Core branded" accent="text-violet-400" />
           </div>
 
