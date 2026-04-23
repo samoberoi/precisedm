@@ -125,20 +125,24 @@ const HyperRevampReportingPage = () => {
     };
   }, []);
 
-  // Generate keyword tracker rows
-  const trends = ["+3.0", "+1.0", "NEW", "0", "-1.0", "+5.0", "+2.0", "-2.0", "+9.0", "+0.5"];
+  // Live keyword tracker — backed by GSC when available, otherwise universe-only
   const keywordRows = useMemo(() => {
-    const rand = seeded(7);
-    return TRACKED_KEYWORDS.slice(0, 60).map((kw, i) => {
-      const pos = (1 + rand() * 40).toFixed(1).replace(/\.0$/, "");
-      const trend = trends[Math.floor(rand() * trends.length)];
-      const impressions = Math.floor(rand() * 250);
-      const clicks = Math.floor(impressions * (rand() * 0.1));
-      const ctr = impressions ? ((clicks / impressions) * 100).toFixed(2) : "0";
-      const page = PAGES[Math.floor(rand() * PAGES.length)].path;
-      return { i: i + 1, kw, pos, trend, impressions, clicks, ctr, page };
-    });
-  }, []);
+    if (gsc?.queries?.length) {
+      return gsc.queries.slice(0, 60).map((q, i) => ({
+        i: i + 1,
+        kw: q.query,
+        pos: q.position.toFixed(1),
+        trend: "—",
+        impressions: q.impressions,
+        clicks: q.clicks,
+        ctr: (q.ctr * 100).toFixed(2),
+        page: "—",
+      }));
+    }
+    return TRACKED_KEYWORDS.slice(0, 60).map((kw, i) => ({
+      i: i + 1, kw, pos: "—", trend: "—", impressions: 0, clicks: 0, ctr: "0", page: "—",
+    }));
+  }, [gsc]);
 
   const optimizationScores = [
     { label: "SEO Coverage", score: 96, color: "linear-gradient(90deg, hsl(160, 70%, 45%), hsl(150, 70%, 50%))" },
