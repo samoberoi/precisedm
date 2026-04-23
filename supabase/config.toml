@@ -14,3 +14,9 @@ verify_jwt = false
 
 [functions.calculate]
 verify_jwt = false
+
+[functions.ga4-report]
+verify_jwt = false
+
+[functions.gsc-report]
+verify_jwt = false
