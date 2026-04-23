@@ -1,12 +1,27 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Activity, Globe, Search, MessageSquare, Code2, FileText, Map as MapIcon,
   Award, TrendingUp, Calendar, Sparkles, BarChart3, Link2, MapPin, Users,
-  CheckCircle2, ExternalLink, ChevronRight, Zap,
+  CheckCircle2, ExternalLink, ChevronRight, Zap, AlertCircle, Eye, MousePointerClick,
 } from "lucide-react";
 import { PAGES, ALL_FAQS, TRACKED_KEYWORDS, SITE } from "@/lib/seo-config";
+import { supabase } from "@/integrations/supabase/client";
 import logoIcon from "@/assets/logo-icon.png";
+
+// ---------- Types ----------
+type Ga4Data = {
+  summary: { activeUsers: number; sessions: number; pageViews: number; bounceRate: number; avgSessionDuration: number };
+  topPages: { path: string; views: number; users: number }[];
+  countries: { country: string; users: number }[];
+};
+type GscData = {
+  dateRange: { startDate: string; endDate: string };
+  totals: { clicks: number; impressions: number; ctr: number; position: number };
+  queries: { query: string; clicks: number; impressions: number; ctr: number; position: number }[];
+  pages: { page: string; clicks: number; impressions: number; ctr: number; position: number }[];
+  countries: { country: string; clicks: number; impressions: number }[];
+};
 
 // ---------- Helpers ----------
 const formatDate = (d: Date) =>
