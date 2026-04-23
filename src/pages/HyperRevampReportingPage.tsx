@@ -153,7 +153,7 @@ const HyperRevampReportingPage = () => {
   const infraRows = [
     { label: "Sitemap", value: `${SITE.url}/sitemap.xml`, status: "Live", icon: MapIcon, link: true },
     { label: "robots.txt", value: `${SITE.url}/robots.txt`, status: "Live", icon: FileText, link: true },
-    { label: "Google Analytics 4", value: "G-YGXVQ2NVQV — gtag.js installed, Data API connected", status: "Live", icon: BarChart3, link: false },
+    { label: "Google Analytics 4", value: "G-LJS0Q6FS2D — gtag.js installed, Data API connected", status: "Live", icon: BarChart3, link: false },
     { label: "Google Search Console", value: gscErr ? "Verified — awaiting Search Console user permission for service account" : "Verified, Search Analytics API connected", status: gscErr ? "Pending" : "Live", icon: Search, link: false },
     { label: "SSL / HTTPS", value: "Enforced (Vercel managed)", status: "Live", icon: CheckCircle2, link: false },
     { label: "Canonical Tags", value: "Set on all indexable pages via react-helmet-async", status: "Live", icon: Link2, link: false },
