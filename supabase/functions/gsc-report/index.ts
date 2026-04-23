@@ -1,5 +1,5 @@
 // Search Console Search Analytics — uses Google service account JWT auth
-import { create, getNumericDate } from "https://deno.land/x/[email protected]/mod.ts";
+import { create, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
