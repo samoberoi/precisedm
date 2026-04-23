@@ -1,12 +1,27 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Activity, Globe, Search, MessageSquare, Code2, FileText, Map as MapIcon,
   Award, TrendingUp, Calendar, Sparkles, BarChart3, Link2, MapPin, Users,
-  CheckCircle2, ExternalLink, ChevronRight, Zap,
+  CheckCircle2, ExternalLink, ChevronRight, Zap, AlertCircle, Eye, MousePointerClick,
 } from "lucide-react";
 import { PAGES, ALL_FAQS, TRACKED_KEYWORDS, SITE } from "@/lib/seo-config";
+import { supabase } from "@/integrations/supabase/client";
 import logoIcon from "@/assets/logo-icon.png";
+
+// ---------- Types ----------
+type Ga4Data = {
+  summary: { activeUsers: number; sessions: number; pageViews: number; bounceRate: number; avgSessionDuration: number };
+  topPages: { path: string; views: number; users: number }[];
+  countries: { country: string; users: number }[];
+};
+type GscData = {
+  dateRange: { startDate: string; endDate: string };
+  totals: { clicks: number; impressions: number; ctr: number; position: number };
+  queries: { query: string; clicks: number; impressions: number; ctr: number; position: number }[];
+  pages: { page: string; clicks: number; impressions: number; ctr: number; position: number }[];
+  countries: { country: string; clicks: number; impressions: number }[];
+};
 
 // ---------- Helpers ----------
 const formatDate = (d: Date) =>
@@ -71,6 +86,27 @@ const HyperRevampReportingPage = () => {
   const today = new Date();
   const reportDate = formatDate(today);
 
+  const [ga4, setGa4] = useState<Ga4Data | null>(null);
+  const [gsc, setGsc] = useState<GscData | null>(null);
+  const [ga4Err, setGa4Err] = useState<string | null>(null);
+  const [gscErr, setGscErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      const [ga, gs] = await Promise.all([
+        supabase.functions.invoke("ga4-report"),
+        supabase.functions.invoke("gsc-report"),
+      ]);
+      if (ga.error || (ga.data as any)?.error) setGa4Err((ga.data as any)?.error || ga.error?.message || "GA4 unavailable");
+      else setGa4(ga.data as Ga4Data);
+      if (gs.error || (gs.data as any)?.error) setGscErr((gs.data as any)?.error || gs.error?.message || "GSC unavailable");
+      else setGsc(gs.data as GscData);
+      setLoading(false);
+    };
+    load();
+  }, []);
+
   // Aggregate live counts from seo-config
   const stats = useMemo(() => {
     const indexable = PAGES.filter((p) => !p.noindex);
@@ -89,20 +125,24 @@ const HyperRevampReportingPage = () => {
     };
   }, []);
 
-  // Generate keyword tracker rows
-  const trends = ["+3.0", "+1.0", "NEW", "0", "-1.0", "+5.0", "+2.0", "-2.0", "+9.0", "+0.5"];
+  // Live keyword tracker — backed by GSC when available, otherwise universe-only
   const keywordRows = useMemo(() => {
-    const rand = seeded(7);
-    return TRACKED_KEYWORDS.slice(0, 60).map((kw, i) => {
-      const pos = (1 + rand() * 40).toFixed(1).replace(/\.0$/, "");
-      const trend = trends[Math.floor(rand() * trends.length)];
-      const impressions = Math.floor(rand() * 250);
-      const clicks = Math.floor(impressions * (rand() * 0.1));
-      const ctr = impressions ? ((clicks / impressions) * 100).toFixed(2) : "0";
-      const page = PAGES[Math.floor(rand() * PAGES.length)].path;
-      return { i: i + 1, kw, pos, trend, impressions, clicks, ctr, page };
-    });
-  }, []);
+    if (gsc?.queries?.length) {
+      return gsc.queries.slice(0, 60).map((q, i) => ({
+        i: i + 1,
+        kw: q.query,
+        pos: q.position.toFixed(1),
+        trend: "—",
+        impressions: q.impressions,
+        clicks: q.clicks,
+        ctr: (q.ctr * 100).toFixed(2),
+        page: "—",
+      }));
+    }
+    return TRACKED_KEYWORDS.slice(0, 60).map((kw, i) => ({
+      i: i + 1, kw, pos: "—", trend: "—", impressions: 0, clicks: 0, ctr: "0", page: "—",
+    }));
+  }, [gsc]);
 
   const optimizationScores = [
     { label: "SEO Coverage", score: 96, color: "linear-gradient(90deg, hsl(160, 70%, 45%), hsl(150, 70%, 50%))" },
@@ -113,8 +153,8 @@ const HyperRevampReportingPage = () => {
   const infraRows = [
     { label: "Sitemap", value: `${SITE.url}/sitemap.xml`, status: "Live", icon: MapIcon, link: true },
     { label: "robots.txt", value: `${SITE.url}/robots.txt`, status: "Live", icon: FileText, link: true },
-    { label: "Google Analytics", value: "Pending — share GA4 ID", status: "Pending", icon: BarChart3, link: false },
-    { label: "Google Search Console", value: "Pending — share verification token", status: "Pending", icon: Search, link: false },
+    { label: "Google Analytics 4", value: "G-YGXVQ2NVQV — gtag.js installed, Data API connected", status: "Live", icon: BarChart3, link: false },
+    { label: "Google Search Console", value: gscErr ? "Verified — awaiting Search Console user permission for service account" : "Verified, Search Analytics API connected", status: gscErr ? "Pending" : "Live", icon: Search, link: false },
     { label: "SSL / HTTPS", value: "Enforced (Vercel managed)", status: "Live", icon: CheckCircle2, link: false },
     { label: "Canonical Tags", value: "Set on all indexable pages via react-helmet-async", status: "Live", icon: Link2, link: false },
     { label: "Open Graph", value: "Title, description, image, URL, locale on all pages", status: "Live", icon: Globe, link: false },
@@ -196,6 +236,88 @@ const HyperRevampReportingPage = () => {
           <StatCard icon={MapIcon} label="Sitemap" value={stats.sitemapUrls} sub="URLs Indexed" accent="text-rose-400" />
         </div>
 
+        {/* ── Live Traffic (GA4) ── */}
+        <section className="mt-12 rounded-3xl border border-white/10 bg-white/[0.02] p-8">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <SectionTitle icon={BarChart3}>Live Traffic — Google Analytics 4</SectionTitle>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-bold text-emerald-300 ring-1 ring-emerald-400/30">
+              {loading ? "Loading…" : ga4Err ? "Error" : "Last 28 days"}
+            </span>
+          </div>
+          {ga4Err ? (
+            <div className="flex items-start gap-3 rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-sm text-amber-200">
+              <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+              <div><p className="font-bold">GA4 unavailable</p><p className="mt-1 text-xs opacity-80">{ga4Err}</p></div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+                <StatCard icon={Users} label="Active Users" value={ga4?.summary.activeUsers ?? 0} sub="28d" accent="text-emerald-400" />
+                <StatCard icon={Activity} label="Sessions" value={ga4?.summary.sessions ?? 0} sub="28d" accent="text-sky-400" />
+                <StatCard icon={Eye} label="Page Views" value={ga4?.summary.pageViews ?? 0} sub="28d" accent="text-violet-400" />
+                <StatCard icon={TrendingUp} label="Bounce Rate" value={`${((ga4?.summary.bounceRate ?? 0) * 100).toFixed(1)}%`} sub="28d" accent="text-amber-400" />
+                <StatCard icon={Calendar} label="Avg. Session" value={`${Math.round(ga4?.summary.avgSessionDuration ?? 0)}s`} sub="duration" accent="text-rose-400" />
+              </div>
+              {(ga4?.topPages?.length ?? 0) > 0 && (
+                <div className="mt-6 grid gap-6 lg:grid-cols-2">
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-widest text-white/40">Top Pages</p>
+                    <div className="space-y-2">
+                      {ga4!.topPages.slice(0, 8).map((p) => (
+                        <div key={p.path} className="flex items-center justify-between gap-3 text-sm">
+                          <span className="truncate font-medium text-white/80">{p.path}</span>
+                          <span className="flex-shrink-0 font-bold tabular-nums text-primary">{p.views.toLocaleString()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-widest text-white/40">Top Countries</p>
+                    <div className="space-y-2">
+                      {(ga4?.countries ?? []).slice(0, 8).map((c) => (
+                        <div key={c.country} className="flex items-center justify-between gap-3 text-sm">
+                          <span className="truncate font-medium text-white/80">{c.country}</span>
+                          <span className="flex-shrink-0 font-bold tabular-nums text-primary">{c.users.toLocaleString()}</span>
+                        </div>
+                      ))}
+                      {(ga4?.countries?.length ?? 0) === 0 && <p className="text-xs text-white/40">No data yet for this window.</p>}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </section>
+
+        {/* ── Search Console summary ── */}
+        <section className="mt-12 rounded-3xl border border-white/10 bg-white/[0.02] p-8">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <SectionTitle icon={Search}>Search Console — Live Performance</SectionTitle>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] font-bold text-white/60 ring-1 ring-white/10">
+              {loading ? "Loading…" : gscErr ? "Permission pending" : `${gsc?.dateRange.startDate} → ${gsc?.dateRange.endDate}`}
+            </span>
+          </div>
+          {gscErr ? (
+            <div className="flex items-start gap-3 rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-sm text-amber-200">
+              <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+              <div>
+                <p className="font-bold">Add the service account to Search Console</p>
+                <p className="mt-1 text-xs opacity-80">
+                  In Search Console → Settings → Users and permissions, add{" "}
+                  <code className="rounded bg-white/10 px-1.5 py-0.5">precisedm@hyperrevamp-491002.iam.gserviceaccount.com</code> as a <b>Full</b> user. Live data will appear automatically once granted.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              <StatCard icon={MousePointerClick} label="Clicks" value={gsc?.totals.clicks ?? 0} sub="Search clicks" accent="text-emerald-400" />
+              <StatCard icon={Eye} label="Impressions" value={(gsc?.totals.impressions ?? 0).toLocaleString()} sub="SERP views" accent="text-sky-400" />
+              <StatCard icon={TrendingUp} label="Avg. CTR" value={`${((gsc?.totals.ctr ?? 0) * 100).toFixed(2)}%`} sub="Click-through" accent="text-violet-400" />
+              <StatCard icon={Award} label="Avg. Position" value={(gsc?.totals.position ?? 0).toFixed(1)} sub="Across queries" accent="text-amber-400" />
+            </div>
+          )}
+        </section>
+
         {/* ── Domain Authority block ── */}
         <section className="mt-12 rounded-3xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur">
           <SectionTitle icon={Award}>Domain Authority &amp; Metrics</SectionTitle>
@@ -234,16 +356,20 @@ const HyperRevampReportingPage = () => {
         <section className="mt-12 rounded-3xl border border-white/10 bg-white/[0.02] p-8">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
             <SectionTitle icon={Search}>Live Keyword Tracker</SectionTitle>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] font-bold text-white/60 ring-1 ring-white/10">
-              GSC <span className="text-white/30">·</span> Awaiting credentials
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ring-1 ${gscErr ? "bg-amber-500/10 text-amber-300 ring-amber-400/30" : "bg-emerald-500/10 text-emerald-300 ring-emerald-400/30"}`}>
+              GSC <span className="opacity-50">·</span> {gscErr ? "Awaiting permission" : "Live"}
             </span>
           </div>
-          <p className="mb-6 text-xs text-white/40">Tracking universe seeded from seo-config — actual rankings will populate once GSC is connected.</p>
+          <p className="mb-6 text-xs text-white/40">
+            {gsc?.queries?.length
+              ? `Showing top ${Math.min(gsc.queries.length, 60)} live queries from Google Search Console.`
+              : "Universe seeded from seo-config — live rankings will populate once Search Console grants permission to the service account."}
+          </p>
 
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            <StatCard icon={Search} label="Total Keywords" value={TRACKED_KEYWORDS.length} sub="Monitored" />
-            <StatCard icon={CheckCircle2} label="Page 1 Targets" value={Math.round(TRACKED_KEYWORDS.length * 0.45)} sub="Top 10" accent="text-emerald-400" />
-            <StatCard icon={TrendingUp} label="Improving" value={20} sub="↑ Last 30 days" accent="text-sky-400" />
+            <StatCard icon={Search} label="Total Keywords" value={gsc?.queries?.length ?? TRACKED_KEYWORDS.length} sub={gsc?.queries?.length ? "Ranking (GSC)" : "Monitored"} />
+            <StatCard icon={CheckCircle2} label="Page 1 Targets" value={gsc?.queries?.filter((q) => q.position <= 10).length ?? Math.round(TRACKED_KEYWORDS.length * 0.45)} sub="Top 10" accent="text-emerald-400" />
+            <StatCard icon={TrendingUp} label="Total Clicks" value={gsc?.totals.clicks ?? 0} sub="Last 28d" accent="text-sky-400" />
             <StatCard icon={Zap} label="Brand Terms" value={TRACKED_KEYWORDS.filter((k) => k.toLowerCase().includes("precisedm") || k.toLowerCase().includes("diaform")).length} sub="Core branded" accent="text-violet-400" />
           </div>
 
