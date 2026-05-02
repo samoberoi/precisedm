@@ -265,7 +265,9 @@ async function createReceiptForSubscription(
   const name = profile?.full_name || "";
 
   const amount = opts.amount ?? PRICING[opts.planType] ?? 0;
-  const paymentDate = opts.paymentDate ?? new Date();
+  const paymentDate = opts.paymentDate
+    ? (opts.paymentDate instanceof Date ? opts.paymentDate : new Date(opts.paymentDate as any))
+    : new Date();
   const receiptNumber = generateReceiptNumber(paymentDate);
 
   const pdfBytes = await buildReceiptPdf({
