@@ -188,7 +188,7 @@ async function sendReceiptEmail(opts: {
         </p>
       </div>
       <div style="border-top: 1px solid #e5e7eb; padding-top: 14px; text-align: center; font-size: 11px; color: #9ca3af;">
-        © ${new Date().getFullYear()} PreciseDM • Precision Diabetes Management
+        © ${new Date().getFullYear()} PreciseDM • Customized Insulin Dosing Tool
       </div>
     </div>
   `;
