@@ -175,7 +175,7 @@ async function sendReceiptEmail(opts: {
       <div style="padding: 24px 4px;">
         <p style="font-size: 15px; color: #1a1a2e;">Hi ${opts.customerName || "there"},</p>
         <p style="font-size: 14px; color: #4a4a5a; line-height: 1.5;">
-          Thank you for your continued subscription to PreciseDM. Your payment receipt is attached as a PDF and is also saved to your profile for download anytime.
+          Thank you for your continued subscription to PreciseDM — your customized insulin dosing tool. Your payment receipt is attached as a PDF and is also saved to your profile for download anytime.
         </p>
         <table style="width: 100%; margin: 20px 0; border-collapse: collapse; background: #f6f8fb; border-radius: 12px; padding: 12px;">
           <tr><td style="padding: 10px 14px; color: #6b7280; font-size: 12px;">Receipt #</td><td style="padding: 10px 14px; text-align: right; font-weight: 600; color: #1a1a2e;">${opts.receiptNumber}</td></tr>
