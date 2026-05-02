@@ -11,7 +11,7 @@ const BUSINESS = {
   name: "PreciseDM",
   website: "https://precisedm.com",
   supportEmail: "support@precisedm.com",
-  description: "Precision Diabetes Management Platform",
+  description: "Customized Insulin Dosing Tool",
 };
 
 const PRICING: Record<string, number> = {
