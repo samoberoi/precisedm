@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, Check, User, Mail, Sparkles, CreditCard, Crown, Zap, Loader2 } from "lucide-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { Checkbox } from "@/components/ui/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -31,6 +32,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("trial");
+  const [confirmed, setConfirmed] = useState(false);
   const { toast } = useToast();
   const [direction, setDirection] = useState(1);
 
@@ -39,6 +41,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
       setStep(initialMode === "signup" ? "signup-name" : "login");
       setEmail(""); setFullName(""); setOtp("");
       setLoading(false); setSelectedPlan("trial");
+      setConfirmed(false);
     }
   }, [open, initialMode]);
 
@@ -101,6 +104,9 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
   const handleLoginOtp = async () => {
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast({ title: "Please enter a valid email", variant: "destructive" }); return;
+    }
+    if (!confirmed) {
+      toast({ title: "Please confirm the practitioner declaration to continue", variant: "destructive" }); return;
     }
     const ok = await sendOtp();
     if (ok) { goNext(); setStep("login-otp"); }
@@ -241,7 +247,17 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleLoginOtp(); } }} autoFocus />
                       </div>
                     </div>
-                    <Button onClick={handleLoginOtp} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
+                    <label className="flex items-start gap-2.5 p-3 rounded-xl bg-card border border-border cursor-pointer">
+                      <Checkbox
+                        checked={confirmed}
+                        onCheckedChange={(v) => setConfirmed(v === true)}
+                        className="mt-0.5"
+                      />
+                      <span className="text-xs text-muted-foreground leading-relaxed">
+                        I confirm that I am a licensed medical practitioner, accept full responsibility for using this website's information, and will abide by professional ethics and data privacy laws as per the law of the land.
+                      </span>
+                    </label>
+                    <Button onClick={handleLoginOtp} disabled={loading || !confirmed} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
                       {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending...</> : <>Send Code <ArrowRight className="ml-2 h-4 w-4" /></>}
                     </Button>
                   </div>

@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import PreciseLogo from "@/components/PreciseLogo";
 import { toast } from "@/hooks/use-toast";
@@ -18,11 +19,16 @@ const LoginPage = () => {
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"email" | "otp">("email");
   const [loading, setLoading] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast({ title: "Please enter a valid email", variant: "destructive" });
+      return;
+    }
+    if (!confirmed) {
+      toast({ title: "Please confirm the practitioner declaration to continue", variant: "destructive" });
       return;
     }
     setLoading(true);
@@ -110,7 +116,18 @@ const LoginPage = () => {
                 className="h-12 rounded-2xl bg-card border-border shadow-sm" autoFocus />
             </div>
             <p className="text-xs text-muted-foreground">We'll send a 6-digit verification code to your email.</p>
-            <Button type="submit" disabled={loading} className="w-full h-12 rounded-2xl text-base font-bold gradient-primary glow-primary">
+            <label className="flex items-start gap-2.5 p-3 rounded-2xl bg-card border border-border cursor-pointer">
+              <Checkbox
+                id="practitioner-confirm"
+                checked={confirmed}
+                onCheckedChange={(v) => setConfirmed(v === true)}
+                className="mt-0.5"
+              />
+              <span className="text-xs text-muted-foreground leading-relaxed">
+                I confirm that I am a licensed medical practitioner, accept full responsibility for using this website's information, and will abide by professional ethics and data privacy laws as per the law of the land.
+              </span>
+            </label>
+            <Button type="submit" disabled={loading || !confirmed} className="w-full h-12 rounded-2xl text-base font-bold gradient-primary glow-primary">
               {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending...</> : "Send Verification Code"}
             </Button>
           </motion.form>
