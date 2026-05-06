@@ -11,6 +11,7 @@ const WEBSITE_PATHS = [
   "/privacy",
   "/terms",
   "/disclaimer-info",
+  "/blog",
   "/account",
   "/subscription-plans",
   "/steroid-tool",
