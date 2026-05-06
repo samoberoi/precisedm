@@ -1,4 +1,5 @@
 import insulinDosingChallengesImg from "@/assets/blog/insulin-dosing-challenges.jpg";
+import insulinDosingConsistencyImg from "@/assets/blog/insulin-dosing-consistency.jpg";
 
 export interface BlogFaq {
   q: string;
