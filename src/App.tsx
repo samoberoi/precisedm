@@ -51,6 +51,8 @@ import PrivacyPolicyPage from "./pages/website/PrivacyPolicyPage";
 import TermsPage from "./pages/website/TermsPage";
 import WebsiteDisclaimerPage from "./pages/website/WebsiteDisclaimerPage";
 import WebsiteProfilePage from "./pages/website/WebsiteProfilePage";
+import BlogIndexPage from "./pages/website/BlogIndexPage";
+import BlogPostPage from "./pages/website/BlogPostPage";
 
 const queryClient = new QueryClient();
 
@@ -81,6 +83,8 @@ const AnimatedRoutes = () => {
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/disclaimer-info" element={<WebsiteDisclaimerPage />} />
+            <Route path="/blog" element={<BlogIndexPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/account" element={<WebsiteProfilePage />} />
             <Route path="/subscription-plans" element={<SubscriptionPage />} />
             <Route path="/subscription-plans/success" element={<SubscriptionSuccessPage />} />
