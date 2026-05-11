@@ -253,7 +253,7 @@ export const blogPosts: BlogPost[] = [
     image: insulinDosingConsistencyImg,
     imageAlt:
       "Insulin dosing decisions being prepared with syringe and vial in clinical setting",
-    publishedAt: "2026-05-03",
+    publishedAt: "2026-05-01",
     readTime: "7 min read",
     author: "PreciseDM Clinical Team",
     content: [
