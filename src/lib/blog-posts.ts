@@ -94,8 +94,8 @@ export const blogPosts: BlogPost[] = [
         text: "One of the most significant contributors to insulin dosing challenges in clinical practice is the variability in how individual patients respond to insulin. Research shows that the same dose can produce different glucose responses in the same patient across different days due to factors such as diet, activity, stress, and concurrent conditions.",
       },
       {
-        type: "p",
-        text: "This creates a high level of insulin decision complexity, even for experienced clinicians managing multiple patients daily.",
+        type: "html",
+        html: 'This creates a high level of <a href="/features">insulin decision complexity</a>, even for experienced clinicians managing multiple patients daily.',
       },
       { type: "h2", text: "2. The Information You Need Is Rarely Complete" },
       {
