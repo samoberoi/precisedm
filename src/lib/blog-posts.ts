@@ -197,6 +197,13 @@ export const blogPosts: BlogPost[] = [
         type: "p",
         text: "Start your free trial and explore how structured decision support can improve your clinical workflow. Download the PreciseDM app today and experience all four clinical tools in practice.",
       },
+      {
+        type: "ul_html",
+        items: [
+          '<a href="https://play.google.com/store/apps/details?id=com.precisedm" target="_blank" rel="noopener">For Android Users</a>',
+          '<a href="https://apps.apple.com/in/app/precisedm/id6753625603" target="_blank" rel="noopener">For iOS Users</a>',
+        ],
+      },
     ],
     faqs: [
       {
