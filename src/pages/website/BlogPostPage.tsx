@@ -26,6 +26,14 @@ const renderBlock = (block: BlogBlock, i: number) => {
           {block.text}
         </p>
       );
+    case "html":
+      return (
+        <p
+          key={i}
+          className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg [&_a]:text-primary [&_a]:font-semibold [&_a]:underline"
+          dangerouslySetInnerHTML={{ __html: block.html }}
+        />
+      );
     case "ul":
       return (
         <ul key={i} className="mt-4 space-y-2 pl-5">
@@ -33,6 +41,18 @@ const renderBlock = (block: BlogBlock, i: number) => {
             <li key={j} className="list-disc text-base leading-relaxed text-muted-foreground md:text-lg">
               {item}
             </li>
+          ))}
+        </ul>
+      );
+    case "ul_html":
+      return (
+        <ul key={i} className="mt-4 space-y-2 pl-5 [&_a]:text-primary [&_a]:font-semibold [&_a]:underline">
+          {block.items.map((item, j) => (
+            <li
+              key={j}
+              className="list-disc text-base leading-relaxed text-muted-foreground md:text-lg"
+              dangerouslySetInnerHTML={{ __html: item }}
+            />
           ))}
         </ul>
       );
