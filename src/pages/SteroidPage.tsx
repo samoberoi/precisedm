@@ -310,7 +310,7 @@ const SteroidPage = () => {
                 <p className="text-sm font-bold text-foreground">Insulin naive</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   <span className="font-semibold text-foreground">Prednisone:</span> Add NPH insulin once daily, preferably in the morning, administered at the same time as the prednisone dose (see below for insulin dependent diabetes).{" "}
-                  <span className="font-medium text-foreground">Example:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, select NPH {Math.round((result.doseLowUnits + result.doseHighUnits) / 4)} units SQ every morning.
+                  <span className="font-medium text-foreground">Example:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, select NPH {result.doseLowUnits} units SQ every morning.
                 </p>
               </div>
 
