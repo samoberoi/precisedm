@@ -310,7 +310,7 @@ const SteroidPage = () => {
                 <p className="text-sm font-bold text-foreground">Insulin naive</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   <span className="font-semibold text-foreground">Prednisone:</span> Add NPH insulin once daily, preferably in the morning, administered at the same time as the prednisone dose (see below for insulin dependent diabetes).{" "}
-                  <span className="font-medium text-foreground">Example:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, select NPH {Math.round((result.doseLowUnits + result.doseHighUnits) / 4)} units SQ every morning.
+                  <span className="font-medium text-foreground">Example:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, select NPH {result.doseLowUnits} units SQ every morning.
                 </p>
               </div>
 
@@ -330,7 +330,7 @@ const SteroidPage = () => {
                     Add NPH bid or adjust basal-bolus insulin doses.
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed mt-2">
-                    <span className="font-medium text-foreground">Example 1:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, select NPH {Math.max(1, Math.round((result.doseLowUnits + result.doseHighUnits) / 4))} units SQ bid.
+                    <span className="font-medium text-foreground">Example 1:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, select NPH {result.doseLowUnits} units SQ bid.
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed mt-2">
                     <span className="font-medium text-foreground">Example 2:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, increase Basal Insulin by {Math.round((result.doseLowUnits + result.doseHighUnits) / 4)} units SQ qam and short acting insulin by {Math.max(1, Math.round((result.doseLowUnits + result.doseHighUnits) / 12))} units per meal.
