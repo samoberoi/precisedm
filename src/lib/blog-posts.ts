@@ -60,7 +60,7 @@ export const blogPosts: BlogPost[] = [
     image: insulinDosingChallengesImg,
     imageAlt:
       "Doctor consulting patient and reviewing notes for insulin dosing decision in clinical setting",
-    publishedAt: "2026-05-06",
+    publishedAt: "2026-04-27",
     readTime: "6 min read",
     author: "PreciseDM Clinical Team",
     content: [
