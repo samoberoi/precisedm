@@ -32,7 +32,7 @@ const BlogIndexPage = () => {
 
       <section className="mx-auto max-w-5xl px-6 pb-24">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {blogPosts.map((post) => (
+          {[...blogPosts].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).map((post) => (
             <Link
               key={post.slug}
               to={`/blog/${post.slug}`}
