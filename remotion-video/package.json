@@ -10,9 +10,9 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@remotion/bundler": "^4.0.459",
+    "@remotion/bundler": "4.0.459",
     "@remotion/cli": "^4.0.459",
-    "@remotion/compositor-linux-x64-musl": "^4.0.459",
+    "@remotion/compositor-linux-x64-musl": "4.0.459",
     "@remotion/google-fonts": "^4.0.459",
     "@remotion/renderer": "^4.0.459",
     "@remotion/transitions": "^4.0.459",
