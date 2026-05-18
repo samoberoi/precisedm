@@ -91,11 +91,11 @@ export const Scene5CTA: React.FC = () => {
       <div
         style={{
           opacity: interpolate(frame, [70, 90], [0, 1], { extrapolateRight: "clamp" }),
-          marginTop: 36,
-          fontSize: 22,
-          fontWeight: 600,
-          color: "#0369A1",
-          letterSpacing: 1,
+          marginTop: 40,
+          fontSize: 24,
+          fontWeight: 700,
+          color: "#0C2942",
+          letterSpacing: 1.5,
         }}
       >
         Built by clinicians. For clinicians.
