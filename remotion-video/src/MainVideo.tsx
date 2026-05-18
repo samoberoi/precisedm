@@ -55,29 +55,29 @@ export const MainVideo: React.FC = () => {
           <Scene1Hook />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
-          presentation={fade()}
-          timing={linearTiming({ durationInFrames: 15 })}
+          presentation={slide()}
+          timing={linearTiming({ durationInFrames: 20 })}
         />
         <TransitionSeries.Sequence durationInFrames={120}>
           <Scene2Problem />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
-          presentation={fade()}
-          timing={linearTiming({ durationInFrames: 15 })}
+          presentation={slide()}
+          timing={linearTiming({ durationInFrames: 20 })}
         />
         <TransitionSeries.Sequence durationInFrames={165}>
           <Scene3Tools />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
-          presentation={fade()}
-          timing={linearTiming({ durationInFrames: 15 })}
+          presentation={slide()}
+          timing={linearTiming({ durationInFrames: 20 })}
         />
         <TransitionSeries.Sequence durationInFrames={105}>
           <Scene4Trust />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
-          presentation={fade()}
-          timing={linearTiming({ durationInFrames: 15 })}
+          presentation={slide()}
+          timing={linearTiming({ durationInFrames: 20 })}
         />
         <TransitionSeries.Sequence durationInFrames={135}>
           <Scene5CTA />
