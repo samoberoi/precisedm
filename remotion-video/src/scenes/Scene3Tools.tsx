@@ -5,10 +5,10 @@ import { loadFont } from "@remotion/google-fonts/Inter";
 const { fontFamily } = loadFont("normal", { weights: ["400", "600", "800", "900"], subsets: ["latin"] });
 
 const tools = [
-  { name: "DiaForm", desc: "Starting Insulin Dosing", color: "#1E88E5" },
-  { name: "Maintenance", desc: "Ongoing Dose Adjustments", color: "#F4A623" },
-  { name: "Steroid", desc: "Steroid-Induced Hyperglycemia", color: "#34495E" },
-  { name: "Gestation", desc: "Pregnancy Insulin Care", color: "#E76F51" },
+  { name: "DiaForm", desc: "Initial insulin dosing", color: "#1E88E5" },
+  { name: "Maintenance", desc: "Ongoing insulin dosing", color: "#F4A623" },
+  { name: "Steroid", desc: "Insulin dosing for steroid-induced hyperglycemia", color: "#34495E" },
+  { name: "Gestation", desc: "Ongoing insulin dosing", color: "#E76F51" },
 ];
 
 export const Scene3Tools: React.FC = () => {
@@ -32,7 +32,7 @@ export const Scene3Tools: React.FC = () => {
           textTransform: "uppercase",
         }}
       >
-        Four precision tools
+        Four precision insulin dosing tools
       </div>
       <div
         style={{

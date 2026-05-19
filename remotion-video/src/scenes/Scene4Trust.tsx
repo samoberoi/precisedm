@@ -7,7 +7,6 @@ const { fontFamily } = loadFont("normal", { weights: ["400", "600", "800", "900"
 const features = [
   "Evidence-based algorithms",
   "Results in seconds",
-  "Saved patient history",
   "Built by clinicians",
 ];
 
