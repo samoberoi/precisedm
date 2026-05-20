@@ -115,7 +115,7 @@ function displayPath(url: string | null) {
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 
 export default function AdminSeo() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -129,14 +129,15 @@ export default function AdminSeo() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterMonth, setFilterMonth] = useState<string>(() => new Date().toISOString().slice(0, 7));
 
-  // Admin gating
+  // Admin gating — wait for auth to finish loading before deciding.
   useEffect(() => {
+    if (authLoading) return;
     (async () => {
       if (!user) { setIsAdmin(false); return; }
       const { data } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
       setIsAdmin(!!data);
     })();
-  }, [user]);
+  }, [user, authLoading]);
 
   useEffect(() => { if (isAdmin) void load(); }, [isAdmin]);
 

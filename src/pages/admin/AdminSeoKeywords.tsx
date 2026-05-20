@@ -61,6 +61,15 @@ export default function AdminSeoKeywords() {
       if (error) throw error;
       const payload = res as Payload;
       if (payload?.error && payload.error !== "not_connected") throw new Error(payload.error);
+      // Normalize rows so missing numeric fields (e.g. when not connected) don't crash render.
+      payload.keywords = (payload.keywords ?? []).map((k) => ({
+        ...k,
+        clicks: k.clicks ?? 0,
+        impressions: k.impressions ?? 0,
+        ctr: k.ctr ?? 0,
+        position: k.position ?? null,
+        sources: k.sources ?? [],
+      }));
       setData(payload);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
