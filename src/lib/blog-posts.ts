@@ -2,6 +2,8 @@ import insulinDosingChallengesImg from "@/assets/blog/insulin-dosing-challenges.
 import insulinDosingConsistencyImg from "@/assets/blog/insulin-dosing-consistency.jpg";
 import supportingClinicalJudgmentImg from "@/assets/blog/supporting-clinical-judgment.jpg";
 import reducingCognitiveLoadImg from "@/assets/blog/reducing-cognitive-load.jpg";
+import steroidHyperglycemiaImg from "@/assets/blog/steroid-induced-hyperglycemia.png";
+import gestationalDiabetesImg from "@/assets/blog/gestational-diabetes-personalized.png";
 
 export interface BlogFaq {
   q: string;
