@@ -175,6 +175,342 @@ export type Database = {
           },
         ]
       }
+      seo_blog_posts: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          body_md: string
+          client_notes: string | null
+          created_at: string
+          deployed_at: string | null
+          id: string
+          internal_notes: string | null
+          meta_description: string | null
+          primary_keyword: string | null
+          read_minutes: number | null
+          scheduled_date: string | null
+          secondary_keywords: string[]
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          body_md: string
+          client_notes?: string | null
+          created_at?: string
+          deployed_at?: string | null
+          id?: string
+          internal_notes?: string | null
+          meta_description?: string | null
+          primary_keyword?: string | null
+          read_minutes?: number | null
+          scheduled_date?: string | null
+          secondary_keywords?: string[]
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          body_md?: string
+          client_notes?: string | null
+          created_at?: string
+          deployed_at?: string | null
+          id?: string
+          internal_notes?: string | null
+          meta_description?: string | null
+          primary_keyword?: string | null
+          read_minutes?: number | null
+          scheduled_date?: string | null
+          secondary_keywords?: string[]
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      seo_indexing_log: {
+        Row: {
+          action: string
+          error: string | null
+          http_status: number | null
+          id: string
+          pinged_at: string
+          response: Json | null
+          source: string | null
+          status: string
+          url: string
+        }
+        Insert: {
+          action?: string
+          error?: string | null
+          http_status?: number | null
+          id?: string
+          pinged_at?: string
+          response?: Json | null
+          source?: string | null
+          status?: string
+          url: string
+        }
+        Update: {
+          action?: string
+          error?: string | null
+          http_status?: number | null
+          id?: string
+          pinged_at?: string
+          response?: Json | null
+          source?: string | null
+          status?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      seo_integrations: {
+        Row: {
+          access_token: string | null
+          access_token_expires_at: string | null
+          connected_at: string
+          connected_by_user_id: string | null
+          created_at: string
+          id: string
+          last_error: string | null
+          last_refreshed_at: string | null
+          property_url: string | null
+          provider: string
+          refresh_token: string | null
+          updated_at: string
+        }
+        Insert: {
+          access_token?: string | null
+          access_token_expires_at?: string | null
+          connected_at?: string
+          connected_by_user_id?: string | null
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          last_refreshed_at?: string | null
+          property_url?: string | null
+          provider?: string
+          refresh_token?: string | null
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string | null
+          access_token_expires_at?: string | null
+          connected_at?: string
+          connected_by_user_id?: string | null
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          last_refreshed_at?: string | null
+          property_url?: string | null
+          provider?: string
+          refresh_token?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_keyword_cache: {
+        Row: {
+          fetched_at: string
+          id: string
+          payload: Json
+          property_url: string
+          range_end: string
+          range_start: string
+        }
+        Insert: {
+          fetched_at?: string
+          id?: string
+          payload?: Json
+          property_url: string
+          range_end: string
+          range_start: string
+        }
+        Update: {
+          fetched_at?: string
+          id?: string
+          payload?: Json
+          property_url?: string
+          range_end?: string
+          range_start?: string
+        }
+        Relationships: []
+      }
+      seo_page_overrides: {
+        Row: {
+          applied_at: string | null
+          created_at: string
+          h1: string | null
+          id: string
+          intro_copy: string | null
+          meta_description: string | null
+          route_path: string
+          secondary_keywords: string[]
+          source_task_id: string | null
+          target_keyword: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          applied_at?: string | null
+          created_at?: string
+          h1?: string | null
+          id?: string
+          intro_copy?: string | null
+          meta_description?: string | null
+          route_path: string
+          secondary_keywords?: string[]
+          source_task_id?: string | null
+          target_keyword?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          applied_at?: string | null
+          created_at?: string
+          h1?: string | null
+          id?: string
+          intro_copy?: string | null
+          meta_description?: string | null
+          route_path?: string
+          secondary_keywords?: string[]
+          source_task_id?: string | null
+          target_keyword?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_settings: {
+        Row: {
+          auto_execute: boolean
+          blog_approval_required: boolean
+          id: number
+          last_auto_run_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          auto_execute?: boolean
+          blog_approval_required?: boolean
+          id?: number
+          last_auto_run_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          auto_execute?: boolean
+          blog_approval_required?: boolean
+          id?: number
+          last_auto_run_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_tasks: {
+        Row: {
+          blog_slug: string | null
+          category: string
+          completed_at: string | null
+          completed_by: string | null
+          content_brief: string | null
+          created_at: string
+          day_end: number | null
+          day_start: number | null
+          deliverable_type: string | null
+          description: string | null
+          effort_minutes: number
+          id: string
+          meta_description: string | null
+          notes: string | null
+          page_title: string | null
+          priority: string
+          scheduled_date: string | null
+          secondary_keywords: string[]
+          section: string
+          sort_order: number
+          status: string
+          target_keyword: string | null
+          target_url: string | null
+          title: string
+          updated_at: string
+          verified_at: string | null
+          verified_snapshot: Json | null
+          verified_status: string | null
+          week: number
+        }
+        Insert: {
+          blog_slug?: string | null
+          category?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          content_brief?: string | null
+          created_at?: string
+          day_end?: number | null
+          day_start?: number | null
+          deliverable_type?: string | null
+          description?: string | null
+          effort_minutes?: number
+          id?: string
+          meta_description?: string | null
+          notes?: string | null
+          page_title?: string | null
+          priority?: string
+          scheduled_date?: string | null
+          secondary_keywords?: string[]
+          section?: string
+          sort_order?: number
+          status?: string
+          target_keyword?: string | null
+          target_url?: string | null
+          title: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_snapshot?: Json | null
+          verified_status?: string | null
+          week?: number
+        }
+        Update: {
+          blog_slug?: string | null
+          category?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          content_brief?: string | null
+          created_at?: string
+          day_end?: number | null
+          day_start?: number | null
+          deliverable_type?: string | null
+          description?: string | null
+          effort_minutes?: number
+          id?: string
+          meta_description?: string | null
+          notes?: string | null
+          page_title?: string | null
+          priority?: string
+          scheduled_date?: string | null
+          secondary_keywords?: string[]
+          section?: string
+          sort_order?: number
+          status?: string
+          target_keyword?: string | null
+          target_url?: string | null
+          title?: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_snapshot?: Json | null
+          verified_status?: string | null
+          week?: number
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           created_at: string
@@ -240,6 +576,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      trigger_indexing_ping: {
+        Args: { _action: string; _source: string; _url: string }
+        Returns: undefined
       }
     }
     Enums: {
