@@ -284,16 +284,10 @@ export default function AdminSeo() {
     return <div className="min-h-screen flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin" /></div>;
   }
   if (!isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <Card className="p-8 max-w-md text-center space-y-3">
-          <ShieldCheck className="h-10 w-10 mx-auto text-muted-foreground" />
-          <h2 className="text-xl font-semibold">Admin access required</h2>
-          <p className="text-sm text-muted-foreground">Sign in with an admin account to view the SEO dashboard.</p>
-          <Button onClick={() => navigate("/login")}>Go to login</Button>
-        </Card>
-      </div>
-    );
+    if (typeof window !== "undefined") {
+      navigate("/admin/seo/login", { replace: true });
+    }
+    return <div className="min-h-screen flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin" /></div>;
   }
 
   return (

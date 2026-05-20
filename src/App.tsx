@@ -29,6 +29,7 @@ import ConnectPage from "./pages/ConnectPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminSeo from "./pages/admin/AdminSeo";
+import AdminSeoLogin from "./pages/admin/AdminSeoLogin";
 import DisclaimerPage from "./pages/DisclaimerPage";
 
 import SteroidPage from "./pages/SteroidPage";
@@ -139,6 +140,7 @@ const AnimatedRoutes = () => {
           <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
           <Route path="/diaform" element={<SubscriptionGate><PageTransition><DiaFormPage /></PageTransition></SubscriptionGate>} />
           <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+          <Route path="/admin/seo/login" element={<PageTransition><AdminSeoLogin /></PageTransition>} />
           <Route path="/admin/seo" element={<PageTransition><AdminSeo /></PageTransition>} />
 
           {/* HyperRevamp internal SEO/AEO/GEO live report */}
