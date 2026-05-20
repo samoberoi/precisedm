@@ -215,7 +215,7 @@ export default function AdminSeo() {
     setSavingId(id);
     const apply: Record<string, unknown> = { ...patch };
     if (patch.status && patch.status !== "done") { apply.completed_at = null; apply.completed_by = null; }
-    const { error } = await supabase.from("seo_tasks").update(apply).eq("id", id);
+    const { error } = await supabase.from("seo_tasks").update(apply as never).eq("id", id);
     if (error) toast.error("Save failed");
     else { setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...apply } as Task : t))); toast.success("Saved"); }
     setSavingId(null);
@@ -229,7 +229,7 @@ export default function AdminSeo() {
       apply.approved_by = user?.id ?? null;
     }
     if (patch.status === "deployed") apply.deployed_at = new Date().toISOString();
-    const { error } = await supabase.from("seo_blog_posts").update(apply).eq("id", id);
+    const { error } = await supabase.from("seo_blog_posts").update(apply as never).eq("id", id);
     if (error) toast.error("Save failed");
     else { setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, ...apply } as BlogPost : p))); toast.success("Saved"); }
     setSavingId(null);
