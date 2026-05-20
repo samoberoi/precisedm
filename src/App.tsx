@@ -28,6 +28,7 @@ import AboutPage from "./pages/AboutPage";
 import ConnectPage from "./pages/ConnectPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminSeo from "./pages/admin/AdminSeo";
 import DisclaimerPage from "./pages/DisclaimerPage";
 
 import SteroidPage from "./pages/SteroidPage";
