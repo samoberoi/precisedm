@@ -139,6 +139,7 @@ const AnimatedRoutes = () => {
           <Route path="/gestation" element={<SubscriptionGate><PageTransition><GestationPage /></PageTransition></SubscriptionGate>} />
           <Route path="/diaform" element={<SubscriptionGate><PageTransition><DiaFormPage /></PageTransition></SubscriptionGate>} />
           <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+          <Route path="/admin/seo" element={<PageTransition><AdminSeo /></PageTransition>} />
 
           {/* HyperRevamp internal SEO/AEO/GEO live report */}
           <Route path="/hyperrevamp-reporting" element={<HyperRevampReportingPage />} />
