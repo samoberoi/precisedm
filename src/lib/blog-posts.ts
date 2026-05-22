@@ -940,9 +940,9 @@ export const blogPosts: BlogPost[] = [
       { type: "p", text: "This is where accessible, structured tools make a practical difference. Not by replacing specialist judgment, but by making a consistent clinical framework available to every member of the team, so that every encounter contributes to, rather than disrupts, the management plan." },
       { type: "h2", text: "6. Personalisation Is Not Optional" },
       { type: "p", text: "Gestational diabetes is not a condition where a standard protocol applied uniformly produces good outcomes. Two patients at the same gestational age with identical screening results may have very different glucose patterns, different rates of progression, and different responses to the same insulin dose." },
-      { type: "p", text: "This variability, familiar from diabetes care generally but more consequential here, is what makes personalised diabetes care tools so important in gestational diabetes management." },
+      { type: "html", html: 'This variability, familiar from diabetes care generally but more consequential here, is what makes <a href="https://www.precisedm.com/features" target="_blank" rel="noopener">personalised diabetes care tools</a> so important in gestational diabetes management.' },
       { type: "p", text: "PreciseDM's Gestational Module is built for exactly this. It provides individualized insulin dosing recommendations based on patient specific inputs throughout the pregnancy. The Gestation tool is quick, easy and accurate." },
-      { type: "p", text: "To learn more about how personalized diabetes care tools like PreciseDM can support your clinical workflow in gestational diabetes, explore the platform's features or download the app today." },
+      { type: "html", html: 'To learn more about how <a href="https://www.precisedm.com/features" target="_blank" rel="noopener">personalized diabetes care tools</a> like PreciseDM can support your clinical workflow in gestational diabetes, explore the platform\'s features or download the app today.' },
       { type: "p", text: "Download the PreciseDM app today and experience all four clinical tools in practice." },
       {
         type: "ul_html",
