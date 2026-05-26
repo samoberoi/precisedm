@@ -10,8 +10,8 @@ import maintenanceIcon from "@/assets/maintenance-icon.png";
 import steroidIcon from "@/assets/steroid-icon.png";
 
 const highlights = [
-  { icon: Calculator, title: "4 Precision Calculators", desc: "Starting, Maintenance, Steroid, and Gestation dosing tools covering every clinical scenario.", accent: "hsl(210, 80%, 50%)" },
-  { icon: Zap, title: "Instant Results", desc: "Evidence-based algorithms deliver recommended dosage ranges in seconds.", accent: "hsl(45, 85%, 50%)" },
+  { icon: Calculator, title: "4 Precision Calculators", desc: "Customized Starting, Maintenance, Steroid and Gestation insulin dosing tools using patient-specific inputs.", accent: "hsl(210, 80%, 50%)" },
+  { icon: Zap, title: "Instant Results", desc: "Evidence-based algorithms deliver recommended insulin dose ranges in seconds.", accent: "hsl(45, 85%, 50%)" },
   
   { icon: Shield, title: "Secure Data", desc: "Your patient data is handled with care and stored securely.", accent: "hsl(160, 60%, 45%)" },
   { icon: History, title: "Saved History", desc: "Review past calculations and track your usage over time.", accent: "hsl(197, 100%, 55%)" },
