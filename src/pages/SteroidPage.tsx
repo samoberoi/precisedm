@@ -330,10 +330,10 @@ const SteroidPage = () => {
                     Add NPH bid or adjust basal-bolus insulin doses.
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed mt-2">
-                    <span className="font-medium text-foreground">Example 1:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, select NPH {result.doseLowUnits} units SQ bid.
+                    <span className="font-medium text-foreground">Example 1:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, you may choose to add NPH {Math.round(result.doseLowUnits / 2)} units SQ bid (divide the total daily dose by 2 for twice-daily dosing).
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed mt-2">
-                    <span className="font-medium text-foreground">Example 2:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, increase Basal Insulin by {Math.round((result.doseLowUnits + result.doseHighUnits) / 4)} units SQ qam and short acting insulin by {Math.max(1, Math.round((result.doseLowUnits + result.doseHighUnits) / 12))} units per meal.
+                    <span className="font-medium text-foreground">Example 2:</span> If the range is {result.doseLowUnits}-{result.doseHighUnits} units, you may choose to increase the Basal Insulin by {Math.round((result.doseLowUnits + result.doseHighUnits) / 4)} units SQ qam and short acting insulin by {Math.max(1, Math.round((result.doseLowUnits + result.doseHighUnits) / 12))} units per meal.
                   </p>
                 </div>
               </div>
