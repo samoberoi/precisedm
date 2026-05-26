@@ -19,7 +19,7 @@ import drSuzanneChung from "@/assets/dr-suzanne-chung.jpg";
 
 const features = [
   { icon: Calculator, title: "Advanced Calculators", desc: "4 precision insulin dosing calculators for different clinical scenarios.", accent: "hsl(210, 80%, 50%)" },
-  { icon: Zap, title: "Instant Results", desc: "Calculate recommended dosages in seconds with evidence-based algorithms.", accent: "hsl(45, 85%, 50%)" },
+  { icon: Zap, title: "Instant Results", desc: "Evidence-based algorithms deliver recommended insulin dose ranges in seconds.", accent: "hsl(45, 85%, 50%)" },
   
   { icon: Shield, title: "Secure & Reliable", desc: "Privacy-focused design with saved history and secure data handling.", accent: "hsl(160, 60%, 45%)" },
   { icon: TrendingUp, title: "Smart Analytics", desc: "Track dosing patterns and outcomes with built-in insights.", accent: "hsl(270, 60%, 55%)" },
