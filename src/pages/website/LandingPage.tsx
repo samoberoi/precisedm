@@ -263,7 +263,7 @@ const LandingPage = () => {
         <div className="mx-auto max-w-[1440px] px-6 xl:px-10">
           <ScrollReveal className="text-center mb-14">
             <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">How It Works</h2>
-            <p className="mt-4 text-lg text-muted-foreground">Four simple steps to precision dosing.</p>
+            <p className="mt-4 text-lg text-muted-foreground">Four Simple Tools for Customized Insulin Dosing</p>
           </ScrollReveal>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
