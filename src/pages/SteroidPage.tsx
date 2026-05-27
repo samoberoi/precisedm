@@ -339,6 +339,13 @@ const SteroidPage = () => {
               </div>
             </div>
 
+            {/* Taper Reminder */}
+            <div className="rounded-2xl border border-amber-300/30 bg-amber-50/40 p-4 shadow-sm">
+              <p className="text-sm font-semibold text-amber-800 text-center">
+                Remember to decrease insulin dose as steroid dose decreases.
+              </p>
+            </div>
+
             {/* Submitted Inputs Card */}
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
               <h3 className="text-sm font-bold text-foreground mb-3">Submitted Inputs</h3>
