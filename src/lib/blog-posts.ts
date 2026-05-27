@@ -4,6 +4,8 @@ import supportingClinicalJudgmentImg from "@/assets/blog/supporting-clinical-jud
 import reducingCognitiveLoadImg from "@/assets/blog/reducing-cognitive-load.jpg";
 import steroidHyperglycemiaImg from "@/assets/blog/steroid-induced-hyperglycemia.png";
 import gestationalDiabetesImg from "@/assets/blog/gestational-diabetes-personalized.png";
+import timeConstraintsImg from "@/assets/blog/time-constraints-clinical-practice.png";
+import manualEstimationImg from "@/assets/blog/manual-estimation-structured-support.png";
 
 export interface BlogFaq {
   q: string;
