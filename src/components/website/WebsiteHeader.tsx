@@ -93,15 +93,8 @@ const WebsiteHeader = () => {
 
   return (
     <>
-      {/* ─── Top Header ─── */}
-      <AnimatePresence>
-        {!scrolledPastHero && (
-          <motion.header
-            initial={{ y: 0 }}
-            exit={{ y: -80, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-2xl"
-          >
+      {/* ─── Top Header (always fixed) ─── */}
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/90 backdrop-blur-2xl">
             <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 xl:px-10">
               <Link to="/" className="flex items-center gap-2.5">
                 <img src={logoIcon} alt="PreciseDM" className="h-8 w-8 rounded-full" />
@@ -183,75 +176,8 @@ const WebsiteHeader = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.header>
-        )}
-      </AnimatePresence>
+          </header>
 
-      {/* ─── Floating Bottom Nav ─── */}
-      <AnimatePresence>
-        {scrolledPastHero && (
-          <motion.div
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 80, opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed bottom-6 left-0 right-0 z-50 hidden md:flex justify-center"
-          >
-            <div className="flex items-center gap-1 rounded-2xl bg-card/90 backdrop-blur-2xl border border-border/60 shadow-2xl px-2 py-2">
-              <Link to="/" className="flex items-center gap-2 px-3 py-2 mr-1">
-                <img src={logoIcon} alt="PreciseDM" className="h-7 w-7 rounded-full" />
-              </Link>
-              {floatingLinks.map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to}
-                  className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium transition-all hover:bg-accent ${
-                    location.pathname === l.to ? "bg-primary/10 text-primary" : "text-muted-foreground"
-                  }`}
-                >
-                  <l.icon className="h-3.5 w-3.5" />
-                  {l.label}
-                </Link>
-              ))}
-              <div className="w-px h-6 bg-border mx-1" />
-              {user ? (
-                <ProfileDropdown size="sm" />
-              ) : (
-                <Button size="sm" onClick={() => openAuth("login")} className="rounded-xl gradient-primary glow-primary font-semibold text-xs h-8 px-4">
-                  Login
-                </Button>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ─── Mobile floating bottom bar ─── */}
-      <AnimatePresence>
-        {scrolledPastHero && (
-          <motion.div
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 80, opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed bottom-4 left-4 right-4 z-50 md:hidden"
-          >
-            <div className="flex items-center justify-between rounded-2xl bg-card/90 backdrop-blur-2xl border border-border/60 shadow-2xl px-4 py-3">
-              <Link to="/" className="flex items-center gap-2">
-                <img src={logoIcon} alt="PreciseDM" className="h-7 w-7 rounded-full" />
-                <span className="text-sm font-bold text-foreground">PreciseDM</span>
-              </Link>
-              {user ? (
-                <ProfileDropdown size="sm" />
-              ) : (
-                <Button size="sm" onClick={() => openAuth("login")} className="rounded-xl gradient-primary glow-primary font-semibold text-xs h-8 px-4">
-                  Login
-                </Button>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <AuthSlidePanel open={authOpen} onOpenChange={setAuthOpen} mode={authMode} />
     </>
