@@ -93,15 +93,8 @@ const WebsiteHeader = () => {
 
   return (
     <>
-      {/* ─── Top Header ─── */}
-      <AnimatePresence>
-        {!scrolledPastHero && (
-          <motion.header
-            initial={{ y: 0 }}
-            exit={{ y: -80, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-2xl"
-          >
+      {/* ─── Top Header (always fixed) ─── */}
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/90 backdrop-blur-2xl">
             <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 xl:px-10">
               <Link to="/" className="flex items-center gap-2.5">
                 <img src={logoIcon} alt="PreciseDM" className="h-8 w-8 rounded-full" />
