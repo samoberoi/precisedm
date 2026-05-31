@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { getPaymentRedirectBaseUrl } from "@/lib/website-routes";
 import logoIcon from "@/assets/logo-icon.png";
 
 interface AuthSlidePanelProps {
@@ -158,7 +159,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
         if (!session) throw new Error("Not authenticated");
         // App mode = pathname starts with /subscription (but not /subscription-plans)
         const appMode = window.location.pathname.startsWith("/subscription") && !window.location.pathname.startsWith("/subscription-plans");
-        const baseUrl = window.location.origin;
+        const baseUrl = getPaymentRedirectBaseUrl();
         const returnPath = appMode ? "/subscription/success" : "/subscription-plans/success";
         const cancelPath = appMode ? "/subscription" : "/subscription-plans";
         const res = await fetch(
