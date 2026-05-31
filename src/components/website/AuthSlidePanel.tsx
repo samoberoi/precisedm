@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { getPaymentRedirectBaseUrl } from "@/lib/website-routes";
+import { getPaymentRedirectBaseUrl, shouldUseWebsitePaymentRoutes } from "@/lib/website-routes";
 import logoIcon from "@/assets/logo-icon.png";
 
 interface AuthSlidePanelProps {
@@ -160,8 +160,9 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
         // App mode = pathname starts with /subscription (but not /subscription-plans)
         const appMode = window.location.pathname.startsWith("/subscription") && !window.location.pathname.startsWith("/subscription-plans");
         const baseUrl = getPaymentRedirectBaseUrl();
-        const returnPath = appMode ? "/subscription/success" : "/subscription-plans/success";
-        const cancelPath = appMode ? "/subscription" : "/subscription-plans";
+        const useWebsiteRoutes = shouldUseWebsitePaymentRoutes();
+        const returnPath = useWebsiteRoutes ? "/subscription-plans/success" : appMode ? "/subscription/success" : "/subscription-plans/success";
+        const cancelPath = useWebsiteRoutes ? "/subscription-plans" : appMode ? "/subscription" : "/subscription-plans";
         const res = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
           {
