@@ -28,43 +28,50 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const token = authHeader.replace("Bearer ", "");
-    const supabaseAuth = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_ANON_KEY")!,
-      { global: { headers: { Authorization: authHeader } } }
-    );
-    const { data: { user }, error: userError } = await supabaseAuth.auth.getUser(token);
-    if (userError || !user) {
-      console.error("JWT validation failed:", userError);
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
     const url = new URL(req.url);
     const action = url.searchParams.get("action");
+    const authHeader = req.headers.get("Authorization");
+
+    let user: { id: string; email?: string } | null = null;
+    if (action !== "activate") {
+      if (!authHeader) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const token = authHeader.replace("Bearer ", "");
+      const supabaseAuth = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_ANON_KEY")!,
+        { global: { headers: { Authorization: authHeader } } }
+      );
+      const { data: { user: authUser }, error: userError } = await supabaseAuth.auth.getUser(token);
+      if (userError || !authUser) {
+        console.error("JWT validation failed:", userError);
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      user = authUser;
+    }
+
+    const authedUser = user;
 
     // CHECK subscription status
     if (req.method === "GET" && action === "status") {
       const { data: sub } = await supabaseAdmin
         .from("subscriptions")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", authedUser!.id)
         .eq("status", "active")
         .gt("next_billing_date", new Date().toISOString())
         .order("created_at", { ascending: false })
@@ -96,7 +103,7 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           plan_id: planId,
           subscriber: {
-            email_address: user.email,
+            email_address: authedUser!.email,
           },
           application_context: {
             brand_name: "PreciseDM",
@@ -114,7 +121,7 @@ Deno.serve(async (req) => {
 
       // Store pending subscription
       await supabaseAdmin.from("subscriptions").insert({
-        user_id: user.id,
+        user_id: authedUser!.id,
         plan_type,
         paypal_subscription_id: subData.id,
         status: "inactive",
@@ -147,7 +154,6 @@ Deno.serve(async (req) => {
             next_billing_date: detail.billing_info?.next_billing_time || null,
           })
           .eq("paypal_subscription_id", subscription_id)
-          .eq("user_id", user.id)
           .select("id, user_id, plan_type, paypal_subscription_id")
           .maybeSingle();
 

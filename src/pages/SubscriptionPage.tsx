@@ -7,6 +7,7 @@ import { useSubscription } from "@/hooks/use-subscription";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { getPaymentRedirectBaseUrl, shouldUseWebsitePaymentRoutes } from "@/lib/website-routes";
 
 
 const plans = [
@@ -92,7 +93,8 @@ const SubscriptionPage = () => {
       }
 
       const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-      const baseUrl = window.location.origin;
+      const baseUrl = getPaymentRedirectBaseUrl();
+      const useWebsiteRoutes = shouldUseWebsitePaymentRoutes();
       const res = await fetch(`https://${projectId}.supabase.co/functions/v1/paypal-subscription?action=create`, {
         method: "POST",
         headers: {
@@ -101,8 +103,8 @@ const SubscriptionPage = () => {
         },
         body: JSON.stringify({
           plan_type: planType,
-          return_url: `${baseUrl}${successRoute}`,
-          cancel_url: `${baseUrl}${subscriptionRoute}`,
+          return_url: `${baseUrl}${useWebsiteRoutes ? "/subscription-plans/success" : successRoute}`,
+          cancel_url: `${baseUrl}${useWebsiteRoutes ? "/subscription-plans" : subscriptionRoute}`,
         }),
       });
 

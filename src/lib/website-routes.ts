@@ -21,6 +21,25 @@ const WEBSITE_PATHS = [
   "/admin-panel",
 ];
 
+export const WEBSITE_ORIGIN = "https://www.precisedm.com";
+
+const isExternalPaymentReturnContext = (): boolean => {
+  if (typeof window === "undefined") return true;
+
+  const { hostname, protocol } = window.location;
+  return protocol === "capacitor:" || hostname === "localhost" || hostname === "127.0.0.1";
+};
+
+export const getPaymentRedirectBaseUrl = (): string => {
+  if (typeof window === "undefined") return WEBSITE_ORIGIN;
+
+  return isExternalPaymentReturnContext() ? WEBSITE_ORIGIN : window.location.origin;
+};
+
+export const shouldUseWebsitePaymentRoutes = (): boolean => {
+  return isExternalPaymentReturnContext();
+};
+
 export const isWebsitePath = (pathname: string): boolean => {
   if (pathname === "/") return true;
   return WEBSITE_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
