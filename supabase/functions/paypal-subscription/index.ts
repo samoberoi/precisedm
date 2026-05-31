@@ -64,12 +64,14 @@ Deno.serve(async (req) => {
       user = authUser;
     }
 
+    const authedUser = user;
+
     // CHECK subscription status
     if (req.method === "GET" && action === "status") {
       const { data: sub } = await supabaseAdmin
         .from("subscriptions")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", authedUser!.id)
         .eq("status", "active")
         .gt("next_billing_date", new Date().toISOString())
         .order("created_at", { ascending: false })
@@ -101,7 +103,7 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           plan_id: planId,
           subscriber: {
-            email_address: user.email,
+            email_address: authedUser!.email,
           },
           application_context: {
             brand_name: "PreciseDM",
@@ -119,7 +121,7 @@ Deno.serve(async (req) => {
 
       // Store pending subscription
       await supabaseAdmin.from("subscriptions").insert({
-        user_id: user.id,
+        user_id: authedUser!.id,
         plan_type,
         paypal_subscription_id: subData.id,
         status: "inactive",
