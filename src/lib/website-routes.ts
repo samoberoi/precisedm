@@ -21,6 +21,17 @@ const WEBSITE_PATHS = [
   "/admin-panel",
 ];
 
+export const WEBSITE_ORIGIN = "https://www.precisedm.com";
+
+export const getPaymentRedirectBaseUrl = (): string => {
+  if (typeof window === "undefined") return WEBSITE_ORIGIN;
+
+  const { origin, hostname, protocol } = window.location;
+  const isNativeShell = protocol === "capacitor:" || hostname === "localhost" || hostname === "127.0.0.1";
+
+  return isNativeShell ? WEBSITE_ORIGIN : origin;
+};
+
 export const isWebsitePath = (pathname: string): boolean => {
   if (pathname === "/") return true;
   return WEBSITE_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
