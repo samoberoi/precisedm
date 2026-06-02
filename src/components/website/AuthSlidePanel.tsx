@@ -22,8 +22,8 @@ type Step = "login" | "login-otp" | "signup-name" | "signup-email" | "signup-otp
 
 const plans = [
   { id: "trial", name: "Free Trial", price: "Free", period: "7 days", icon: Zap, desc: "Try all features for 7 days", gradient: "from-emerald-500 to-teal-600" },
-  { id: "monthly", name: "Monthly", price: "$12", period: "/month", icon: CreditCard, desc: "Full access, billed monthly", gradient: "from-primary to-blue-600" },
-  { id: "yearly", name: "Yearly", price: "$120", period: "/year", icon: Crown, desc: "Best value — save 2 months", gradient: "from-amber-500 to-orange-600", badge: "Best Value" },
+  { id: "monthly", name: "Monthly", price: "$10", period: "/month", icon: CreditCard, desc: "Full access, billed monthly", gradient: "from-primary to-blue-600" },
+  { id: "yearly", name: "Yearly", price: "$72", period: "/year", icon: Crown, desc: "Best value — save 40%", gradient: "from-amber-500 to-orange-600", badge: "Best Value" },
 ];
 
 const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: AuthSlidePanelProps) => {
