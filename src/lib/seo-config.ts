@@ -133,7 +133,7 @@ export const FAQS = {
     },
     {
       q: "How much does PreciseDM cost?",
-      a: "PreciseDM is $12 per month or $120 per year after the free trial. Yearly subscribers save two months versus monthly billing.",
+      a: "PreciseDM is $10 per month or $72 per year after the free trial. Yearly subscribers save 40% versus monthly billing.",
     },
     {
       q: "Can I cancel anytime?",
