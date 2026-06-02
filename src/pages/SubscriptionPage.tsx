@@ -12,7 +12,7 @@ import { getPaymentRedirectBaseUrl, shouldUseWebsitePaymentRoutes } from "@/lib/
 
 const plans = [
   {
-    id: "monthly", name: "Monthly Plan", price: "$12", period: "month",
+    id: "monthly", name: "Monthly Plan", price: "$10", period: "month",
     description: "Perfect for trying out our tools", icon: Zap,
     features: ["Access to all calculator tools", "DiaForm, Maintenance, Steroid & Gestation", "Educational video library", "Cancel anytime"],
   },
