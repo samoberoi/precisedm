@@ -17,7 +17,7 @@ const plans = [
     features: ["Access to all calculator tools", "DiaForm, Maintenance, Steroid & Gestation", "Educational video library", "Cancel anytime"],
   },
   {
-    id: "yearly", name: "Yearly Plan", price: "$120", period: "year",
+    id: "yearly", name: "Yearly Plan", price: "$72", period: "year",
     description: "Best value — save vs monthly", badge: "Best Value", icon: Crown,
     features: ["Everything in Monthly", "12 months for the price of 10", "Priority access to new tools", "Cancel anytime"],
   },
