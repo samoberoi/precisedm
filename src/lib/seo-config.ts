@@ -133,7 +133,7 @@ export const FAQS = {
     },
     {
       q: "How much does PreciseDM cost?",
-      a: "PreciseDM is $12 per month or $120 per year after the free trial. Yearly subscribers save two months versus monthly billing.",
+      a: "PreciseDM is $10 per month or $72 per year after the free trial. Yearly subscribers save 40% versus monthly billing.",
     },
     {
       q: "Can I cancel anytime?",
@@ -206,9 +206,9 @@ export const PAGES: PageSeo[] = [
   },
   {
     path: "/pricing",
-    title: "Pricing — PreciseDM | $12/mo or $120/yr with 7-Day Free Trial",
+    title: "Pricing — PreciseDM | $10/mo or $72/yr with 7-Day Free Trial",
     description:
-      "Simple pricing for PreciseDM: 7-day free trial, then $12/month or $120/year. Cancel anytime via PayPal. Designed for healthcare providers.",
+      "Simple pricing for PreciseDM: 7-day free trial, then $10/month or $72/year. Cancel anytime via PayPal. Designed for healthcare providers.",
     keywords: [
       ...baseKw,
       "PreciseDM pricing",

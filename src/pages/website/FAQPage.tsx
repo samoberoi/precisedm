@@ -15,7 +15,7 @@ const faqs = [
     { q: "Can I save my calculations?", a: "Yes, all calculations are automatically saved to your account. You can review past calculations in your form history on the profile page." },
   ]},
   { category: "Subscription", items: [
-    { q: "What plans do you offer?", a: "We offer a free 7-day trial (no credit card required), a monthly plan at $12/month, and a yearly plan at $120/year." },
+    { q: "What plans do you offer?", a: "We offer a free 7-day trial (no credit card required), a monthly plan at $10/month, and a yearly plan at $72/year." },
     { q: "Can I cancel anytime?", a: "Yes, you can cancel your subscription at any time through PayPal. Your access will continue until the end of your billing period." },
     { q: "What happens after my free trial?", a: "After your 7-day free trial ends, you'll need to subscribe to a monthly or yearly plan to continue accessing the calculators and educational videos." },
     { q: "What payment methods do you accept?", a: "We accept payments through PayPal, which supports credit cards, debit cards, and PayPal balance." },

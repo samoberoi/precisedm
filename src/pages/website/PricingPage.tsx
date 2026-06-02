@@ -14,14 +14,14 @@ const plans = [
     cta: "Start Free Trial",
   },
   {
-    id: "monthly", name: "Monthly", price: "$12", period: "month", icon: Zap,
+    id: "monthly", name: "Monthly", price: "$10", period: "month", icon: Zap,
     desc: "Perfect for trying out our tools",
     features: ["All 4 calculators", "Saved calculation history", "Priority support", "Cancel anytime"],
     gradient: "",
     cta: "Subscribe Monthly",
   },
   {
-    id: "yearly", name: "Yearly", price: "$120", period: "year", icon: Crown, badge: "Best Value",
+    id: "yearly", name: "Yearly", price: "$72", period: "year", icon: Crown, badge: "Best Value",
     desc: "Best value — save with annual billing",
     features: ["Everything in Monthly", "12 months access", "Priority access to new tools", "Cancel anytime"],
     gradient: "linear-gradient(135deg, hsl(200,30%,18%), hsl(200,25%,12%))",
@@ -32,7 +32,7 @@ const plans = [
 const faqs = [
   { q: "Can I cancel anytime?", a: "Yes, you can cancel your subscription at any time through PayPal. Your access will continue until the end of your billing period." },
   { q: "What happens after the free trial?", a: "After your 7-day free trial, you'll need to subscribe to a monthly or yearly plan to continue accessing the calculators." },
-  { q: "Is there a refund policy?", a: "Since our plans start at just $12/month, we don't offer refunds, but you can cancel at any time." },
+  { q: "Is there a refund policy?", a: "Since our plans start at just $10/month, we don't offer refunds, but you can cancel at any time." },
   { q: "What payment methods do you accept?", a: "We accept payments through PayPal, which supports credit cards, debit cards, and PayPal balance." },
 ];
 

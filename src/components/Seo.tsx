@@ -43,8 +43,8 @@ const buildSchema = (name: SchemaName, page: PageSeo, canonical: string): Record
         description: SITE.description,
         offers: [
           { "@type": "Offer", price: "0", priceCurrency: "USD", description: "7-day free trial" },
-          { "@type": "Offer", price: "12.00", priceCurrency: "USD", description: "Monthly plan" },
-          { "@type": "Offer", price: "120.00", priceCurrency: "USD", description: "Yearly plan" },
+          { "@type": "Offer", price: "10.00", priceCurrency: "USD", description: "Monthly plan" },
+          { "@type": "Offer", price: "72.00", priceCurrency: "USD", description: "Yearly plan" },
         ],
         aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "120" },
         creator: { "@type": "Organization", name: "HyperRevamp", url: "https://hyperrevamp.com" },
