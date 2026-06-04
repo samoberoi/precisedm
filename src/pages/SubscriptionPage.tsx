@@ -31,10 +31,11 @@ const SubscriptionPage = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [trialProcessing, setTrialProcessing] = useState(false);
-  const [hasUsedTrial, setHasUsedTrial] = useState(false);
+  const [hasUsedTrial, setHasUsedTrial] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (!user) { setHasUsedTrial(false); return; }
+    setHasUsedTrial(null);
     supabase
       .from("subscriptions")
       .select("id")
@@ -42,7 +43,10 @@ const SubscriptionPage = () => {
       .eq("plan_type", "trial")
       .limit(1)
       .maybeSingle()
-      .then(({ data }) => setHasUsedTrial(!!data));
+      .then(({ data, error }) => {
+        if (error) console.error("Trial check error:", error);
+        setHasUsedTrial(!!data);
+      });
   }, [user, subscription]);
 
   const isTrialActive = isActive && subscription?.plan_type === "trial";
@@ -88,7 +92,11 @@ const SubscriptionPage = () => {
 
       if (error) {
         console.error("Trial insert error:", error);
-        throw new Error(error.message);
+        const msg = /duplicate key|subscriptions_one_trial_per_user/i.test(error.message)
+          ? "Your free trial can only be activated once per account."
+          : error.message;
+        setHasUsedTrial(true);
+        throw new Error(msg);
       }
 
 
@@ -214,7 +222,7 @@ const SubscriptionPage = () => {
         )}
 
         {/* Free Trial Tile */}
-        {!isActive && !hasUsedTrial && (
+        {!isActive && hasUsedTrial === false && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
             className="relative rounded-2xl p-5 mb-3 shadow-lg overflow-hidden"
             style={{ background: "linear-gradient(135deg, hsl(270,60%,50%), hsl(290,55%,40%))" }}>
