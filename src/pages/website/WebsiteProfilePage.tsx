@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LogOut, Sun, Moon, Shield } from "lucide-react";
+import { LogOut, Sun, Moon, Shield, Gift, History } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,6 +35,23 @@ const WebsiteProfilePage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [history, setHistory] = useState<any[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("subscriptions")
+      .select("id, plan_type, status, start_date, next_billing_date, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        setHistory(data || []);
+        setHistoryLoading(false);
+      });
+  }, [user, subscription]);
+
+  const hasUsedTrial = history.some((h) => h.plan_type === "trial");
 
   useEffect(() => {
     if (!user) { navigate("/"); return; }
