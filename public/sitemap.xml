@@ -66,6 +66,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://precisedm.com/blog/insulin-initiation-challenges-type-2-diabetes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://precisedm.com/blog/inpatient-hyperglycemia-management-challenges-hospital</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://precisedm.com/blog/insulin-dosing-differences-type-1-type-2-diabetes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://precisedm.com/blog/basal-bolus-insulin-therapy-clinical-decision-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://precisedm.com/diaform-tool</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
