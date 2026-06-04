@@ -91,10 +91,7 @@ const SubscriptionPage = () => {
         throw new Error(error.message);
       }
 
-      if (error) {
-        console.error("Trial insert error:", error);
-        throw new Error(error.message);
-      }
+
 
       toast({ title: "Trial Activated!", description: "You have 7 days of free access to all tools." });
       refresh();
