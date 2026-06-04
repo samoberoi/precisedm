@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.seo-admin-login]
 verify_jwt = false
+
+[functions.seed-admin-harvey]
+verify_jwt = false
