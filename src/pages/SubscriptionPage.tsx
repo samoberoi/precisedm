@@ -222,7 +222,7 @@ const SubscriptionPage = () => {
         )}
 
         {/* Free Trial Tile */}
-        {!isActive && !hasUsedTrial && (
+        {!isActive && hasUsedTrial === false && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
             className="relative rounded-2xl p-5 mb-3 shadow-lg overflow-hidden"
             style={{ background: "linear-gradient(135deg, hsl(270,60%,50%), hsl(290,55%,40%))" }}>
