@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronLeft, Check, Crown, Zap, Shield, Gift } from "lucide-react";
@@ -31,8 +31,20 @@ const SubscriptionPage = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [trialProcessing, setTrialProcessing] = useState(false);
+  const [hasUsedTrial, setHasUsedTrial] = useState(false);
 
-  const hasUsedTrial = !!subscription && subscription.plan_type === "trial";
+  useEffect(() => {
+    if (!user) { setHasUsedTrial(false); return; }
+    supabase
+      .from("subscriptions")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("plan_type", "trial")
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => setHasUsedTrial(!!data));
+  }, [user, subscription]);
+
   const isTrialActive = isActive && subscription?.plan_type === "trial";
   const websiteMode = location.pathname.startsWith("/subscription-plans");
   const loginRoute = websiteMode ? "/" : "/login";
@@ -43,8 +55,26 @@ const SubscriptionPage = () => {
     if (authLoading) return;
     if (!user) { navigate(loginRoute); return; }
 
+    if (hasUsedTrial) {
+      toast({ title: "Trial already used", description: "Your free trial can only be activated once per account.", variant: "destructive" });
+      return;
+    }
+
     setTrialProcessing(true);
     try {
+      // Double-check at request time to prevent races
+      const { data: existing } = await supabase
+        .from("subscriptions")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("plan_type", "trial")
+        .limit(1)
+        .maybeSingle();
+      if (existing) {
+        setHasUsedTrial(true);
+        throw new Error("Your free trial can only be activated once per account.");
+      }
+
       const trialEnd = new Date();
       trialEnd.setDate(trialEnd.getDate() + 7);
 
@@ -60,6 +90,8 @@ const SubscriptionPage = () => {
         console.error("Trial insert error:", error);
         throw new Error(error.message);
       }
+
+
 
       toast({ title: "Trial Activated!", description: "You have 7 days of free access to all tools." });
       refresh();
