@@ -181,24 +181,72 @@ const WebsiteProfilePage = () => {
           <ScrollReveal delay={0.1}>
             <div className="mt-6 rounded-2xl bg-card border border-border shadow-sm p-6 lg:p-8">
               <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4">Subscription</h2>
-              {subLoading ? (
+              {subLoading || historyLoading ? (
                 <div className="flex justify-center py-4"><div className="h-6 w-6 animate-spin rounded-full border-3 border-primary border-t-transparent" /></div>
-              ) : isActive && subscription ? (
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-xl gradient-primary flex items-center justify-center">
-                    <Shield className="h-6 w-6 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-foreground capitalize">{subscription.plan_type === "trial" ? "Free Trial" : subscription.plan_type} Plan</p>
-                    <p className="text-xs text-muted-foreground">
-                      {daysRemaining !== null && `${daysRemaining} days remaining`}
-                      {subscription.next_billing_date && ` · Renews ${new Date(subscription.next_billing_date).toLocaleDateString()}`}
-                    </p>
-                  </div>
-                  <span className="ml-auto text-xs font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 px-3 py-1 rounded-full">Active</span>
-                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">No active subscription. <button onClick={() => navigate("/pricing")} className="text-primary font-semibold hover:underline">View plans</button></p>
+                <div className="space-y-4">
+                  {isActive && subscription ? (
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-xl gradient-primary flex items-center justify-center">
+                        <Shield className="h-6 w-6 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-foreground capitalize">{subscription.plan_type === "trial" ? "Free Trial" : subscription.plan_type} Plan</p>
+                        <p className="text-xs text-muted-foreground">
+                          {daysRemaining !== null && `${daysRemaining} days remaining`}
+                          {subscription.next_billing_date && ` · Renews ${new Date(subscription.next_billing_date).toLocaleDateString()}`}
+                        </p>
+                      </div>
+                      <span className="ml-auto text-xs font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 px-3 py-1 rounded-full">Active</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <p className="text-sm font-medium text-foreground">No active subscription</p>
+                        {hasUsedTrial && (
+                          <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
+                            <Gift className="h-3 w-3" /> Free trial already used on this account
+                          </p>
+                        )}
+                      </div>
+                      <button onClick={() => navigate("/pricing")} className="text-sm text-primary font-semibold hover:underline whitespace-nowrap">View plans</button>
+                    </div>
+                  )}
+
+                  {history.length > 0 && (
+                    <div className="pt-4 border-t border-border">
+                      <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                        <History className="h-3 w-3" /> History
+                      </p>
+                      <ul className="space-y-2">
+                        {history.map((h) => {
+                          const isTrial = h.plan_type === "trial";
+                          const expired = h.next_billing_date && new Date(h.next_billing_date) < new Date();
+                          const label = isTrial ? "Free Trial" : h.plan_type === "monthly" ? "Monthly Plan" : h.plan_type === "yearly" ? "Yearly Plan" : h.plan_type;
+                          const statusLabel = h.status === "active" && !expired ? "Active"
+                            : expired ? (isTrial ? "Trial expired" : "Expired")
+                            : h.status === "inactive" ? "Inactive"
+                            : h.status;
+                          const statusColor = h.status === "active" && !expired
+                            ? "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400"
+                            : "text-muted-foreground bg-muted";
+                          return (
+                            <li key={h.id} className="flex items-center justify-between text-xs">
+                              <div>
+                                <span className="font-semibold text-foreground capitalize">{label}</span>
+                                <span className="text-muted-foreground ml-2">
+                                  {h.start_date ? new Date(h.start_date).toLocaleDateString() : new Date(h.created_at).toLocaleDateString()}
+                                  {h.next_billing_date && ` → ${new Date(h.next_billing_date).toLocaleDateString()}`}
+                                </span>
+                              </div>
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full capitalize ${statusColor}`}>{statusLabel}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </ScrollReveal>
