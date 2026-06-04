@@ -6,6 +6,10 @@ import steroidHyperglycemiaImg from "@/assets/blog/steroid-induced-hyperglycemia
 import gestationalDiabetesImg from "@/assets/blog/gestational-diabetes-personalized.png";
 import timeConstraintsImg from "@/assets/blog/time-constraints-clinical-practice.png";
 import manualEstimationImg from "@/assets/blog/manual-estimation-structured-support.png";
+import insulinInitiationType2Img from "@/assets/blog/insulin-initiation-type2.jpg";
+import inpatientHyperglycemiaImg from "@/assets/blog/inpatient-hyperglycemia.jpg";
+import type1VsType2InsulinImg from "@/assets/blog/type1-vs-type2-insulin.jpg";
+import basalBolusTherapyImg from "@/assets/blog/basal-bolus-therapy.jpg";
 
 export interface BlogFaq {
   q: string;
