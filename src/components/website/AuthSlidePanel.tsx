@@ -483,6 +483,40 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                 </motion.div>
               )}
 
+              {/* SIGNUP Student Info: only for student plans */}
+              {step === "signup-student-info" && (
+                <motion.div key="signup-student-info" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
+                  <h2 className="text-2xl font-extrabold text-foreground mb-1">Verify your student status</h2>
+                  <p className="text-sm text-muted-foreground mb-5">Required for the student plan. Your details help us confirm eligibility.</p>
+                  <div className="space-y-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium text-muted-foreground">College / University</Label>
+                      <div className="relative">
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="e.g. Johns Hopkins University" value={college} onChange={(e) => setCollege(e.target.value)}
+                          className="rounded-xl h-12 border-border bg-card pl-10 text-base" autoFocus />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium text-muted-foreground">Student ID Number</Label>
+                      <div className="relative">
+                        <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="Your student ID" value={studentIdNumber} onChange={(e) => setStudentIdNumber(e.target.value)}
+                          className="rounded-xl h-12 border-border bg-card pl-10 text-base"
+                          onKeyDown={(e) => { if (e.key === "Enter") handleStudentInfoSubmit(); }} />
+                      </div>
+                    </div>
+                    <Button onClick={handleStudentInfoSubmit} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
+                      {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Processing...</> : <>Continue to Payment <ArrowRight className="ml-2 h-4 w-4" /></>}
+                    </Button>
+                    <button onClick={() => { goBack(); setStep("signup-plan"); }} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mx-auto">
+                      <ArrowLeft className="h-3 w-3" /> Back to plans
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+
               {/* SUCCESS */}
               {step === "success" && (
                 <motion.div key="success" custom={1} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
