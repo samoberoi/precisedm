@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import { getPaymentRedirectBaseUrl, shouldUseWebsitePaymentRoutes } from "@/lib/website-routes";
 
 
-const plans = [
+const standardPlans = [
   {
     id: "monthly", name: "Monthly Plan", price: "$10", period: "month",
     description: "Perfect for trying out our tools", icon: Zap,
@@ -20,6 +20,19 @@ const plans = [
     id: "yearly", name: "Yearly Plan", price: "$72", period: "year",
     description: "Best value — save vs monthly", badge: "Best Value", icon: Crown,
     features: ["Everything in Monthly", "12 months for the price of 10", "Priority access to new tools", "Cancel anytime"],
+  },
+];
+
+const studentPlans = [
+  {
+    id: "student_monthly", name: "Student Monthly", price: "$4.99", period: "month",
+    description: "Discounted access for verified students", icon: Zap,
+    features: ["All 4 calculator tools", "Educational video library", "Verified student pricing", "Cancel anytime"],
+  },
+  {
+    id: "student_yearly", name: "Student Yearly", price: "$54", period: "year",
+    description: "Best value for students", badge: "Best Value", icon: Crown,
+    features: ["Everything in Student Monthly", "Save vs monthly billing", "Priority access to new tools", "Cancel anytime"],
   },
 ];
 
