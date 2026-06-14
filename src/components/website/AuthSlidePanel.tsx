@@ -152,7 +152,33 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
     }
   };
 
+  const startPaypalCheckout = async (planType: string) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) throw new Error("Not authenticated");
+    const appMode = window.location.pathname.startsWith("/subscription") && !window.location.pathname.startsWith("/subscription-plans");
+    const baseUrl = getPaymentRedirectBaseUrl();
+    const useWebsiteRoutes = shouldUseWebsitePaymentRoutes();
+    const returnPath = useWebsiteRoutes ? "/subscription-plans/success" : appMode ? "/subscription/success" : "/subscription-plans/success";
+    const cancelPath = useWebsiteRoutes ? "/subscription-plans" : appMode ? "/subscription" : "/subscription-plans";
+    const res = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ plan_type: planType, return_url: `${baseUrl}${returnPath}`, cancel_url: `${baseUrl}${cancelPath}` }),
+      }
+    );
+    const data = await res.json();
+    if (data.approve_url) { window.location.href = data.approve_url; return; }
+    throw new Error(data.error || "Could not create subscription");
+  };
+
   const handlePlanSelect = async () => {
+    // Student plans require college + student ID before checkout
+    if (selectedPlan === "student_monthly" || selectedPlan === "student_yearly") {
+      goNext(); setStep("signup-student-info");
+      return;
+    }
     setLoading(true);
     try {
       if (selectedPlan === "trial") {
@@ -166,26 +192,31 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
         }
         goNext(); setStep("success");
       } else {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) throw new Error("Not authenticated");
-        // App mode = pathname starts with /subscription (but not /subscription-plans)
-        const appMode = window.location.pathname.startsWith("/subscription") && !window.location.pathname.startsWith("/subscription-plans");
-        const baseUrl = getPaymentRedirectBaseUrl();
-        const useWebsiteRoutes = shouldUseWebsitePaymentRoutes();
-        const returnPath = useWebsiteRoutes ? "/subscription-plans/success" : appMode ? "/subscription/success" : "/subscription-plans/success";
-        const cancelPath = useWebsiteRoutes ? "/subscription-plans" : appMode ? "/subscription" : "/subscription-plans";
-        const res = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
-            body: JSON.stringify({ plan_type: selectedPlan, return_url: `${baseUrl}${returnPath}`, cancel_url: `${baseUrl}${cancelPath}` }),
-          }
-        );
-        const data = await res.json();
-        if (data.approve_url) { window.location.href = data.approve_url; return; }
-        throw new Error("Could not create subscription");
+        await startPaypalCheckout(selectedPlan);
       }
+    } catch (err: any) {
+      toast({ title: err.message || "Something went wrong", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStudentInfoSubmit = async () => {
+    if (!college.trim() || !studentIdNumber.trim()) {
+      toast({ title: "Please enter your college/university and student ID", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not authenticated");
+      const { error } = await supabase.from("profiles").update({
+        user_type: "student",
+        college: college.trim(),
+        student_id_number: studentIdNumber.trim(),
+      }).eq("id", session.user.id);
+      if (error) throw error;
+      await startPaypalCheckout(selectedPlan);
     } catch (err: any) {
       toast({ title: err.message || "Something went wrong", variant: "destructive" });
     } finally {
