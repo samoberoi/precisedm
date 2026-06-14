@@ -29,6 +29,23 @@ const plans = [
   },
 ];
 
+const studentPlans = [
+  {
+    id: "student_monthly", name: "Student Monthly", price: "$4.99", period: "month", icon: Zap,
+    desc: "Discounted access for verified students",
+    features: ["All 4 calculators", "Saved calculation history", "Verified student pricing", "Cancel anytime"],
+    gradient: "",
+    cta: "Subscribe Monthly",
+  },
+  {
+    id: "student_yearly", name: "Student Yearly", price: "$54", period: "year", icon: Crown, badge: "Best Value",
+    desc: "Best value for students",
+    features: ["Everything in Student Monthly", "12 months access", "Priority access to new tools", "Cancel anytime"],
+    gradient: "linear-gradient(135deg, hsl(270,40%,22%), hsl(290,35%,14%))",
+    cta: "Subscribe Yearly",
+  },
+];
+
 const faqs = [
   { q: "Can I cancel anytime?", a: "Yes, you can cancel your subscription at any time through PayPal. Your access will continue until the end of your billing period." },
   { q: "What happens after the free trial?", a: "After your 7-day free trial, you'll need to subscribe to a monthly or yearly plan to continue accessing the calculators." },
@@ -96,6 +113,53 @@ const PricingPage = () => {
               <div className="flex items-center gap-2 text-sm text-muted-foreground"><Check className="h-4 w-4" /> Cancel Anytime</div>
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="py-24 lg:py-32 bg-accent/20">
+        <div className="mx-auto max-w-5xl px-6 xl:px-10">
+          <ScrollReveal className="text-center mb-12">
+            <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">For Students</span>
+            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Student Pricing</h2>
+            <p className="mt-3 text-base text-muted-foreground max-w-xl mx-auto">Verified students get discounted access. Sign up as a student with your college and student ID to unlock these plans.</p>
+          </ScrollReveal>
+          <div className="grid gap-8 md:grid-cols-2">
+            {studentPlans.map((plan, i) => {
+              const isDark = !!plan.gradient;
+              return (
+                <ScrollReveal key={plan.id} delay={i * 0.1}>
+                  <div
+                    className={`relative rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full ${isDark ? "text-white" : "bg-card border border-border"}`}
+                    style={isDark ? { background: plan.gradient } : undefined}
+                  >
+                    {plan.badge && (
+                      <span className="absolute -top-3 left-5 gradient-primary text-primary-foreground text-xs font-bold px-4 py-1 rounded-full">{plan.badge}</span>
+                    )}
+                    <plan.icon className="h-9 w-9 mb-5 text-primary" />
+                    <h3 className={`text-xl font-bold mb-1 ${isDark ? "text-white" : "text-foreground"}`}>{plan.name}</h3>
+                    <p className={`text-sm mb-5 ${isDark ? "text-white/60" : "text-muted-foreground"}`}>{plan.desc}</p>
+                    <div className="mb-6">
+                      <span className={`text-5xl font-extrabold ${isDark ? "text-white" : "text-foreground"}`}>{plan.price}</span>
+                      <span className={`text-sm ml-1 ${isDark ? "text-white/50" : "text-muted-foreground"}`}>/ {plan.period}</span>
+                    </div>
+                    <ul className="space-y-3 mb-8">
+                      {plan.features.map((f) => (
+                        <li key={f} className={`flex items-center gap-2 text-sm ${isDark ? "text-white/80" : "text-muted-foreground"}`}>
+                          <Check className="h-4 w-4 text-primary shrink-0" /> {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button
+                      className={`w-full rounded-xl h-14 font-bold text-base ${isDark ? "bg-white text-foreground hover:bg-white/90" : "gradient-primary glow-primary text-primary-foreground"}`}
+                      onClick={() => navigate("/")}
+                    >
+                      {plan.cta}
+                    </Button>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
         </div>
       </section>
 

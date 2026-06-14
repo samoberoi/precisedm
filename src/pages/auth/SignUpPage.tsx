@@ -17,7 +17,7 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const { setSkipMode } = useAuth();
   const handleSkip = () => { setSkipMode(true); navigate("/home"); };
-  const [form, setForm] = useState({ fullName: "", email: "", userType: "" as string, customUserId: "", acceptedTerms: false });
+  const [form, setForm] = useState({ fullName: "", email: "", userType: "" as string, customUserId: "", college: "", studentIdNumber: "", acceptedTerms: false });
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"details" | "otp">("details");
   const [loading, setLoading] = useState(false);
@@ -28,6 +28,10 @@ const SignUpPage = () => {
     if (!form.fullName.trim()) { toast({ title: "Full name is required", variant: "destructive" }); return; }
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) { toast({ title: "Please enter a valid email", variant: "destructive" }); return; }
     if (!form.userType) { toast({ title: "Please select a user type", variant: "destructive" }); return; }
+    if (form.userType === "student") {
+      if (!form.college.trim()) { toast({ title: "College / University is required for students", variant: "destructive" }); return; }
+      if (!form.studentIdNumber.trim()) { toast({ title: "Student ID is required for students", variant: "destructive" }); return; }
+    }
     if (!form.acceptedTerms) { toast({ title: "You must accept the Terms and Privacy Policy", variant: "destructive" }); return; }
 
     setLoading(true);
@@ -43,6 +47,8 @@ const SignUpPage = () => {
             user_type: form.userType,
             custom_user_id: form.customUserId || null,
             accepted_terms: form.acceptedTerms,
+            college: form.userType === "student" ? form.college.trim() : null,
+            student_id_number: form.userType === "student" ? form.studentIdNumber.trim() : null,
           }),
         }
       );
@@ -120,6 +126,18 @@ const SignUpPage = () => {
                 </SelectContent>
               </Select>
             </div>
+            {form.userType === "student" && (
+              <>
+                <div className="space-y-1.5">
+                  <Label htmlFor="college" className="text-xs text-muted-foreground font-medium">College / University</Label>
+                  <Input id="college" placeholder="e.g. Harvard Medical School" value={form.college} onChange={(e) => update("college", e.target.value)} className={inputClass} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="studentIdNumber" className="text-xs text-muted-foreground font-medium">Student ID Number</Label>
+                  <Input id="studentIdNumber" placeholder="Your school-issued ID" value={form.studentIdNumber} onChange={(e) => update("studentIdNumber", e.target.value)} className={inputClass} />
+                </div>
+              </>
+            )}
             <div className="space-y-1.5">
               <Label htmlFor="customUserId" className="text-xs text-muted-foreground font-medium">User ID (optional)</Label>
               <Input id="customUserId" placeholder="e.g. NPI Number" value={form.customUserId} onChange={(e) => update("customUserId", e.target.value)} className={inputClass} />

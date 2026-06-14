@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { email, full_name, user_type, custom_user_id, accepted_terms } = await req.json();
+    const { email, full_name, user_type, custom_user_id, accepted_terms, college, student_id_number } = await req.json();
 
     if (!email || typeof email !== "string") {
       return new Response(JSON.stringify({ error: "Email is required" }), {
@@ -61,6 +61,8 @@ Deno.serve(async (req) => {
       user_type: user_type || "student",
       custom_user_id: custom_user_id || null,
       accepted_terms: accepted_terms || false,
+      college: college || null,
+      student_id_number: student_id_number || null,
       expires_at: expiresAt,
     });
 

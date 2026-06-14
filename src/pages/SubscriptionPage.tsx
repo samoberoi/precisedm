@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import { getPaymentRedirectBaseUrl, shouldUseWebsitePaymentRoutes } from "@/lib/website-routes";
 
 
-const plans = [
+const standardPlans = [
   {
     id: "monthly", name: "Monthly Plan", price: "$10", period: "month",
     description: "Perfect for trying out our tools", icon: Zap,
@@ -23,6 +23,19 @@ const plans = [
   },
 ];
 
+const studentPlans = [
+  {
+    id: "student_monthly", name: "Student Monthly", price: "$4.99", period: "month",
+    description: "Discounted access for verified students", icon: Zap,
+    features: ["All 4 calculator tools", "Educational video library", "Verified student pricing", "Cancel anytime"],
+  },
+  {
+    id: "student_yearly", name: "Student Yearly", price: "$54", period: "year",
+    description: "Best value for students", badge: "Best Value", icon: Crown,
+    features: ["Everything in Student Monthly", "Save vs monthly billing", "Priority access to new tools", "Cancel anytime"],
+  },
+];
+
 const SubscriptionPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,6 +45,19 @@ const SubscriptionPage = () => {
   const [processing, setProcessing] = useState(false);
   const [trialProcessing, setTrialProcessing] = useState(false);
   const [hasUsedTrial, setHasUsedTrial] = useState<boolean | null>(null);
+  const [isStudent, setIsStudent] = useState(false);
+
+  useEffect(() => {
+    if (!user) { setIsStudent(false); return; }
+    supabase
+      .from("profiles")
+      .select("user_type")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => setIsStudent(data?.user_type === "student"));
+  }, [user]);
+
+  const plans = isStudent ? studentPlans : standardPlans;
 
   useEffect(() => {
     if (!user) { setHasUsedTrial(false); return; }

@@ -87,9 +87,29 @@ Deno.serve(async (req) => {
     if (req.method === "POST" && action === "create") {
       const { plan_type, return_url, cancel_url } = await req.json();
 
-      const planId = plan_type === "monthly"
-        ? Deno.env.get("PAYPAL_MONTHLY_PLAN_ID")!
-        : Deno.env.get("PAYPAL_YEARLY_PLAN_ID")!;
+      const planIdMap: Record<string, string | undefined> = {
+        monthly: Deno.env.get("PAYPAL_MONTHLY_PLAN_ID"),
+        yearly: Deno.env.get("PAYPAL_YEARLY_PLAN_ID"),
+        student_monthly: Deno.env.get("PAYPAL_STUDENT_MONTHLY_PLAN_ID"),
+        student_yearly: Deno.env.get("PAYPAL_STUDENT_YEARLY_PLAN_ID"),
+      };
+      const planId = planIdMap[plan_type];
+      if (!planId) throw new Error(`Unknown plan_type: ${plan_type}`);
+
+      // Enforce: only verified students can buy student plans
+      if (plan_type.startsWith("student_")) {
+        const { data: profile } = await supabaseAdmin
+          .from("profiles")
+          .select("user_type, college, student_id_number")
+          .eq("user_id", authedUser!.id)
+          .maybeSingle();
+        if (!profile || profile.user_type !== "student" || !profile.college || !profile.student_id_number) {
+          return new Response(JSON.stringify({ error: "Student plans require a verified student account with college and student ID on file." }), {
+            status: 403,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
 
       const accessToken = await getPayPalAccessToken();
 
