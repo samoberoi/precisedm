@@ -3,7 +3,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Check, User, Mail, Sparkles, CreditCard, Crown, Zap, Loader2 } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, User, Mail, Sparkles, CreditCard, Crown, Zap, Loader2, GraduationCap, Building2, IdCard } from "lucide-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,12 +18,18 @@ interface AuthSlidePanelProps {
   mode?: "login" | "signup";
 }
 
-type Step = "login" | "login-otp" | "signup-name" | "signup-email" | "signup-otp" | "signup-plan" | "success";
+type Step = "login" | "login-otp" | "signup-name" | "signup-email" | "signup-otp" | "signup-plan" | "signup-student-info" | "success";
 
-const plans = [
+const standardPlans = [
   { id: "trial", name: "Free Trial", price: "Free", period: "7 days", icon: Zap, desc: "Try all features for 7 days", gradient: "from-emerald-500 to-teal-600" },
   { id: "monthly", name: "Monthly", price: "$10", period: "/month", icon: CreditCard, desc: "Full access, billed monthly", gradient: "from-primary to-blue-600" },
   { id: "yearly", name: "Yearly", price: "$72", period: "/year", icon: Crown, desc: "Best value — save 40%", gradient: "from-amber-500 to-orange-600", badge: "Best Value" },
+];
+
+const studentPlans = [
+  { id: "trial", name: "Free Trial", price: "Free", period: "7 days", icon: Zap, desc: "Try all features for 7 days", gradient: "from-emerald-500 to-teal-600" },
+  { id: "student_monthly", name: "Student Monthly", price: "$4.99", period: "/month", icon: GraduationCap, desc: "Discounted monthly for students", gradient: "from-primary to-blue-600" },
+  { id: "student_yearly", name: "Student Yearly", price: "$54", period: "/year", icon: Crown, desc: "Best student value — save 10%", gradient: "from-amber-500 to-orange-600", badge: "Best Value" },
 ];
 
 const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: AuthSlidePanelProps) => {
@@ -33,6 +39,9 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("trial");
+  const [planAudience, setPlanAudience] = useState<"practitioner" | "student">("practitioner");
+  const [college, setCollege] = useState("");
+  const [studentIdNumber, setStudentIdNumber] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const { toast } = useToast();
   const [direction, setDirection] = useState(1);
@@ -42,6 +51,8 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
       setStep(initialMode === "signup" ? "signup-name" : "login");
       setEmail(""); setFullName(""); setOtp("");
       setLoading(false); setSelectedPlan("trial");
+      setPlanAudience("practitioner");
+      setCollege(""); setStudentIdNumber("");
       setConfirmed(false);
     }
   }, [open, initialMode]);
@@ -141,7 +152,33 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
     }
   };
 
+  const startPaypalCheckout = async (planType: string) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) throw new Error("Not authenticated");
+    const appMode = window.location.pathname.startsWith("/subscription") && !window.location.pathname.startsWith("/subscription-plans");
+    const baseUrl = getPaymentRedirectBaseUrl();
+    const useWebsiteRoutes = shouldUseWebsitePaymentRoutes();
+    const returnPath = useWebsiteRoutes ? "/subscription-plans/success" : appMode ? "/subscription/success" : "/subscription-plans/success";
+    const cancelPath = useWebsiteRoutes ? "/subscription-plans" : appMode ? "/subscription" : "/subscription-plans";
+    const res = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ plan_type: planType, return_url: `${baseUrl}${returnPath}`, cancel_url: `${baseUrl}${cancelPath}` }),
+      }
+    );
+    const data = await res.json();
+    if (data.approve_url) { window.location.href = data.approve_url; return; }
+    throw new Error(data.error || "Could not create subscription");
+  };
+
   const handlePlanSelect = async () => {
+    // Student plans require college + student ID before checkout
+    if (selectedPlan === "student_monthly" || selectedPlan === "student_yearly") {
+      goNext(); setStep("signup-student-info");
+      return;
+    }
     setLoading(true);
     try {
       if (selectedPlan === "trial") {
@@ -155,26 +192,31 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
         }
         goNext(); setStep("success");
       } else {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) throw new Error("Not authenticated");
-        // App mode = pathname starts with /subscription (but not /subscription-plans)
-        const appMode = window.location.pathname.startsWith("/subscription") && !window.location.pathname.startsWith("/subscription-plans");
-        const baseUrl = getPaymentRedirectBaseUrl();
-        const useWebsiteRoutes = shouldUseWebsitePaymentRoutes();
-        const returnPath = useWebsiteRoutes ? "/subscription-plans/success" : appMode ? "/subscription/success" : "/subscription-plans/success";
-        const cancelPath = useWebsiteRoutes ? "/subscription-plans" : appMode ? "/subscription" : "/subscription-plans";
-        const res = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paypal-subscription?action=create`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
-            body: JSON.stringify({ plan_type: selectedPlan, return_url: `${baseUrl}${returnPath}`, cancel_url: `${baseUrl}${cancelPath}` }),
-          }
-        );
-        const data = await res.json();
-        if (data.approve_url) { window.location.href = data.approve_url; return; }
-        throw new Error("Could not create subscription");
+        await startPaypalCheckout(selectedPlan);
       }
+    } catch (err: any) {
+      toast({ title: err.message || "Something went wrong", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStudentInfoSubmit = async () => {
+    if (!college.trim() || !studentIdNumber.trim()) {
+      toast({ title: "Please enter your college/university and student ID", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not authenticated");
+      const { error } = await supabase.from("profiles").update({
+        user_type: "student",
+        college: college.trim(),
+        student_id_number: studentIdNumber.trim(),
+      }).eq("id", session.user.id);
+      if (error) throw error;
+      await startPaypalCheckout(selectedPlan);
     } catch (err: any) {
       toast({ title: err.message || "Something went wrong", variant: "destructive" });
     } finally {
@@ -385,9 +427,30 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
               {step === "signup-plan" && (
                 <motion.div key="signup-plan" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
                   <h2 className="text-2xl font-extrabold text-foreground mb-1">Choose your plan</h2>
-                  <p className="text-sm text-muted-foreground mb-5">Start with a free trial or pick a plan that suits you.</p>
+                  <p className="text-sm text-muted-foreground mb-4">Start with a free trial or pick a plan that suits you.</p>
+
+                  {/* Audience toggle */}
+                  <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-muted mb-4">
+                    {(["practitioner", "student"] as const).map((aud) => (
+                      <button
+                        key={aud}
+                        type="button"
+                        onClick={() => {
+                          setPlanAudience(aud);
+                          setSelectedPlan("trial");
+                        }}
+                        className={`flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-semibold transition-all ${
+                          planAudience === aud ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {aud === "student" && <GraduationCap className="h-3.5 w-3.5" />}
+                        {aud === "practitioner" ? "Practitioner" : "Student"}
+                      </button>
+                    ))}
+                  </div>
+
                   <div className="space-y-3 mb-5">
-                    {plans.map((plan) => (
+                    {(planAudience === "student" ? studentPlans : standardPlans).map((plan) => (
                       <button key={plan.id} onClick={() => setSelectedPlan(plan.id)}
                         className={`w-full flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all ${
                           selectedPlan === plan.id ? "border-primary bg-primary/5 shadow-md" : "border-border bg-card hover:border-primary/30"
@@ -415,10 +478,44 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                     ))}
                   </div>
                   <Button onClick={handlePlanSelect} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
-                    {loading ? "Processing..." : selectedPlan === "trial" ? "Start Free Trial" : "Continue to Payment"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
+                    {loading ? "Processing..." : selectedPlan === "trial" ? "Start Free Trial" : "Continue"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
                   </Button>
                 </motion.div>
               )}
+
+              {/* SIGNUP Student Info: only for student plans */}
+              {step === "signup-student-info" && (
+                <motion.div key="signup-student-info" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
+                  <h2 className="text-2xl font-extrabold text-foreground mb-1">Verify your student status</h2>
+                  <p className="text-sm text-muted-foreground mb-5">Required for the student plan. Your details help us confirm eligibility.</p>
+                  <div className="space-y-4">
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium text-muted-foreground">College / University</Label>
+                      <div className="relative">
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="e.g. Johns Hopkins University" value={college} onChange={(e) => setCollege(e.target.value)}
+                          className="rounded-xl h-12 border-border bg-card pl-10 text-base" autoFocus />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium text-muted-foreground">Student ID Number</Label>
+                      <div className="relative">
+                        <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="Your student ID" value={studentIdNumber} onChange={(e) => setStudentIdNumber(e.target.value)}
+                          className="rounded-xl h-12 border-border bg-card pl-10 text-base"
+                          onKeyDown={(e) => { if (e.key === "Enter") handleStudentInfoSubmit(); }} />
+                      </div>
+                    </div>
+                    <Button onClick={handleStudentInfoSubmit} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
+                      {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Processing...</> : <>Continue to Payment <ArrowRight className="ml-2 h-4 w-4" /></>}
+                    </Button>
+                    <button onClick={() => { goBack(); setStep("signup-plan"); }} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mx-auto">
+                      <ArrowLeft className="h-3 w-3" /> Back to plans
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
 
               {/* SUCCESS */}
               {step === "success" && (
