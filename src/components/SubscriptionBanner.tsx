@@ -8,6 +8,8 @@ const SubscriptionBanner = () => {
   const planLabel =
     subscription.plan_type === "monthly" ? "Monthly" :
     subscription.plan_type === "yearly" ? "Yearly" :
+    subscription.plan_type === "student_monthly" ? "Student Monthly" :
+    subscription.plan_type === "student_yearly" ? "Student Yearly" :
     subscription.plan_type === "trial" ? "Free Trial" :
     subscription.plan_type;
 
