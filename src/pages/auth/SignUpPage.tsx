@@ -47,6 +47,8 @@ const SignUpPage = () => {
             user_type: form.userType,
             custom_user_id: form.customUserId || null,
             accepted_terms: form.acceptedTerms,
+            college: form.userType === "student" ? form.college.trim() : null,
+            student_id_number: form.userType === "student" ? form.studentIdNumber.trim() : null,
           }),
         }
       );
