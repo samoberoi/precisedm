@@ -39,6 +39,9 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("trial");
+  const [planAudience, setPlanAudience] = useState<"practitioner" | "student">("practitioner");
+  const [college, setCollege] = useState("");
+  const [studentIdNumber, setStudentIdNumber] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const { toast } = useToast();
   const [direction, setDirection] = useState(1);
@@ -48,6 +51,8 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
       setStep(initialMode === "signup" ? "signup-name" : "login");
       setEmail(""); setFullName(""); setOtp("");
       setLoading(false); setSelectedPlan("trial");
+      setPlanAudience("practitioner");
+      setCollege(""); setStudentIdNumber("");
       setConfirmed(false);
     }
   }, [open, initialMode]);
