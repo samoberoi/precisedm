@@ -18,12 +18,18 @@ interface AuthSlidePanelProps {
   mode?: "login" | "signup";
 }
 
-type Step = "login" | "login-otp" | "signup-name" | "signup-email" | "signup-otp" | "signup-plan" | "success";
+type Step = "login" | "login-otp" | "signup-name" | "signup-email" | "signup-otp" | "signup-plan" | "signup-student-info" | "success";
 
-const plans = [
+const standardPlans = [
   { id: "trial", name: "Free Trial", price: "Free", period: "7 days", icon: Zap, desc: "Try all features for 7 days", gradient: "from-emerald-500 to-teal-600" },
   { id: "monthly", name: "Monthly", price: "$10", period: "/month", icon: CreditCard, desc: "Full access, billed monthly", gradient: "from-primary to-blue-600" },
   { id: "yearly", name: "Yearly", price: "$72", period: "/year", icon: Crown, desc: "Best value — save 40%", gradient: "from-amber-500 to-orange-600", badge: "Best Value" },
+];
+
+const studentPlans = [
+  { id: "trial", name: "Free Trial", price: "Free", period: "7 days", icon: Zap, desc: "Try all features for 7 days", gradient: "from-emerald-500 to-teal-600" },
+  { id: "student_monthly", name: "Student Monthly", price: "$4.99", period: "/month", icon: GraduationCap, desc: "Discounted monthly for students", gradient: "from-primary to-blue-600" },
+  { id: "student_yearly", name: "Student Yearly", price: "$54", period: "/year", icon: Crown, desc: "Best student value — save 10%", gradient: "from-amber-500 to-orange-600", badge: "Best Value" },
 ];
 
 const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: AuthSlidePanelProps) => {
