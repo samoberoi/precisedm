@@ -45,6 +45,19 @@ const SubscriptionPage = () => {
   const [processing, setProcessing] = useState(false);
   const [trialProcessing, setTrialProcessing] = useState(false);
   const [hasUsedTrial, setHasUsedTrial] = useState<boolean | null>(null);
+  const [isStudent, setIsStudent] = useState(false);
+
+  useEffect(() => {
+    if (!user) { setIsStudent(false); return; }
+    supabase
+      .from("profiles")
+      .select("user_type")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => setIsStudent(data?.user_type === "student"));
+  }, [user]);
+
+  const plans = isStudent ? studentPlans : standardPlans;
 
   useEffect(() => {
     if (!user) { setHasUsedTrial(false); return; }
