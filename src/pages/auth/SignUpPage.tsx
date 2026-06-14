@@ -28,6 +28,10 @@ const SignUpPage = () => {
     if (!form.fullName.trim()) { toast({ title: "Full name is required", variant: "destructive" }); return; }
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) { toast({ title: "Please enter a valid email", variant: "destructive" }); return; }
     if (!form.userType) { toast({ title: "Please select a user type", variant: "destructive" }); return; }
+    if (form.userType === "student") {
+      if (!form.college.trim()) { toast({ title: "College / University is required for students", variant: "destructive" }); return; }
+      if (!form.studentIdNumber.trim()) { toast({ title: "Student ID is required for students", variant: "destructive" }); return; }
+    }
     if (!form.acceptedTerms) { toast({ title: "You must accept the Terms and Privacy Policy", variant: "destructive" }); return; }
 
     setLoading(true);
