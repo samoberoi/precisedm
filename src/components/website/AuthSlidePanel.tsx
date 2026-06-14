@@ -3,7 +3,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Check, User, Mail, Sparkles, CreditCard, Crown, Zap, Loader2 } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, User, Mail, Sparkles, CreditCard, Crown, Zap, Loader2, GraduationCap, Building2, IdCard } from "lucide-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
