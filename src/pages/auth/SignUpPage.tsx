@@ -126,6 +126,18 @@ const SignUpPage = () => {
                 </SelectContent>
               </Select>
             </div>
+            {form.userType === "student" && (
+              <>
+                <div className="space-y-1.5">
+                  <Label htmlFor="college" className="text-xs text-muted-foreground font-medium">College / University</Label>
+                  <Input id="college" placeholder="e.g. Harvard Medical School" value={form.college} onChange={(e) => update("college", e.target.value)} className={inputClass} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="studentIdNumber" className="text-xs text-muted-foreground font-medium">Student ID Number</Label>
+                  <Input id="studentIdNumber" placeholder="Your school-issued ID" value={form.studentIdNumber} onChange={(e) => update("studentIdNumber", e.target.value)} className={inputClass} />
+                </div>
+              </>
+            )}
             <div className="space-y-1.5">
               <Label htmlFor="customUserId" className="text-xs text-muted-foreground font-medium">User ID (optional)</Label>
               <Input id="customUserId" placeholder="e.g. NPI Number" value={form.customUserId} onChange={(e) => update("customUserId", e.target.value)} className={inputClass} />
