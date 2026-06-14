@@ -148,6 +148,39 @@ const SubscriptionPage = () => {
     }
   };
 
+  const handlePlanClick = (planType: string) => {
+    if (authLoading) return;
+    if (!user) { navigate(loginRoute); return; }
+    if (planType === "student_monthly" || planType === "student_yearly") {
+      setPendingStudentPlan(planType);
+      setStudentStep("info");
+      return;
+    }
+    handleSubscribe(planType);
+  };
+
+  const handleStudentInfoSubmit = async () => {
+    if (!user || !pendingStudentPlan) return;
+    if (!college.trim()) { toast({ title: "College / University is required", variant: "destructive" }); return; }
+    if (!studentIdNumber.trim()) { toast({ title: "Student ID is required", variant: "destructive" }); return; }
+    setSavingStudent(true);
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ user_type: "student", college: college.trim(), student_id_number: studentIdNumber.trim() })
+        .eq("user_id", user.id);
+      if (error) throw error;
+      const plan = pendingStudentPlan;
+      setStudentStep(null);
+      setPendingStudentPlan(null);
+      await handleSubscribe(plan);
+    } catch (err) {
+      toast({ title: "Error", description: err instanceof Error ? err.message : "Failed to save student info.", variant: "destructive" });
+    } finally {
+      setSavingStudent(false);
+    }
+  };
+
   const handleSubscribe = async (planType: string) => {
     if (authLoading) return;
     if (!user) {
