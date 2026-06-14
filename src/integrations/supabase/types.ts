@@ -45,36 +45,42 @@ export type Database = {
         Row: {
           accepted_terms: boolean | null
           code: string
+          college: string | null
           created_at: string | null
           custom_user_id: string | null
           email: string
           expires_at: string
           full_name: string | null
           id: string
+          student_id_number: string | null
           used: boolean | null
           user_type: string | null
         }
         Insert: {
           accepted_terms?: boolean | null
           code: string
+          college?: string | null
           created_at?: string | null
           custom_user_id?: string | null
           email: string
           expires_at: string
           full_name?: string | null
           id?: string
+          student_id_number?: string | null
           used?: boolean | null
           user_type?: string | null
         }
         Update: {
           accepted_terms?: boolean | null
           code?: string
+          college?: string | null
           created_at?: string | null
           custom_user_id?: string | null
           email?: string
           expires_at?: string
           full_name?: string | null
           id?: string
+          student_id_number?: string | null
           used?: boolean | null
           user_type?: string | null
         }
@@ -83,6 +89,7 @@ export type Database = {
       profiles: {
         Row: {
           accepted_terms: boolean
+          college: string | null
           created_at: string
           custom_user_id: string | null
           email: string
@@ -90,11 +97,13 @@ export type Database = {
           id: string
           last_login: string | null
           phone_number: string | null
+          student_id_number: string | null
           user_id: string
           user_type: Database["public"]["Enums"]["user_type"]
         }
         Insert: {
           accepted_terms?: boolean
+          college?: string | null
           created_at?: string
           custom_user_id?: string | null
           email: string
@@ -102,11 +111,13 @@ export type Database = {
           id?: string
           last_login?: string | null
           phone_number?: string | null
+          student_id_number?: string | null
           user_id: string
           user_type?: Database["public"]["Enums"]["user_type"]
         }
         Update: {
           accepted_terms?: boolean
+          college?: string | null
           created_at?: string
           custom_user_id?: string | null
           email?: string
@@ -114,6 +125,7 @@ export type Database = {
           id?: string
           last_login?: string | null
           phone_number?: string | null
+          student_id_number?: string | null
           user_id?: string
           user_type?: Database["public"]["Enums"]["user_type"]
         }
