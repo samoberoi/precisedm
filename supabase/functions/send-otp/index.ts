@@ -61,6 +61,8 @@ Deno.serve(async (req) => {
       user_type: user_type || "student",
       custom_user_id: custom_user_id || null,
       accepted_terms: accepted_terms || false,
+      college: college || null,
+      student_id_number: student_id_number || null,
       expires_at: expiresAt,
     });
 
