@@ -17,7 +17,7 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const { setSkipMode } = useAuth();
   const handleSkip = () => { setSkipMode(true); navigate("/home"); };
-  const [form, setForm] = useState({ fullName: "", email: "", userType: "" as string, customUserId: "", acceptedTerms: false });
+  const [form, setForm] = useState({ fullName: "", email: "", userType: "" as string, customUserId: "", college: "", studentIdNumber: "", acceptedTerms: false });
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"details" | "otp">("details");
   const [loading, setLoading] = useState(false);
