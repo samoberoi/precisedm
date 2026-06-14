@@ -427,9 +427,30 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
               {step === "signup-plan" && (
                 <motion.div key="signup-plan" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
                   <h2 className="text-2xl font-extrabold text-foreground mb-1">Choose your plan</h2>
-                  <p className="text-sm text-muted-foreground mb-5">Start with a free trial or pick a plan that suits you.</p>
+                  <p className="text-sm text-muted-foreground mb-4">Start with a free trial or pick a plan that suits you.</p>
+
+                  {/* Audience toggle */}
+                  <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-muted mb-4">
+                    {(["practitioner", "student"] as const).map((aud) => (
+                      <button
+                        key={aud}
+                        type="button"
+                        onClick={() => {
+                          setPlanAudience(aud);
+                          setSelectedPlan("trial");
+                        }}
+                        className={`flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-semibold transition-all ${
+                          planAudience === aud ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {aud === "student" && <GraduationCap className="h-3.5 w-3.5" />}
+                        {aud === "practitioner" ? "Practitioner" : "Student"}
+                      </button>
+                    ))}
+                  </div>
+
                   <div className="space-y-3 mb-5">
-                    {plans.map((plan) => (
+                    {(planAudience === "student" ? studentPlans : standardPlans).map((plan) => (
                       <button key={plan.id} onClick={() => setSelectedPlan(plan.id)}
                         className={`w-full flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all ${
                           selectedPlan === plan.id ? "border-primary bg-primary/5 shadow-md" : "border-border bg-card hover:border-primary/30"
@@ -457,7 +478,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
                     ))}
                   </div>
                   <Button onClick={handlePlanSelect} disabled={loading} className="w-full rounded-xl h-12 font-bold gradient-primary glow-primary text-base">
-                    {loading ? "Processing..." : selectedPlan === "trial" ? "Start Free Trial" : "Continue to Payment"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
+                    {loading ? "Processing..." : selectedPlan === "trial" ? "Start Free Trial" : "Continue"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
                   </Button>
                 </motion.div>
               )}
