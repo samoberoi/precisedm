@@ -326,44 +326,88 @@ const SubscriptionPage = () => {
           </motion.div>
         )}
 
-        {/* Plans */}
-        <div className="space-y-3">
-          {plans.map((plan, i) => (
-            <motion.div key={plan.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-              className={`relative rounded-2xl p-5 transition-all ${
-                plan.badge ? "bg-[hsl(200,30%,18%)] text-white shadow-lg" : "bg-card border border-border shadow-sm"
-              }`}>
-              {plan.badge && (
-                <span className="absolute -top-3 left-5 gradient-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">{plan.badge}</span>
-              )}
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <plan.icon className={`h-5 w-5 ${plan.badge ? "text-primary" : "text-primary"}`} />
-                    <h3 className={`text-lg font-bold ${plan.badge ? "text-white" : "text-foreground"}`}>{plan.name}</h3>
-                  </div>
-                  <p className={`text-xs ${plan.badge ? "text-white/60" : "text-muted-foreground"}`}>{plan.description}</p>
-                </div>
-                <div className="text-right">
-                  <p className={`text-2xl font-extrabold ${plan.badge ? "text-white" : "text-foreground"}`}>{plan.price}</p>
-                  <p className={`text-xs ${plan.badge ? "text-white/50" : "text-muted-foreground"}`}>/ {plan.period}</p>
-                </div>
-              </div>
-              <ul className="space-y-2 mb-5">
-                {plan.features.map((f) => (
-                  <li key={f} className={`flex items-center gap-2 text-sm ${plan.badge ? "text-white/80" : "text-muted-foreground"}`}>
-                    <Check className="h-4 w-4 text-primary shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Button
-                className={`w-full h-12 rounded-2xl font-bold text-sm ${plan.badge ? "gradient-primary glow-primary text-primary-foreground" : "bg-card border border-border text-foreground hover:bg-accent"}`}
-                disabled={processing || isActive} onClick={() => handleSubscribe(plan.id)}>
-                {processing && selectedPlan === plan.id ? "Redirecting to PayPal..." : isActive ? "Already Subscribed" : "Subscribe Now"}
+        {/* Audience Toggle */}
+        {!isActive && !studentStep && (
+          <div className="grid grid-cols-2 gap-2 mb-4 p-1 rounded-2xl bg-muted/40 border border-border">
+            <button
+              onClick={() => setPlanAudience("practitioner")}
+              className={`flex items-center justify-center gap-2 h-10 rounded-xl text-sm font-semibold transition-all ${planAudience === "practitioner" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}>
+              <Briefcase className="h-4 w-4" /> Practitioner
+            </button>
+            <button
+              onClick={() => setPlanAudience("student")}
+              className={`flex items-center justify-center gap-2 h-10 rounded-xl text-sm font-semibold transition-all ${planAudience === "student" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}>
+              <GraduationCap className="h-4 w-4" /> Student
+            </button>
+          </div>
+        )}
+
+        {/* Student Info Step */}
+        {studentStep === "info" ? (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+            className="rounded-2xl bg-card border border-border shadow-sm p-5 space-y-4">
+            <div className="flex items-center gap-2 mb-1">
+              <GraduationCap className="h-5 w-5 text-primary" />
+              <h3 className="text-base font-bold text-foreground">Verify Student Status</h3>
+            </div>
+            <p className="text-xs text-muted-foreground">Enter your college and student ID to unlock student pricing.</p>
+            <div className="space-y-1.5">
+              <Label className="text-xs text-muted-foreground font-medium">College / University</Label>
+              <Input value={college} onChange={(e) => setCollege(e.target.value)} placeholder="e.g. Harvard Medical School" className="h-12 rounded-2xl bg-background border-border" />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs text-muted-foreground font-medium">Student ID Number</Label>
+              <Input value={studentIdNumber} onChange={(e) => setStudentIdNumber(e.target.value)} placeholder="Your school-issued ID" className="h-12 rounded-2xl bg-background border-border" />
+            </div>
+            <div className="flex gap-2 pt-1">
+              <Button variant="outline" className="flex-1 h-12 rounded-2xl" onClick={() => { setStudentStep(null); setPendingStudentPlan(null); }}>
+                <ArrowLeft className="h-4 w-4 mr-1" /> Back
               </Button>
-            </motion.div>
-          ))}
-        </div>
+              <Button className="flex-1 h-12 rounded-2xl gradient-primary glow-primary font-bold" disabled={savingStudent || processing} onClick={handleStudentInfoSubmit}>
+                {savingStudent || processing ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Saving...</> : "Continue to Payment"}
+              </Button>
+            </div>
+          </motion.div>
+        ) : (
+          /* Plans */
+          <div className="space-y-3">
+            {plans.map((plan, i) => (
+              <motion.div key={plan.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+                className={`relative rounded-2xl p-5 transition-all ${
+                  plan.badge ? "bg-[hsl(200,30%,18%)] text-white shadow-lg" : "bg-card border border-border shadow-sm"
+                }`}>
+                {plan.badge && (
+                  <span className="absolute -top-3 left-5 gradient-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">{plan.badge}</span>
+                )}
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <plan.icon className={`h-5 w-5 ${plan.badge ? "text-primary" : "text-primary"}`} />
+                      <h3 className={`text-lg font-bold ${plan.badge ? "text-white" : "text-foreground"}`}>{plan.name}</h3>
+                    </div>
+                    <p className={`text-xs ${plan.badge ? "text-white/60" : "text-muted-foreground"}`}>{plan.description}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`text-2xl font-extrabold ${plan.badge ? "text-white" : "text-foreground"}`}>{plan.price}</p>
+                    <p className={`text-xs ${plan.badge ? "text-white/50" : "text-muted-foreground"}`}>/ {plan.period}</p>
+                  </div>
+                </div>
+                <ul className="space-y-2 mb-5">
+                  {plan.features.map((f) => (
+                    <li key={f} className={`flex items-center gap-2 text-sm ${plan.badge ? "text-white/80" : "text-muted-foreground"}`}>
+                      <Check className="h-4 w-4 text-primary shrink-0" /> {f}
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  className={`w-full h-12 rounded-2xl font-bold text-sm ${plan.badge ? "gradient-primary glow-primary text-primary-foreground" : "bg-card border border-border text-foreground hover:bg-accent"}`}
+                  disabled={processing || isActive} onClick={() => handlePlanClick(plan.id)}>
+                  {processing && selectedPlan === plan.id ? "Redirecting to PayPal..." : isActive ? "Already Subscribed" : "Subscribe Now"}
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center justify-center gap-6 mt-6 mb-4">
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Shield className="h-3.5 w-3.5" /> Secure Payment</div>
