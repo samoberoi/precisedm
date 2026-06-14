@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ChevronLeft, Check, Crown, Zap, Shield, Gift } from "lucide-react";
+import { ChevronLeft, Check, Crown, Zap, Shield, Gift, GraduationCap, Briefcase, ArrowLeft, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSubscription } from "@/hooks/use-subscription";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { getPaymentRedirectBaseUrl, shouldUseWebsitePaymentRoutes } from "@/lib/website-routes";
 
@@ -45,19 +47,28 @@ const SubscriptionPage = () => {
   const [processing, setProcessing] = useState(false);
   const [trialProcessing, setTrialProcessing] = useState(false);
   const [hasUsedTrial, setHasUsedTrial] = useState<boolean | null>(null);
-  const [isStudent, setIsStudent] = useState(false);
+  const [planAudience, setPlanAudience] = useState<"practitioner" | "student">("practitioner");
+  const [studentStep, setStudentStep] = useState<null | "info">(null);
+  const [pendingStudentPlan, setPendingStudentPlan] = useState<string | null>(null);
+  const [college, setCollege] = useState("");
+  const [studentIdNumber, setStudentIdNumber] = useState("");
+  const [savingStudent, setSavingStudent] = useState(false);
 
   useEffect(() => {
-    if (!user) { setIsStudent(false); return; }
+    if (!user) return;
     supabase
       .from("profiles")
-      .select("user_type")
+      .select("user_type, college, student_id_number")
       .eq("user_id", user.id)
       .maybeSingle()
-      .then(({ data }) => setIsStudent(data?.user_type === "student"));
+      .then(({ data }) => {
+        if (data?.user_type === "student") setPlanAudience("student");
+        if (data?.college) setCollege(data.college);
+        if (data?.student_id_number) setStudentIdNumber(data.student_id_number);
+      });
   }, [user]);
 
-  const plans = isStudent ? studentPlans : standardPlans;
+  const plans = planAudience === "student" ? studentPlans : standardPlans;
 
   useEffect(() => {
     if (!user) { setHasUsedTrial(false); return; }
