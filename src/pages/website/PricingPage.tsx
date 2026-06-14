@@ -29,6 +29,23 @@ const plans = [
   },
 ];
 
+const studentPlans = [
+  {
+    id: "student_monthly", name: "Student Monthly", price: "$4.99", period: "month", icon: Zap,
+    desc: "Discounted access for verified students",
+    features: ["All 4 calculators", "Saved calculation history", "Verified student pricing", "Cancel anytime"],
+    gradient: "",
+    cta: "Subscribe Monthly",
+  },
+  {
+    id: "student_yearly", name: "Student Yearly", price: "$54", period: "year", icon: Crown, badge: "Best Value",
+    desc: "Best value for students",
+    features: ["Everything in Student Monthly", "12 months access", "Priority access to new tools", "Cancel anytime"],
+    gradient: "linear-gradient(135deg, hsl(270,40%,22%), hsl(290,35%,14%))",
+    cta: "Subscribe Yearly",
+  },
+];
+
 const faqs = [
   { q: "Can I cancel anytime?", a: "Yes, you can cancel your subscription at any time through PayPal. Your access will continue until the end of your billing period." },
   { q: "What happens after the free trial?", a: "After your 7-day free trial, you'll need to subscribe to a monthly or yearly plan to continue accessing the calculators." },
