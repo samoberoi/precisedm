@@ -80,6 +80,8 @@ Deno.serve(async (req) => {
           user_type: otpRecord?.user_type || "student",
           custom_user_id: otpRecord?.custom_user_id || null,
           accepted_terms: otpRecord?.accepted_terms || false,
+          college: otpRecord?.college || null,
+          student_id_number: otpRecord?.student_id_number || null,
         },
       });
 
