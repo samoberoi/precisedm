@@ -12,6 +12,7 @@ import type1VsType2InsulinImg from "@/assets/blog/type1-vs-type2-insulin.jpg";
 import basalBolusTherapyImg from "@/assets/blog/basal-bolus-therapy.jpg";
 import diabetesCardiovascularImg from "@/assets/blog/diabetes-cardiovascular-insulin.jpg";
 import perioperativeDiabetesImg from "@/assets/blog/perioperative-diabetes-management.jpg";
+import ramadanDiabetesImg from "@/assets/blog/ramadan-diabetes-management.jpg";
 
 export interface BlogFaq {
   q: string;
@@ -1573,6 +1574,80 @@ export const blogPosts: BlogPost[] = [
       { q: "Does perioperative hyperglycemia affect patients without diabetes?", a: "Yes. Surgical stress can produce significant hyperglycemia in patients with no prior diabetes diagnosis, and research has shown that hyperglycemia in the perioperative period is an independent marker of worse surgical outcomes including higher infection rates and longer hospital stays, regardless of diabetes status." },
       { q: "What is the concern with GLP-1 receptor agonists before surgery?", a: "GLP-1 receptor agonists may cause delayed gastric emptying, raising the risk of pulmonary aspiration during general anaesthesia. Current recommendations include holding daily agents on the day of surgery and once-weekly agents for at least 7 days before the procedure." },
       { q: "How does PreciseDM support perioperative insulin management?", a: "PreciseDM provides structured, patient-specific insulin dosing guidance that helps clinicians navigate the changing glucose requirements across the pre-operative, intra-operative, and post-operative phases, reducing the variation that commonly affects perioperative diabetes management." },
+    ],
+  },
+  {
+    slug: "diabetes-management-ramadan-fasting-clinical-guide",
+    title: "Managing Diabetes During Ramadan: What Healthcare Providers Need to Know",
+    metaTitle: "Diabetes Management During Ramadan: Clinical Guide",
+    metaDescription:
+      "Over 150 million Muslims with diabetes fast during Ramadan. Explore the clinical challenges providers face and how structured insulin management supports safer fasting.",
+    excerpt:
+      "Approximately 150 million people with diabetes worldwide observe Ramadan each year. Here's a structured look at the clinical challenges of fasting and how providers can support safer insulin management.",
+    category: "Diabetes Care Technology",
+    tags: [
+      "diabetes Ramadan fasting",
+      "insulin management Ramadan",
+      "Ramadan hypoglycemia risk",
+      "diabetes fasting management",
+      "IDF-DAR guidelines",
+      "clinical decision support diabetes",
+    ],
+    keywords: [
+      "diabetes management during Ramadan fasting",
+      "insulin dose adjustment Ramadan",
+      "hypoglycemia risk fasting diabetes",
+      "Ramadan diabetes risk stratification",
+      "pre-Ramadan diabetes assessment",
+      "glucose monitoring fasting patients",
+    ],
+    image: ramadanDiabetesImg,
+    imageAlt:
+      "Doctor discussing Ramadan diabetes management and insulin dose adjustments with a Muslim patient in a modern American clinic, reviewing glucose trends on a tablet alongside glucose monitoring devices, insulin pens, hydration supplies, and personalized fasting care plans.",
+    publishedAt: "2026-06-15",
+    readTime: "7 min read",
+    author: "PreciseDM Clinical Team",
+    content: [
+      { type: "p", text: "Approximately 150 million people with diabetes worldwide observe Ramadan each year. According to published survey data, 43 percent of patients with type 1 diabetes and nearly 79 percent of patients with type 2 diabetes fast for at least 15 days of the holy month, despite exemptions available under Islamic law to those with health conditions." },
+      { type: "p", text: "This is not a small clinical niche. For healthcare providers in many regions, Ramadan represents a significant and recurring clinical management challenge for a large proportion of their diabetes patient panel." },
+      { type: "p", text: "The updated DaR-ADA-IDF Ramadan guidelines, with the most recent revision released in 2025, provide a framework for managing diabetes during fasting. But applying those guidelines to individual patients, with their different diabetes types, regimens, risk factors, and glucose patterns, requires clinical judgment that goes beyond guideline awareness." },
+      { type: "h2", text: "1. The Physiological Challenge of Ramadan Fasting with Diabetes" },
+      { type: "p", text: "Ramadan fasting involves abstaining from food and drink from dawn to sunset for 30 days. Depending on the season and geographic location, the daily fasting period can range from around 12 to 20 hours." },
+      { type: "p", text: "For a patient on insulin, this creates a specific physiological challenge. The normal pattern of eating and insulin dosing is completely disrupted. The two main meals, Suhoor before dawn and Iftar at sunset, replace the usual meal pattern. Caloric intake during Iftar can be substantial, particularly in social and family settings where large meals are traditional." },
+      { type: "p", text: "For patients on basal bolus insulin therapy, this disruption requires deliberate, individualised dose adjustment. The pre-dawn meal may require a smaller bolus dose than a standard morning meal. The evening meal may require a larger one. The overnight fasting period is longer than a typical post-dinner fast. Each of these changes has implications for glucose management, and the implications are not the same for every patient." },
+      { type: "h2", text: "2. Risk Stratification Is the First Clinical Step" },
+      { type: "p", text: "Not all patients with diabetes carry the same risk from Ramadan fasting, and clinical management should be calibrated to risk rather than applied uniformly." },
+      { type: "p", text: "The IDF-DAR risk stratification framework categorises patients into low, moderate, and high-risk groups based on factors including diabetes type, the nature of the insulin regimen, history of severe hypoglycemia, current glycemic control, the presence of complications, and cognitive and self-management capability." },
+      { type: "p", text: "High-risk patients, including those with type 1 diabetes, those with a recent history of severe hypoglycemia, patients with significant comorbidities, and those with poor awareness of hypoglycemic symptoms, require more active clinical management and more frequent monitoring than lower-risk patients." },
+      { type: "html", html: 'The pre-Ramadan clinical encounter, ideally occurring several weeks before the month begins, is the opportunity to stratify risk, educate the patient about management adjustments, and establish a monitoring and dose adjustment plan for the fasting period. Research has shown that structured <a href="https://www.precisedm.com/features">pre-Ramadan diabetes assessment</a> significantly reduces hypoglycemia rates and hospital presentations during the month.' },
+      { type: "h2", text: "3. Hypoglycemia Is the Primary Clinical Risk" },
+      { type: "p", text: "The most significant acute clinical risk for insulin-treated patients fasting during Ramadan is hypoglycemia." },
+      { type: "p", text: "Prolonged fasting periods, particularly in the late afternoon before Iftar, create conditions where insulin doses calibrated for a non-fasting state can produce hypoglycemia. A 2025 observational study of patients with type 1 diabetes fasting during Ramadan found clear evidence of underestimated insulin adjustments, meaning that the dose reductions made before the month did not fully account for the extent of glucose-lowering that the fasting state required." },
+      { type: "p", text: "The clinical implication is clear. Standard dose adjustments applied uniformly to all fasting patients are inadequate. Individual assessment of each patient's glucose patterns, eating schedule during Ramadan, and insulin sensitivity is required to make appropriate adjustments." },
+      { type: "h2", text: "4. Hyperglycemia After Iftar Is the Counterbalancing Risk" },
+      { type: "p", text: "While hypoglycemia dominates the pre-Iftar period, the Iftar meal itself presents the opposite risk." },
+      { type: "p", text: "Large evening meals with high carbohydrate content are traditional in many communities during Ramadan. For an insulin-treated patient whose bolus dose was calibrated for lighter meals, the Iftar meal may produce significant postprandial hyperglycemia." },
+      { type: "p", text: "This bidirectional risk, hypoglycemia during the fasting hours and hyperglycemia after breaking the fast, is one of the defining clinical features of Ramadan management. It requires a dosing approach that accounts for the timing and likely content of both the pre-dawn and sunset meals, and that builds in flexibility for the day-to-day variation that is inherent in this period." },
+      { type: "h2", text: "5. Monitoring Is Essential and Under-Used" },
+      { type: "p", text: "Research has consistently shown that patients who monitor their glucose more frequently during Ramadan have better outcomes. Both hypoglycemic and hyperglycemic episodes are reduced when patients have the information to make timely adjustments." },
+      { type: "p", text: "The updated 2025 guidelines emphasise the value of continuous glucose monitoring for higher-risk patients during Ramadan, providing real-time data that allows both patients and clinicians to respond to glucose trends before they become dangerous." },
+      { type: "p", text: "For clinicians supporting patients during Ramadan, establishing a clear monitoring plan and defining the glucose values that should trigger contact or self-adjustment is a critical component of the pre-Ramadan assessment." },
+      { type: "p", text: "PreciseDM provides structured insulin dosing guidance that helps clinicians approach the individualised dose adjustments that Ramadan management requires, available on web and mobile." },
+      { type: "p", text: "Download the PreciseDM app today and experience all four clinical tools in practice." },
+      {
+        type: "ul_html",
+        items: [
+          '<a href="https://play.google.com/store/apps/details?id=com.precisedm" target="_blank" rel="noopener">For Android Users</a>',
+          '<a href="https://apps.apple.com/in/app/precisedm/id6753625603" target="_blank" rel="noopener">For iOS Users</a>',
+        ],
+      },
+    ],
+    faqs: [
+      { q: "What is the clinical risk of Ramadan fasting for insulin-treated patients?", a: "The primary clinical risks are hypoglycemia during the extended fasting hours and hyperglycemia after the Iftar meal. For patients on insulin, the disrupted meal pattern and prolonged fasting periods require deliberate, individualised dose adjustments that cannot be applied uniformly across all patients." },
+      { q: "How should insulin doses be adjusted for Ramadan fasting?", a: "Dose adjustments depend on the patient's diabetes type, regimen, glucose patterns, and typical Ramadan meal schedule. General principles include reducing doses to account for extended fasting periods and adjusting bolus coverage for the Iftar meal, but the specific adjustments must be individualised." },
+      { q: "What is the IDF-DAR risk stratification framework?", a: "The IDF-DAR framework categorises patients with diabetes who wish to fast during Ramadan into low, moderate, and high-risk groups based on factors including diabetes type, complication history, glucose control, and self-management capability. It guides the intensity of clinical management and the appropriateness of fasting for each individual." },
+      { q: "When should clinicians conduct the pre-Ramadan assessment?", a: "Ideally several weeks before Ramadan begins, to allow adequate time for patient education, dose adjustment planning, and the establishment of a monitoring strategy for the fasting period. Research shows that structured pre-Ramadan assessment significantly reduces hypoglycemia rates and hospital presentations." },
+      { q: "What glucose monitoring is recommended during Ramadan?", a: "The updated 2025 guidelines emphasise the value of continuous glucose monitoring for higher-risk patients, providing real-time data to support timely adjustments. For all insulin-treated patients, more frequent monitoring than usual is recommended during the fasting month." },
     ],
   },
 ];
