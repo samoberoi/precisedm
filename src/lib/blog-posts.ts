@@ -11,6 +11,7 @@ import inpatientHyperglycemiaImg from "@/assets/blog/inpatient-hyperglycemia.jpg
 import type1VsType2InsulinImg from "@/assets/blog/type1-vs-type2-insulin.jpg";
 import basalBolusTherapyImg from "@/assets/blog/basal-bolus-therapy.jpg";
 import diabetesCardiovascularImg from "@/assets/blog/diabetes-cardiovascular-insulin.jpg";
+import perioperativeDiabetesImg from "@/assets/blog/perioperative-diabetes-management.jpg";
 
 export interface BlogFaq {
   q: string;
@@ -1500,6 +1501,78 @@ export const blogPosts: BlogPost[] = [
       { q: "Does PreciseDM support insulin management in patients with cardiovascular comorbidities?", a: "Yes. PreciseDM's structured decision support tools are designed to incorporate patient-specific clinical factors into their dosing guidance, supporting appropriate, risk-aware insulin management decisions across the full range of complex clinical presentations." },
     ],
   },
+  {
+    slug: "perioperative-diabetes-management-clinical-challenges",
+    title: "Managing Diabetes Around Surgery: Why the Perioperative Period Is One of the Riskiest Times in Diabetes Care",
+    metaTitle: "Perioperative Diabetes Management: Clinical Guide",
+    metaDescription:
+      "Managing diabetes before and after surgery is complex and high-risk. Explore the clinical challenges of perioperative glucose control and how structured support helps.",
+    excerpt:
+      "Up to 20 percent of surgical patients have diabetes, and the perioperative period disrupts every assumption insulin management depends on. Here's a structured look at the challenges.",
+    category: "Hospital Diabetes Care",
+    tags: [
+      "perioperative diabetes management",
+      "diabetes surgery glucose control",
+      "insulin perioperative",
+      "surgical hyperglycemia",
+      "diabetes preoperative planning",
+      "clinical decision support",
+    ],
+    keywords: [
+      "perioperative diabetes management challenges",
+      "surgical glucose control diabetes",
+      "insulin dose adjustment before surgery",
+      "stress hyperglycemia perioperative",
+      "preoperative diabetes assessment",
+      "diabetes surgical complications risk",
+    ],
+    image: perioperativeDiabetesImg,
+    imageAlt:
+      "Healthcare provider discussing perioperative diabetes management and glucose control with a surgical patient in a modern American hospital unit, reviewing insulin adjustment data on a tablet alongside IV therapy equipment, glucose monitoring tools, and inpatient recovery care.",
+    publishedAt: "2026-06-12",
+    readTime: "7 min read",
+    author: "PreciseDM Clinical Team",
+    content: [
+      { type: "p", text: "Up to 20 percent of all patients undergoing general surgery have diabetes, according to figures from the ADA Standards of Care. When you extend this to include prediabetes and undiagnosed glucose abnormalities, the proportion rises to between 23 and 60 percent depending on the surgical population. The operating theatre is, by any measure, a very common environment for diabetes to be present and actively relevant." },
+      { type: "p", text: "And yet perioperative diabetes management remains one of the most inconsistently handled aspects of diabetes care, with wide variation in practice between institutions, specialties, and individual clinicians." },
+      { type: "p", text: "This blog looks honestly at what makes the perioperative period so challenging for glucose management and what a more structured approach looks like in practice." },
+      { type: "h2", text: "1. Surgery Changes Everything That Insulin Management Depends On" },
+      { type: "p", text: "Normal insulin management assumes a degree of predictability. The patient eats at roughly consistent times, takes their medication on schedule, and the glucose responds within a reasonably familiar range." },
+      { type: "p", text: "Surgery disrupts all of this simultaneously." },
+      { type: "p", text: "Patients fast before procedures, sometimes for extended periods. The surgical stress response triggers the release of counterregulatory hormones including cortisol, glucagon, growth hormone, and catecholamines. These hormones directly raise blood glucose, often substantially, even in patients who are fasting and whose usual glucose might be well-controlled." },
+      { type: "p", text: "Post-operatively, oral intake may be restricted for hours or days. Pain, nausea, and the physiological stress of recovery affect glucose patterns in ways that are not predictable from pre-operative baseline. The insulin dose that maintained good control before surgery may be entirely inappropriate during and after the procedure." },
+      { type: "h2", text: "2. The Pre-Operative Dose Adjustment Problem" },
+      { type: "p", text: "One of the most consistently underaddressed aspects of perioperative diabetes management is the pre-operative dose adjustment." },
+      { type: "p", text: "The 2024 ADA guidelines for patients undergoing ambulatory surgery recommend adjusting long-acting insulin doses the evening before, typically reducing them by 20 to 25 percent to prevent morning hypoglycemia in a fasting patient. Oral glucose-lowering agents, including metformin and SGLT2 inhibitors, have specific hold recommendations that vary by drug class and by clinical context." },
+      { type: "p", text: "In practice, these adjustments require a structured assessment of the patient's current regimen, the type of surgery, the anticipated fasting period, and the expected post-operative nutritional course. This is not a simple tick-box exercise. It requires clinical reasoning that accounts for multiple interacting variables, and research has documented considerable variation in how this reasoning is applied across different surgical and anaesthetic teams." },
+      { type: "h2", text: "3. Stress Hyperglycemia Affects Patients Without Diabetes Too" },
+      { type: "p", text: "One of the least discussed dimensions of perioperative hyperglycemia is that it does not only affect patients with known diabetes." },
+      { type: "p", text: "Surgical stress can produce significant transient hyperglycemia in patients with no prior glucose abnormality. In fact, research has shown that hyperglycemia during the perioperative period is an independent marker of adverse surgical outcomes, including increased infection rates, delayed wound healing, longer hospital stays, and higher post-operative mortality, regardless of whether the patient has a prior diabetes diagnosis." },
+      { type: "p", text: "This means that perioperative glucose management is relevant for a broader population than the diabetes patients who arrive with an established diagnosis and a known regimen. It is a clinical concern for any patient whose glucose rises significantly in response to the physiological stress of surgery." },
+      { type: "h2", text: "4. The GLP-1 Receptor Agonist Question" },
+      { type: "p", text: "One of the newer clinical challenges in perioperative diabetes management relates to GLP-1 receptor agonists, which have become increasingly common treatments for both type 2 diabetes and obesity." },
+      { type: "p", text: "The 2025 ADA Standards of Care noted that GLP-1 receptor agonists and dual GIP/GLP-1 agonists may cause delayed gastric emptying, raising concerns about pulmonary aspiration risk during general anaesthesia. The American Society of Anesthesiologists recommends holding daily GLP-1 agents on the day of surgery and once-weekly agents for at least 7 days before surgery." },
+      { type: "p", text: "For surgical teams managing a patient on one of these medications, the clinical question is not simple. Holding the GLP-1 agent may worsen glycemic control and require insulin management that was not previously needed. The perioperative plan needs to account for this." },
+      { type: "h2", text: "5. Post-Operative Management Is Not the Same as Pre-Operative Management" },
+      { type: "p", text: "The glucose management plan appropriate for the immediate pre-operative period is not automatically appropriate for the post-operative period. As the surgical stress response resolves, oral intake resumes, and the patient's physiological state normalises, the insulin requirements change." },
+      { type: "p", text: "If these changes are not tracked and the dosing plan updated accordingly, the patient transitions from an acute post-operative state to a recovery state on a regimen that was calibrated for the former. The risk of both hyperglycemia and hypoglycemia during this transition is real and under-appreciated." },
+      { type: "html", html: 'Structured decision support that helps clinicians manage the dosing adjustments at each phase of the perioperative period, rather than treating it as a single clinical moment, is the kind of support that directly addresses this risk. Understanding <a href="https://www.precisedm.com/features">diabetes surgical complications risk</a> and having a structured tool to navigate it makes a practical clinical difference.' },
+      { type: "p", text: "PreciseDM provides structured, patient-specific insulin dosing guidance across the full range of complex clinical scenarios, including the variable glucose patterns that surgical stress and recovery produce. Available on web and mobile." },
+      { type: "p", text: "Start your free trial and explore structured decision support today. Download the PreciseDM app today and experience all four clinical tools in practice." },
+      {
+        type: "ul_html",
+        items: [
+          '<a href="https://play.google.com/store/apps/details?id=com.precisedm" target="_blank" rel="noopener">For Android Users</a>',
+          '<a href="https://apps.apple.com/in/app/precisedm/id6753625603" target="_blank" rel="noopener">For iOS Users</a>',
+        ],
+      },
+    ],
+    faqs: [
+      { q: "What makes perioperative diabetes management challenging?", a: "Surgery disrupts normal eating patterns, triggers a counterregulatory stress hormone response that raises blood glucose, and may involve periods of fasting and restricted oral intake that make standard diabetes regimens inappropriate. Managing glucose well through this period requires structured dose adjustments at each phase, not a single pre-operative assessment." },
+      { q: "What insulin dose adjustments are recommended before surgery?", a: "Current guidelines recommend reducing long-acting insulin by approximately 20 to 25 percent the evening before surgery to prevent morning hypoglycemia in a fasting patient. Oral glucose-lowering agents including metformin and SGLT2 inhibitors have specific hold recommendations depending on the drug class and clinical context." },
+      { q: "Does perioperative hyperglycemia affect patients without diabetes?", a: "Yes. Surgical stress can produce significant hyperglycemia in patients with no prior diabetes diagnosis, and research has shown that hyperglycemia in the perioperative period is an independent marker of worse surgical outcomes including higher infection rates and longer hospital stays, regardless of diabetes status." },
+      { q: "What is the concern with GLP-1 receptor agonists before surgery?", a: "GLP-1 receptor agonists may cause delayed gastric emptying, raising the risk of pulmonary aspiration during general anaesthesia. Current recommendations include holding daily agents on the day of surgery and once-weekly agents for at least 7 days before the procedure." },
+      { q: "How does PreciseDM support perioperative insulin management?", a: "PreciseDM provides structured, patient-specific insulin dosing guidance that helps clinicians navigate the changing glucose requirements across the pre-operative, intra-operative, and post-operative phases, reducing the variation that commonly affects perioperative diabetes management." },
+    ],
+  },
 ];
-
-export const getBlogPost = (slug: string) => blogPosts.find((p) => p.slug === slug);
