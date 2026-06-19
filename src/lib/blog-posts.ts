@@ -1576,3 +1576,5 @@ export const blogPosts: BlogPost[] = [
     ],
   },
 ];
+
+export const getBlogPost = (slug: string) => blogPosts.find((p) => p.slug === slug);
