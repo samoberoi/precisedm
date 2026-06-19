@@ -10,6 +10,7 @@ import insulinInitiationType2Img from "@/assets/blog/insulin-initiation-type2.jp
 import inpatientHyperglycemiaImg from "@/assets/blog/inpatient-hyperglycemia.jpg";
 import type1VsType2InsulinImg from "@/assets/blog/type1-vs-type2-insulin.jpg";
 import basalBolusTherapyImg from "@/assets/blog/basal-bolus-therapy.jpg";
+import diabetesCardiovascularImg from "@/assets/blog/diabetes-cardiovascular-insulin.jpg";
 
 export interface BlogFaq {
   q: string;
