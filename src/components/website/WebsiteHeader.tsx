@@ -98,7 +98,7 @@ const WebsiteHeader = () => {
             <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 xl:px-10">
               <Link to="/" className="flex items-center gap-2.5">
                 <img src={logoIcon} alt="PreciseDM" className="h-8 w-8 rounded-full" />
-                <span className="text-lg font-extrabold tracking-tight text-foreground">PreciseDM</span>
+                <span className="text-lg font-extrabold tracking-tight text-foreground">PreciseDM<sup className="text-[0.5em] ml-0.5">™</sup></span>
               </Link>
 
               <nav className="hidden items-center gap-0.5 md:flex">
