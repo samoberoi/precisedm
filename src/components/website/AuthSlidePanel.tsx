@@ -250,7 +250,7 @@ const AuthSlidePanel = ({ open, onOpenChange, mode: initialMode = "login" }: Aut
           <div className="px-6 pt-8 pb-4">
             <div className="flex items-center gap-3">
               <img src={logoIcon} alt="PreciseDM" className="h-10 w-10 rounded-full" />
-              <span className="text-lg font-extrabold text-foreground tracking-tight">PreciseDM</span>
+              <span className="text-lg font-extrabold text-foreground tracking-tight">PreciseDM<sup className="text-[0.5em] ml-0.5">™</sup></span>
             </div>
           </div>
 
