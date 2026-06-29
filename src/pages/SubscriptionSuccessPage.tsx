@@ -35,6 +35,20 @@ const SubscriptionSuccessPage = () => {
     activate();
   }, [searchParams]);
 
+  useEffect(() => {
+    if (success && typeof window !== "undefined") {
+      const gtag = (window as any).gtag;
+      if (gtag) {
+        gtag("event", "conversion", {
+          send_to: "AW-18254066457/keMVCMGUzcccEJnmm4BE",
+          value: 1.0,
+          currency: "USD",
+          transaction_id: "",
+        });
+      }
+    }
+  }, [success]);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="text-center max-w-sm">
