@@ -14,6 +14,7 @@ import diabetesCardiovascularImg from "@/assets/blog/diabetes-cardiovascular-ins
 import perioperativeDiabetesImg from "@/assets/blog/perioperative-diabetes-management.jpg";
 import ramadanDiabetesImg from "@/assets/blog/ramadan-diabetes-management.jpg";
 import technologyAdoptionBarriersImg from "@/assets/blog/diabetes-technology-adoption-barriers.jpg";
+import cgmClinicalDecisionMakingImg from "@/assets/blog/cgm-clinical-decision-making.jpg";
 
 export interface BlogFaq {
   q: string;
@@ -1722,6 +1723,78 @@ export const blogPosts: BlogPost[] = [
       { q: "Why is transparency important in clinical decision support outputs?", a: "Clinicians are trained to evaluate evidence before acting. A tool that produces recommendations without explaining its reasoning asks for trust that clinical culture does not easily extend. Transparent outputs that show the inputs used and the logic applied allow clinicians to evaluate, modify, or override guidance while understanding why it was made." },
       { q: "Is mobile access necessary for clinical decision support tools?", a: "Yes, increasingly. Clinical decisions are made at the point of care, not at a desktop. A tool that is only accessible on a desktop workstation is not available at the moment of most clinical decisions. Mobile access is a practical requirement for integration into real clinical workflows." },
       { q: "What is the adoption pattern that works for digital clinical tools?", a: "Tools that achieve sustained clinical adoption tend to solve a recognisable clinical problem, fit into existing workflows, produce clear and fast outputs, and prove themselves on real cases. Clinicians adopt tools because they are genuinely useful, not because they have been persuaded to try technology." },
+    ],
+  },
+  {
+    slug: "continuous-glucose-monitoring-clinical-decision-making-diabetes",
+    title: "What Continuous Glucose Monitoring Changes for Clinical Decision-Making",
+    metaTitle: "Continuous Glucose Monitoring: What Clinicians Should Know",
+    metaDescription:
+      "CGM is reshaping diabetes care. Explore what continuous glucose monitoring means for clinical decision-making and how it changes insulin dosing support for providers.",
+    excerpt:
+      "CGM has moved from a niche tool for type 1 patients to a recommended standard across a much wider population. Here's what that shift means for clinical decisions and insulin dosing.",
+    category: "Diabetes Care Technology",
+    tags: [
+      "continuous glucose monitoring",
+      "CGM clinical use",
+      "diabetes monitoring tools",
+      "insulin dosing CGM data",
+      "time in range diabetes",
+      "CGM for type 2 diabetes",
+    ],
+    keywords: [
+      "continuous glucose monitoring clinical decision-making diabetes",
+      "time in range diabetes management",
+      "CGM insulin dosing decisions",
+      "ambulatory glucose profile clinical use",
+      "CGM type 2 diabetes insulin",
+      "structured tools incorporating CGM-derived insights",
+    ],
+    image: cgmClinicalDecisionMakingImg,
+    imageAlt:
+      "Healthcare provider reviewing continuous glucose monitoring (CGM) trends and insulin management data with a diabetes patient in a modern American clinic, using a tablet, glucose monitoring tools, and wearable CGM technology during a personalized consultation.",
+    publishedAt: "2026-06-22",
+    readTime: "7 min read",
+    author: "PreciseDM Clinical Team",
+    content: [
+      { type: "p", text: "Continuous glucose monitoring has shifted from a tool used primarily by type 1 diabetes patients with complex management needs to a recommended standard of care across a much wider population. The 2025 ADA Standards of Care expanded their guidance on CGM use significantly, noting the growing evidence base for CGM in type 2 patients on insulin and in other groups beyond the traditional CGM user." },
+      { type: "p", text: "For clinicians, this shift raises a practical question. When patients are generating continuous glucose data, how does that change the clinical decisions you make? And what does it mean for insulin dosing in particular?" },
+      { type: "h2", text: "1. From Point Measurements to Patterns" },
+      { type: "p", text: "The most fundamental change that CGM brings to clinical decision-making is the shift from individual point measurements to continuous patterns." },
+      { type: "p", text: "A fasting glucose reading tells you where the patient's glucose was at one moment. A CGM trace tells you where the glucose has been across the entire day and night, how it responds to meals, how it behaves during sleep, and where and when it exceeds or falls below target range." },
+      { type: "p", text: "This is qualitatively different information. A patient with a satisfactory fasting glucose may be spending several hours overnight in hypoglycemia. A patient with a modest postprandial reading may be spiking dramatically within an hour of eating and then coming back down. These patterns are invisible without continuous data and have direct implications for insulin dosing decisions." },
+      { type: "h2", text: "2. Time in Range as a Clinical Target" },
+      { type: "p", text: "One of the clinical frameworks that has emerged from CGM data is the concept of time in range, which refers to the proportion of time a patient's glucose is within a specified target range, typically 70 to 180 mg/dL." },
+      { type: "p", text: "The 2025 ADA Standards of Care include time in range as a clinical metric alongside HbA1c, reflecting the evidence that it captures aspects of glycemic control that HbA1c does not, particularly glucose variability and the proportion of time spent in hypoglycemia." },
+      { type: "p", text: "For clinicians making insulin dosing decisions, time in range provides a richer basis for assessment than a single HbA1c value. A patient with an HbA1c of 7.5% who is spending 20% of their time in hypoglycemia is being managed very differently from a patient with the same HbA1c who has minimal hypoglycemia and stable glucose patterns." },
+      { type: "h2", text: "3. What CGM Data Reveals About Insulin Dosing" },
+      { type: "p", text: "CGM data frequently reveals dosing problems that were invisible to standard monitoring approaches." },
+      { type: "p", text: "The classic example is nocturnal hypoglycemia. Standard daytime monitoring would not capture episodes occurring between midnight and 6am. CGM data shows these clearly. A clinician seeing overnight hypoglycemia on a CGM trace has direct, actionable information that the basal insulin dose needs to be reduced or the timing adjusted." },
+      { type: "p", text: "Similarly, postprandial glucose excursions that are rapidly corrected by endogenous mechanisms in type 2 patients with some residual beta cell function may appear well-controlled on standard monitoring but show significant peaks on CGM. These peaks may warrant bolus coverage adjustments that would not have been apparent otherwise." },
+      { type: "h2", text: "4. Interpreting CGM Data in Clinical Practice" },
+      { type: "p", text: "CGM generates a volume of data that can be difficult to interpret efficiently in a clinical consultation. A week's worth of CGM data contains thousands of glucose values. Extracting the clinically relevant signal from that data, in a way that informs a specific dosing decision, requires a structured approach." },
+      { type: "p", text: "CGM devices and their companion software provide standardised reports, including the ambulatory glucose profile, that summarise key patterns. The ADA 2025 Standards explicitly noted the need to standardise diabetes technology device reports to give clinicians access to meaningful summaries rather than raw data volumes." },
+      { type: "p", text: "For busy clinicians, the ambulatory glucose profile provides a usable clinical document. But translating the patterns it shows into specific insulin dosing adjustments still requires a structured decision-making framework." },
+      { type: "h2", text: "5. CGM in Type 2 Diabetes: A Growing Opportunity" },
+      { type: "p", text: "The expansion of CGM guidance to cover type 2 patients on insulin represents a meaningful shift in clinical practice. A significant proportion of type 2 patients on insulin are managed in primary care settings, by clinicians who may not have extensive experience interpreting CGM data or using it to drive dosing decisions." },
+      { type: "html", html: 'Supporting these clinicians with <a href="https://precisedm.com/features">structured tools that incorporate CGM-derived insights</a> into their dosing guidance helps translate the information advantage of CGM into better clinical decisions, which is ultimately what the monitoring technology is for.' },
+      { type: "h2", text: "How PreciseDM Works Alongside CGM Monitoring" },
+      { type: "p", text: "PreciseDM's structured dosing tools are designed to incorporate the clinical picture generated by monitoring, including the patient-specific variables that CGM data helps to define. The platform supports the translation of monitoring information into structured, evidence-informed dosing guidance, helping clinicians use the data they have more effectively." },
+      { type: "p", text: "Start your free trial and explore structured decision support today. Download the PreciseDM app today and experience all four clinical tools in practice." },
+      {
+        type: "ul_html",
+        items: [
+          '<a href="https://play.google.com/store/apps/details?id=com.precisedm" target="_blank" rel="noopener">For Android Users</a>',
+          '<a href="https://apps.apple.com/in/app/precisedm/id6753625603" target="_blank" rel="noopener">For iOS Users</a>',
+        ],
+      },
+    ],
+    faqs: [
+      { q: "What is continuous glucose monitoring and why does it matter for insulin dosing?", a: "CGM is a technology that measures glucose levels continuously throughout the day and night, providing patterns and trends that single point measurements cannot capture. For insulin dosing decisions, it provides clinically relevant information about nocturnal glucose, postprandial excursions, and glucose variability that directly informs more precise dosing." },
+      { q: "What is time in range in diabetes management?", a: "Time in range refers to the proportion of time a patient's glucose stays within a specified target range, typically 70 to 180 mg/dL. The 2025 ADA Standards include it as a clinical metric alongside HbA1c, reflecting its ability to capture glucose variability and hypoglycemia that HbA1c alone cannot show." },
+      { q: "How does CGM change the way insulin doses are adjusted?", a: "CGM reveals patterns such as nocturnal hypoglycemia and postprandial excursions that are invisible to point measurements. These patterns directly indicate specific dosing adjustments, for example, reducing basal insulin to address overnight hypoglycemia, that would not be apparent from standard monitoring." },
+      { q: "Is CGM now recommended for type 2 diabetes patients on insulin?", a: "Yes. The 2025 ADA Standards of Care expanded CGM guidance to include type 2 patients on insulin, reflecting growing evidence of its benefit in this population beyond the traditional type 1 focus." },
+      { q: "How can clinicians use CGM data effectively in a clinical consultation?", a: "Standardised reports such as the ambulatory glucose profile provide structured summaries of CGM data. These need to be combined with a structured decision-making framework to translate the patterns they show into specific dosing adjustments." },
     ],
   },
 ];
