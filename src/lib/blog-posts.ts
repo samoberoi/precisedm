@@ -16,6 +16,7 @@ import ramadanDiabetesImg from "@/assets/blog/ramadan-diabetes-management.jpg";
 import technologyAdoptionBarriersImg from "@/assets/blog/diabetes-technology-adoption-barriers.jpg";
 import cgmClinicalDecisionMakingImg from "@/assets/blog/cgm-clinical-decision-making.jpg";
 import multidisciplinaryDiabetesCareImg from "@/assets/blog/multidisciplinary-diabetes-care.jpg";
+import insulinDoseAdjustmentImg from "@/assets/blog/insulin-dose-adjustment-titrate.jpg";
 
 export interface BlogFaq {
   q: string;
