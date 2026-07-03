@@ -13,6 +13,7 @@ import basalBolusTherapyImg from "@/assets/blog/basal-bolus-therapy.jpg";
 import diabetesCardiovascularImg from "@/assets/blog/diabetes-cardiovascular-insulin.jpg";
 import perioperativeDiabetesImg from "@/assets/blog/perioperative-diabetes-management.jpg";
 import ramadanDiabetesImg from "@/assets/blog/ramadan-diabetes-management.jpg";
+import technologyAdoptionBarriersImg from "@/assets/blog/diabetes-technology-adoption-barriers.jpg";
 
 export interface BlogFaq {
   q: string;
