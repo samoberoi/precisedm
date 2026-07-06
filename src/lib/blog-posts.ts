@@ -18,6 +18,7 @@ import cgmClinicalDecisionMakingImg from "@/assets/blog/cgm-clinical-decision-ma
 import multidisciplinaryDiabetesCareImg from "@/assets/blog/multidisciplinary-diabetes-care.jpg";
 import insulinDoseAdjustmentImg from "@/assets/blog/insulin-dose-adjustment-titrate.jpg";
 import diabetesPregnancyPreexistingImg from "@/assets/blog/diabetes-pregnancy-preexisting.jpg";
+import insulinDosingRenalImpairmentImg from "@/assets/blog/insulin-dosing-renal-impairment.jpg";
 
 export interface BlogFaq {
   q: string;
@@ -2017,6 +2018,77 @@ export const blogPosts: BlogPost[] = [
       { q: "Does PreciseDM support management of pre-existing diabetes in pregnancy?", a: "Yes. PreciseDM's Gestational Module provides structured, patient-specific insulin dosing guidance that accounts for pregnancy-related physiological changes, supporting appropriate dosing decisions across the full gestational period." },
     ],
   },
+  {
+    slug: "insulin-dosing-renal-impairment-clinical-considerations",
+    title: "Insulin Dosing in Patients with Renal Impairment: What Changes and Why It Matters",
+    metaTitle: "Insulin Dosing in Renal Impairment: Clinical Considerations",
+    metaDescription:
+      "Chronic kidney disease changes how insulin works in the body. Explore the clinical considerations for insulin dosing in patients with renal impairment and how support helps.",
+    excerpt:
+      "CKD alters insulin clearance, gluconeogenesis, and hypoglycemia risk. Here's what clinicians need to consider when managing insulin in patients with renal impairment.",
+    category: "Diabetes Care Technology",
+    tags: [
+      "insulin dosing kidney disease",
+      "diabetes CKD management",
+      "renal impairment insulin",
+      "hypoglycemia kidney disease",
+      "diabetes and chronic kidney disease",
+      "clinical decision support renal",
+    ],
+    keywords: [
+      "insulin dosing renal impairment clinical considerations",
+      "insulin clearance chronic kidney disease",
+      "hypoglycemia risk CKD diabetes",
+      "oral diabetes medication renal dose adjustment",
+      "HbA1c reliability chronic kidney disease",
+      "structured decision support renal diabetes",
+    ],
+    image: insulinDosingRenalImpairmentImg,
+    imageAlt:
+      "Doctor discussing insulin dosing adjustments and kidney function monitoring with an older diabetes patient in a modern American clinic, reviewing glucose trend data on a tablet alongside insulin pens, glucose testing supplies, medication organizers, and chronic kidney disease care documents.",
+    publishedAt: "2026-07-06",
+    readTime: "7 min read",
+    author: "PreciseDM Clinical Team",
+    content: [
+      { type: "p", text: "Chronic kidney disease and diabetes are closely linked. Diabetic nephropathy is one of the leading causes of chronic kidney disease globally, and a significant proportion of patients with type 2 diabetes will develop some degree of renal impairment during the course of their disease." },
+      { type: "p", text: "For clinicians managing insulin in patients with chronic kidney disease, this overlap creates a specific set of challenges that go beyond standard insulin management. Renal impairment changes the way insulin behaves in the body, alters the risk profile of hypoglycemia, and affects the safety of many of the oral medications that might otherwise be continued alongside insulin." },
+      { type: "h2", text: "1. How Renal Impairment Affects Insulin Clearance" },
+      { type: "p", text: "Insulin is cleared from the body through multiple pathways, including renal degradation. In patients with normal kidney function, a meaningful proportion of the body's insulin clearance occurs in the kidney. As renal function declines, this clearance slows." },
+      { type: "p", text: "The practical consequence is that the same insulin dose produces a longer and potentially more pronounced glucose-lowering effect in a patient with renal impairment than in a patient with normal renal function. A dose that was calibrated when a patient's kidney function was better may become too high as renal function declines, producing hypoglycemia without any change in the dose itself." },
+      { type: "p", text: "This is one of the most clinically underappreciated aspects of insulin management in diabetes. A patient on a stable insulin regimen who develops progressive renal impairment is at increasing hypoglycemia risk even if their insulin dose has not changed." },
+      { type: "h2", text: "2. The Reduced Gluconeogenesis Problem" },
+      { type: "p", text: "Normal kidney function contributes to glucose homeostasis through renal gluconeogenesis, the production of glucose by the kidney itself. In patients with chronic kidney disease, this contribution is reduced." },
+      { type: "p", text: "The practical implication is that patients with CKD have less of a physiological buffer against hypoglycemia. When glucose levels fall, the kidney's normal contribution to recovering glucose is impaired. This makes hypoglycemia more prolonged and more severe in patients with significant renal impairment." },
+      { type: "p", text: "For clinicians, this means that the glucose target and the acceptable dosing approach for a patient with advanced CKD need to be more conservative than for a patient with normal renal function, even when the diabetes management goals are otherwise the same." },
+      { type: "h2", text: "3. Oral Medication Interactions in CKD" },
+      { type: "p", text: "Many oral glucose-lowering medications used in type 2 diabetes have specific renal dose adjustments or contraindications at certain levels of renal function. Metformin, for example, has a contraindication at severely reduced GFR due to the risk of lactic acidosis. Certain SGLT2 inhibitors are not recommended below specific eGFR thresholds. Sulfonylureas have increased hypoglycemia risk in renal impairment due to reduced clearance of active metabolites." },
+      { type: "p", text: "When a patient with type 2 diabetes is on a combination of insulin and oral agents, the renal dose considerations for the oral agents need to be integrated into the overall management plan. Continuing an oral agent that is no longer appropriate for the patient's current renal function creates risks that compound the risks already associated with insulin in this population." },
+      { type: "h2", text: "4. Monitoring Requirements Are Different" },
+      { type: "p", text: "Standard HbA1c monitoring has well-known limitations in patients with chronic kidney disease. Advanced CKD affects red blood cell turnover in ways that can make HbA1c an unreliable indicator of actual glucose control. A patient with CKD may have an HbA1c that underestimates or overestimates their actual level of glycemic control." },
+      { type: "p", text: "This limitation makes alternative monitoring approaches, particularly CGM where appropriate, and clinical judgement based on glucose patterns rather than HbA1c alone, more important in this population." },
+      { type: "h2", text: "5. Dose Adjustments Need to Be Proactive" },
+      { type: "p", text: "Given that renal function in patients with diabetic kidney disease often declines progressively, insulin dose management in this population needs to be explicitly proactive rather than reactive. Waiting for a hypoglycemic event to recognise that the dose is too high is not adequate clinical management." },
+      { type: "html", html: '<a href="https://precisedm.com/features">Structured clinical decision support tools</a> that incorporate renal function as a variable in their dosing guidance help ensure that the relationship between changing renal function and insulin requirements is explicitly considered in every dosing decision, not only when something goes wrong.' },
+      { type: "h2", text: "How PreciseDM Supports Insulin Dosing in Complex Clinical Presentations" },
+      { type: "p", text: "PreciseDM's structured dosing tools are designed to incorporate patient-specific clinical variables, including the factors that affect insulin management in patients with complicating conditions such as renal impairment. The platform supports more consistent, appropriately cautious dosing decisions across the range of complex presentations clinicians encounter." },
+      { type: "p", text: "Start your free trial and explore structured decision support today. Download the PreciseDM app today and experience all four clinical tools in practice." },
+      {
+        type: "ul_html",
+        items: [
+          '<a href="https://play.google.com/store/apps/details?id=com.precisedm" target="_blank" rel="noopener">For Android Users</a>',
+          '<a href="https://apps.apple.com/in/app/precisedm/id6753625603" target="_blank" rel="noopener">For iOS Users</a>',
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How does chronic kidney disease affect insulin dosing?", a: "CKD slows insulin clearance, meaning the same dose produces a longer and more pronounced glucose-lowering effect. As renal function declines, previously well-calibrated insulin doses can become too high, increasing hypoglycemia risk even without any change in the prescribed dose." },
+      { q: "Why is hypoglycemia more severe in patients with renal impairment?", a: "The kidney normally contributes to glucose recovery during hypoglycemia through gluconeogenesis. In CKD, this contribution is reduced, meaning hypoglycemic episodes are harder for the body to correct, making them more prolonged and potentially more dangerous." },
+      { q: "Why is HbA1c less reliable in patients with CKD?", a: "Advanced CKD affects red blood cell turnover in ways that can alter HbA1c values independently of actual glucose control, making HbA1c an unreliable indicator of glycemic status in this population. Alternative monitoring approaches are more important in patients with significant renal impairment." },
+      { q: "What oral medications need dose adjustment in CKD?", a: "Multiple oral glucose-lowering medications have renal dose adjustments or contraindications, including metformin at severely reduced GFR and certain sulfonylureas and SGLT2 inhibitors at specific eGFR thresholds. The full medication list needs to be reviewed in the context of the patient's current renal function." },
+      { q: "How should insulin dosing approach change when a patient develops CKD?", a: "Insulin requirements often decrease as renal function declines due to reduced insulin clearance. Proactive dose reviews triggered by changes in renal function, rather than waiting for hypoglycemic events, are an important aspect of safe insulin management in patients with progressive CKD." },
+    ],
+  },
 ];
 
 export const getBlogPost = (slug: string) => blogPosts.find((p) => p.slug === slug);
+
