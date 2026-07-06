@@ -18,6 +18,7 @@ import cgmClinicalDecisionMakingImg from "@/assets/blog/cgm-clinical-decision-ma
 import multidisciplinaryDiabetesCareImg from "@/assets/blog/multidisciplinary-diabetes-care.jpg";
 import insulinDoseAdjustmentImg from "@/assets/blog/insulin-dose-adjustment-titrate.jpg";
 import diabetesPregnancyPreexistingImg from "@/assets/blog/diabetes-pregnancy-preexisting.jpg";
+import insulinDosingRenalImpairmentImg from "@/assets/blog/insulin-dosing-renal-impairment.jpg";
 
 export interface BlogFaq {
   q: string;
