@@ -21,4 +21,4 @@ Disallow: /diaform
 Disallow: /hyperrevamp-reporting
 
 # Sitemap
-Sitemap: https://precisedm.com/sitemap.xml
+Sitemap: https://www.precisedm.com/sitemap.xml
