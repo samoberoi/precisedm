@@ -4,8 +4,8 @@
 export const SITE = {
   name: "PreciseDM",
   legalName: "PreciseDM, LLC",
-  url: "https://precisedm.com",
-  logo: "https://precisedm.com/favicon.png",
+  url: "https://www.precisedm.com",
+  logo: "https://www.precisedm.com/favicon.png",
   email: "precise.diabetes@gmail.com",
   twitter: "@HyperRevamp",
   locale: "en_US",
