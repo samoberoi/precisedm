@@ -19,6 +19,7 @@ import multidisciplinaryDiabetesCareImg from "@/assets/blog/multidisciplinary-di
 import insulinDoseAdjustmentImg from "@/assets/blog/insulin-dose-adjustment-titrate.jpg";
 import diabetesPregnancyPreexistingImg from "@/assets/blog/diabetes-pregnancy-preexisting.jpg";
 import insulinDosingRenalImpairmentImg from "@/assets/blog/insulin-dosing-renal-impairment.jpg";
+import insulinDosingEnteralParenteralImg from "@/assets/blog/insulin-dosing-enteral-parenteral.jpg";
 
 export interface BlogFaq {
   q: string;
@@ -2086,6 +2087,76 @@ export const blogPosts: BlogPost[] = [
       { q: "Why is HbA1c less reliable in patients with CKD?", a: "Advanced CKD affects red blood cell turnover in ways that can alter HbA1c values independently of actual glucose control, making HbA1c an unreliable indicator of glycemic status in this population. Alternative monitoring approaches are more important in patients with significant renal impairment." },
       { q: "What oral medications need dose adjustment in CKD?", a: "Multiple oral glucose-lowering medications have renal dose adjustments or contraindications, including metformin at severely reduced GFR and certain sulfonylureas and SGLT2 inhibitors at specific eGFR thresholds. The full medication list needs to be reviewed in the context of the patient's current renal function." },
       { q: "How should insulin dosing approach change when a patient develops CKD?", a: "Insulin requirements often decrease as renal function declines due to reduced insulin clearance. Proactive dose reviews triggered by changes in renal function, rather than waiting for hypoglycemic events, are an important aspect of safe insulin management in patients with progressive CKD." },
+    ],
+  },
+  {
+    slug: "insulin-dosing-enteral-parenteral-nutrition-clinical-challenges",
+    title: "Managing Insulin in Patients on Enteral and Parenteral Nutrition: A Clinical Challenge Clinicians Face More Than They Talk About",
+    metaTitle: "Insulin Dosing with Enteral Nutrition: Clinical Challenges",
+    metaDescription:
+      "Managing insulin in patients on enteral or parenteral nutrition is complex. Explore the clinical challenges and how structured support helps providers make consistent decisions.",
+    excerpt:
+      "Continuous enteral feeds, TPN, and feeding interruptions create insulin dosing challenges that meal-based frameworks don't address. Here's what clinicians need to consider.",
+    category: "Hospital Diabetes Care",
+    tags: [
+      "insulin enteral nutrition",
+      "tube feeding diabetes management",
+      "hyperglycemia enteral nutrition",
+      "clinical decision support hospital",
+      "insulin management nutrition",
+      "structured dosing support",
+    ],
+    keywords: [
+      "insulin dosing enteral nutrition clinical challenges",
+      "tube feeding insulin management",
+      "continuous enteral feeding hyperglycemia",
+      "parenteral nutrition insulin TPN",
+      "feeding interruption hypoglycemia risk",
+      "structured tool that organises variables and applies consistent dosing logic",
+    ],
+    image: insulinDosingEnteralParenteralImg,
+    imageAlt:
+      "Healthcare provider reviewing insulin dosing and glucose management with a hospitalized patient receiving enteral or parenteral nutrition in a modern American hospital room, featuring IV nutrition support, bedside monitoring equipment, glucose testing supplies, and inpatient diabetes care coordination.",
+    publishedAt: "2026-07-10",
+    readTime: "7 min read",
+    author: "PreciseDM Clinical Team",
+    content: [
+      { type: "p", text: "Patients who cannot eat normally present a specific challenge for insulin management. Enteral nutrition, delivered via a feeding tube directly into the stomach or small intestine, and parenteral nutrition, delivered intravenously, both provide a continuous caloric load that affects blood glucose in ways that differ from normal meal-based eating." },
+      { type: "p", text: "For patients with diabetes receiving these nutritional supports, insulin management needs to accommodate the continuous glucose delivery that artificial nutrition creates. Standard meal-based dosing frameworks do not apply. The timing, duration, and composition of the nutritional delivery all affect the appropriate insulin approach." },
+      { type: "h2", text: "1. How Enteral Nutrition Changes Glucose Patterns" },
+      { type: "p", text: "Normal eating produces a glucose rise that follows a predictable pattern: rising postprandially, peaking, and then declining as insulin and hepatic glucose uptake manage the load. Enteral nutrition delivered continuously via a pump produces a constant, relatively flat glucose elevation rather than meal-related peaks." },
+      { type: "p", text: "This changes the insulin approach fundamentally. A bolus insulin strategy designed for meal-related spikes is not appropriate for continuous enteral feeding, because there is no defined meal moment to dose around. Instead, a regular, scheduled approach to insulin delivery is needed, typically using a combination of basal insulin and regular short-acting insulin given at fixed intervals." },
+      { type: "p", text: "The ADA Standards of Care recommend against sole use of correction insulin in the inpatient setting for patients on enteral nutrition, consistent with the general guidance against sliding scale approaches, recommending instead a scheduled subcutaneous insulin regimen tailored to the nutritional delivery schedule." },
+      { type: "h2", text: "2. Interruptions to Feeding Create Risk" },
+      { type: "p", text: "Enteral nutrition is frequently interrupted. The feed may be paused for procedures, for medication administration, or because of clinical complications such as high gastric residual volumes. Each interruption creates a risk for patients who have received basal or scheduled insulin in anticipation of a continuous glucose load that then does not arrive." },
+      { type: "p", text: "Managing this risk requires explicit protocols for what to do when feeding is interrupted, how quickly insulin should be adjusted or suspended, and how the patient's glucose should be monitored during the interruption. Without structured guidance for these situations, the risk of hypoglycemia during feeding interruptions is significant." },
+      { type: "h2", text: "3. Parenteral Nutrition and Insulin" },
+      { type: "p", text: "Parenteral nutrition typically involves a glucose load delivered continuously over many hours, often containing substantial amounts of dextrose. Managing glucose in patients on total parenteral nutrition requires either adding insulin directly to the TPN solution or administering insulin separately." },
+      { type: "p", text: "The choice of approach, and the specific dosing within each approach, requires clinical judgment that accounts for the patient's current insulin requirements, the composition and rate of the TPN, the patient's renal function, and any other clinical factors that affect insulin sensitivity." },
+      { type: "p", text: "Without a structured framework, this is a decision that relies heavily on individual experience and produces variability across providers and institutions." },
+      { type: "h2", text: "4. Transition Off Nutritional Support" },
+      { type: "p", text: "When enteral or parenteral nutrition is discontinued and a patient resumes oral feeding, the insulin regimen needs to transition accordingly. The continuous or scheduled insulin approach appropriate for artificial nutrition needs to be replaced with a meal-based approach, and the dose calibration may differ significantly." },
+      { type: "p", text: "This transition is a clinical risk point, similar to the care transition risk discussed in other contexts. Without a structured transition plan, the discontinuation of artificial nutrition can result in either insulin under-dosing as the patient begins eating normally or over-dosing if the artificial nutrition doses are not reduced in parallel with the transition." },
+      { type: "h2", text: "5. The Information Required Is Often Scattered" },
+      { type: "p", text: "Managing insulin in patients on enteral or parenteral nutrition requires knowing several clinical variables simultaneously: the type, composition, and rate of the nutritional delivery; the patient's current insulin requirements and baseline diabetes status; any medications that affect glucose; and the planned duration of nutritional support." },
+      { type: "html", html: 'This information is frequently distributed across different parts of the clinical record, different members of the team, and different aspects of the clinical plan. A <a href="https://www.precisedm.com/features">structured tool that organises these variables and applies consistent dosing logic</a> provides a more reliable foundation for these decisions than individual clinical recall under time pressure.' },
+      { type: "h2", text: "How PreciseDM Supports Complex Insulin Dosing Scenarios" },
+      { type: "p", text: "PreciseDM's clinical modules are designed to handle the complex scenarios that fall outside standard insulin management frameworks, providing structured, patient-specific guidance for situations where general protocols are insufficient." },
+      { type: "p", text: "Start your free trial and explore structured decision support today. Download the PreciseDM app today and experience all four clinical tools in practice." },
+      {
+        type: "ul_html",
+        items: [
+          '<a href="https://play.google.com/store/apps/details?id=com.precisedm" target="_blank" rel="noopener">For Android Users</a>',
+          '<a href="https://apps.apple.com/in/app/precisedm/id6753625603" target="_blank" rel="noopener">For iOS Users</a>',
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Why is insulin management different in patients on enteral nutrition?", a: "Enteral nutrition delivered continuously produces a constant glucose load rather than meal-related peaks. This requires a different insulin approach, using scheduled doses at fixed intervals rather than meal-time boluses, and explicit protocols for managing feeding interruptions." },
+      { q: "What is the recommended insulin approach for patients on enteral feeding?", a: "The ADA recommends against sole use of correction insulin for patients on enteral nutrition, consistent with its general guidance against sliding scale approaches. A scheduled subcutaneous insulin regimen tailored to the nutritional delivery schedule is the recommended standard." },
+      { q: "How do feeding interruptions create hypoglycemia risk?", a: "When feeding is paused but insulin has already been given in anticipation of the continuing glucose load, the patient is at risk of hypoglycemia. Structured protocols for dose adjustment or suspension during feeding interruptions are an important component of safe enteral nutrition management." },
+      { q: "How is insulin managed in patients on parenteral nutrition?", a: "Insulin can be added directly to the TPN solution or administered separately. The appropriate approach and dosing depends on the patient's current insulin requirements, the composition and rate of the TPN, renal function, and other clinical factors affecting insulin sensitivity." },
+      { q: "Why is the transition off artificial nutrition a risk point for insulin management?", a: "When nutritional support is discontinued and oral feeding begins, the insulin regimen needs to transition from a continuous or scheduled approach to a meal-based one. Without a structured transition plan, this change can result in dosing that is inappropriate for the new nutritional pattern." },
     ],
   },
 ];
