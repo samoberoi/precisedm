@@ -1467,7 +1467,7 @@ export const blogPosts: BlogPost[] = [
     image: diabetesCardiovascularImg,
     imageAlt:
       "Healthcare provider discussing insulin management and cardiovascular risk with an older diabetes patient in a modern American clinic, reviewing glucose trends and heart health monitoring data alongside insulin pens, blood pressure equipment, glucose testing supplies, and cardiovascular care documents.",
-    publishedAt: "2026-06-10",
+    publishedAt: "2026-07-10",
     readTime: "7 min read",
     author: "PreciseDM Clinical Team",
     content: [
